@@ -86,15 +86,15 @@ export default function Pokedex({ navigation }) {
           console.log(text);
         }}
       >
-        <Text>{text}</Text>
+        <Text style={{ textAlign: "center" }}>{text}</Text>
       </TouchableOpacity>
     );
   };
 
   useEffect(() => {
     getPokeList();
-    console.log(genList[3].text);
-    // console.log(pokeList);
+    // console.log(genList[3].text);
+    // console.log(url);
   }, [limit]);
 
   // view
@@ -111,28 +111,23 @@ export default function Pokedex({ navigation }) {
           Pokemon List
         </Text>
         <View style={styles.genSelection}>
-          <GenSelector limit={5} offset={30} text={"test"} />
-          <Button
+          {/* <Button
             title="to view"
             onPress={() => {
               navigation.navigate("Test");
             }}
-          />
+          /> */}
           <FlatList
             data={genList}
             horizontal={true}
-            renderItem={({ item }) => {
-              <>
-                <Text>{item.text}</Text>
-                {/* <GenSelector
-                  limit={item.limit}
-                  offset={item.offset}
-                  text={item.text}
-                /> */}
-              </>;
-            }}
+            renderItem={({ item }) => (
+              <GenSelector
+                limit={item.limit}
+                offset={item.offset}
+                text={item.text}
+              />
+            )}
           />
-          <GenSelector limit={6} offset={60} text={"testEnd"} />
         </View>
       </View>
       <View
@@ -171,14 +166,22 @@ const styles = StyleSheet.create({
   },
   genButtons: {
     backgroundColor: "lightgrey",
+    justifyContent: "center",
+    alignContent: "center",
     borderRadius: 10,
-    padding: 10,
+    // padding: 10,
+    marginHorizontal: 10,
+    height: 40,
+    width: 40,
+    borderRadius: 20,
   },
   genSelection: {
     flexDirection: "row",
     height: 40,
+    width: "100%",
     // backgroundColor: "lime",
     alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 10,
   },
   header: {

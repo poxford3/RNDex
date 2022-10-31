@@ -11,22 +11,6 @@ import {
 import { genList } from "../assets/generations";
 
 export default function TestView({ navigation }) {
-  // useEffect(() => {
-
-  // }, []);
-
-  // const genList = [
-  //   {
-  //     text: "one",
-  //   },
-  //   {
-  //     text: "two",
-  //   },
-  //   {
-  //     text: "three",
-  //   },
-  // ];
-
   return (
     <SafeAreaView style={styles.container}>
       <Text>test page:</Text>
@@ -34,34 +18,14 @@ export default function TestView({ navigation }) {
         <FlatList
           data={genList}
           // horizontal={true}
-          renderItem={({ item }) => {
+          renderItem={({ item }) => (
             <View style={styles.listItem}>
-              <Image
-                source={require("../assets/arse.jpeg")}
-                style={styles.images}
-              />
               <Text>{item.text}</Text>
               <Text>ahhhh</Text>
-            </View>;
-          }}
+            </View>
+          )}
         />
       </View>
-      <FlatList
-        data={genList}
-        numColumns={2}
-        initialNumToRender={20}
-        renderItem={({ item }) => (
-          <View style={styles.outerBox}>
-            <TouchableOpacity style={styles.innerBox}>
-              <Image
-                source={require("../assets/arse.jpeg")}
-                style={styles.images}
-              />
-              <Text>{item.name}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
       <Text>post test</Text>
     </SafeAreaView>
   );
