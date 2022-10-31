@@ -7,11 +7,13 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Button,
   StatusBar,
 } from "react-native";
+// import { useNavigation } from "@react-navigation/native";
 import { genList } from "../assets/generations";
 
-export default function PokemonList({ navigation }) {
+export default function Pokedex({ navigation }) {
   const [pokeList, setPokeList] = useState([]);
   const [pokeInfo, setPokeInfo] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -91,7 +93,7 @@ export default function PokemonList({ navigation }) {
 
   useEffect(() => {
     getPokeList();
-    // console.log(genList[2].text);
+    console.log(genList[3].text);
     // console.log(pokeList);
   }, [limit]);
 
@@ -110,6 +112,12 @@ export default function PokemonList({ navigation }) {
         </Text>
         <View style={styles.genSelection}>
           <GenSelector limit={5} offset={30} text={"test"} />
+          <Button
+            title="to view"
+            onPress={() => {
+              navigation.navigate("Test");
+            }}
+          />
           <FlatList
             data={genList}
             horizontal={true}
@@ -139,6 +147,7 @@ export default function PokemonList({ navigation }) {
         <FlatList
           data={pokeList}
           numColumns={2}
+          initialNumToRender={20}
           renderItem={({ item }) => (
             <View style={styles.outerBox}>
               <TouchableOpacity style={styles.innerBox}>
@@ -194,7 +203,7 @@ const styles = StyleSheet.create({
     width: "50%",
     height: 180,
     // borderWidth: 1,
-    padding: 10,
+    padding: 0,
     alignItems: "center",
     justifyContent: "center",
   },
