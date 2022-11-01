@@ -32,6 +32,14 @@ const genList = [
     offset: 493,
     text: "V",
     key: 5,
+    // 494 - 649
+  },
+  {
+    limit: 153,
+    offset: 649,
+    text: "VI",
+    key: 6,
+    // 650 - 721
   },
 ];
 

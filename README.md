@@ -6,10 +6,11 @@ a pokedex using React Native, click around to see your favorite pokemon througho
 
 - got list showing
 - can change how many/which pokemon are shown
+- ability to select different generations
 
 #### to do:
 
-- get gen selector working
+- fix rendering of every item in one box instead of unique boxes as intended
 - set up more information on the pokemon
   - picture and type on main view
   - set up detail view on press

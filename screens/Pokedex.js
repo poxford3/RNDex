@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -10,15 +10,20 @@ import {
   Button,
   StatusBar,
 } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
 import { genList } from "../assets/generations";
 
 export default function Pokedex({ navigation }) {
+  // variables
   const [pokeList, setPokeList] = useState([]);
   const [pokeInfo, setPokeInfo] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [limit, setLimit] = useState(151);
+  // const [limit, setLimit] = useState(151);
+  // const [offset, setOffset] = useState(0);
+
+  const [limit, setLimit] = useState(3);
   const [offset, setOffset] = useState(0);
+
+  const flatListRef = useRef();
 
   const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
 
@@ -31,48 +36,30 @@ export default function Pokedex({ navigation }) {
     json.results.forEach((e) => {
       // console.log(e.name);
       tempList.push(e);
+      getPokeInfo(e);
     });
 
-    setPokeList(tempList);
-    setLoaded(true);
-
-    // getPokeInfo(pokeList);
-
-    // -- attempt 2 below
-
-    // fetch(url)
-    //   .then((response) => response.json())
-    //   .then((pokeData) => {
-    //     pokeData.results.forEach((pokemon) => {
-    //       getPokeInfo(pokeData);
-    //     });
-    //   });
-
-    // console.log(json);
+    // setPokeList(tempList);
+    // setLoaded(true);
   };
 
-  const getPokeInfo = (pokemon) => {
-    // console.log(pokemon);
-    // let tempList2 = [];
-    // let url2 = pokemon.url;
-    // const response2 = await fetch(url2);
-    // const json2 = await response2.json();
-    // json2.forEach((e) => {
-    //   let poke = {
-    //     pokeName: pokemon.name,
-    //     id: e.id,
-    //     sprite: e.sprites.front_default,
-    //   };
-    //   tempList2.push(poke);
-    // });
-    // setPokeInfo(tempList2); // stopped here, getting weird error zzz
-    // -- attempt 2 below
-    // let url = pokemon.url;
-    // fetch(url)
-    //   .then((response) => response.json)
-    //   .then((pokeData) => {
-    //     setPokeInfo(...pokeInfo, pokeData.name);
-    //   });
+  const getPokeInfo = async (pokemon) => {
+    // console.log(pokemon.url);
+    let tempList2 = [];
+    let url2 = pokemon.url;
+    const response2 = await fetch(url2);
+    const json2 = await response2.json();
+
+    // console.log(json2.name);
+    let poke = {
+      pokeName: json2.name,
+      // type: json2.types.type.name,
+      id: json2.id,
+      sprite: json2.sprites.front_default,
+    };
+
+    setPokeList([...pokeList, poke]);
+    setLoaded(true);
   };
 
   // custom components
@@ -83,7 +70,8 @@ export default function Pokedex({ navigation }) {
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
-          console.log(text);
+          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+          // console.log(text);
         }}
       >
         <Text style={{ textAlign: "center" }}>{text}</Text>
@@ -93,7 +81,7 @@ export default function Pokedex({ navigation }) {
 
   useEffect(() => {
     getPokeList();
-    // console.log(genList[3].text);
+    console.log(pokeList);
     // console.log(url);
   }, [limit]);
 
@@ -108,7 +96,7 @@ export default function Pokedex({ navigation }) {
             textAlign: "center",
           }}
         >
-          Pokemon List
+          RN Dex
         </Text>
         <View style={styles.genSelection}>
           {/* <Button
@@ -119,7 +107,13 @@ export default function Pokedex({ navigation }) {
           /> */}
           <FlatList
             data={genList}
+            ref={flatListRef}
             horizontal={true}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: "center",
+              // maxWidth: "90%",
+            }}
             renderItem={({ item }) => (
               <GenSelector
                 limit={item.limit}
@@ -147,10 +141,20 @@ export default function Pokedex({ navigation }) {
             <View style={styles.outerBox}>
               <TouchableOpacity style={styles.innerBox}>
                 <Image
-                  source={require("../assets/arse.jpeg")}
+                  // source={require("../assets/arse.jpeg")}
+                  source={{ uri: item.sprite }}
                   style={styles.images}
                 />
-                <Text>{item.name}</Text>
+                <Text style={{ textTransform: "capitalize" }}>
+                  {item.pokeName}
+                </Text>
+                {item.type ? (
+                  <Text style={{ textTransform: "capitalize" }}>
+                    {item.type}
+                  </Text>
+                ) : (
+                  <></>
+                )}
               </TouchableOpacity>
             </View>
           )}
