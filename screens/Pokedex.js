@@ -15,11 +15,11 @@ import { genList } from "../assets/generations";
 export default function Pokedex({ navigation }) {
   // variables
   const [pokeList, setPokeList] = useState([]);
-  const [pokeInfo, setPokeInfo] = useState([]);
   const [loaded, setLoaded] = useState(false);
   // const [limit, setLimit] = useState(151);
   // const [offset, setOffset] = useState(0);
 
+  // variables for testing, need to uncomment above once done
   const [limit, setLimit] = useState(3);
   const [offset, setOffset] = useState(0);
 
@@ -28,38 +28,37 @@ export default function Pokedex({ navigation }) {
   const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
 
   // functions
+
+  // does inital call of API that gets list of pokemon,
+  // based on the limit/offset params
   const getPokeList = async () => {
     let tempList = [];
     const response = await fetch(url);
     const json = await response.json();
 
     json.results.forEach((e) => {
-      // console.log(e.name);
-      tempList.push(e);
-      getPokeInfo(e);
+      getPokeInfo(e).then((result) => {
+        tempList.push(result);
+      });
     });
 
-    // setPokeList(tempList);
-    // setLoaded(true);
+    setPokeList(tempList);
+    setLoaded(true);
   };
 
+  // takes list of pokemon names and URLs
+  // and gets data from URL provided by API
   const getPokeInfo = async (pokemon) => {
-    // console.log(pokemon.url);
-    let tempList2 = [];
     let url2 = pokemon.url;
     const response2 = await fetch(url2);
     const json2 = await response2.json();
 
-    // console.log(json2.name);
     let poke = {
       pokeName: json2.name,
-      // type: json2.types.type.name,
       id: json2.id,
       sprite: json2.sprites.front_default,
     };
-
-    setPokeList([...pokeList, poke]);
-    setLoaded(true);
+    return poke;
   };
 
   // custom components
@@ -70,6 +69,8 @@ export default function Pokedex({ navigation }) {
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
+          setPokeList([]);
+          getPokeList();
           flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
           // console.log(text);
         }}
@@ -81,9 +82,10 @@ export default function Pokedex({ navigation }) {
 
   useEffect(() => {
     getPokeList();
-    console.log(pokeList);
-    // console.log(url);
-  }, [limit]);
+    setTimeout(() => {
+      console.log("pokeList: ", pokeList[0]);
+    }, 2000);
+  }, []);
 
   // view
   return (
@@ -94,6 +96,7 @@ export default function Pokedex({ navigation }) {
           style={{
             fontSize: 36,
             textAlign: "center",
+            fontStyle: "italic",
           }}
         >
           RN Dex
@@ -133,32 +136,43 @@ export default function Pokedex({ navigation }) {
         }}
       ></View>
       <View style={styles.pokemonBox}>
-        <FlatList
-          data={pokeList}
-          numColumns={2}
-          initialNumToRender={20}
-          renderItem={({ item }) => (
-            <View style={styles.outerBox}>
-              <TouchableOpacity style={styles.innerBox}>
-                <Image
-                  // source={require("../assets/arse.jpeg")}
-                  source={{ uri: item.sprite }}
-                  style={styles.images}
-                />
-                <Text style={{ textTransform: "capitalize" }}>
-                  {item.pokeName}
-                </Text>
-                {item.type ? (
+        {loaded ? (
+          <FlatList
+            data={pokeList}
+            numColumns={2}
+            initialNumToRender={20}
+            renderItem={({ item }) => (
+              <View style={styles.outerBox}>
+                <TouchableOpacity
+                  style={styles.innerBox}
+                  onPress={() => {
+                    console.log(pokeList);
+                  }}
+                >
+                  <Image
+                    // source={require("../assets/arse.jpeg")}
+                    source={{ uri: item.sprite }}
+                    style={styles.images}
+                  />
                   <Text style={{ textTransform: "capitalize" }}>
-                    {item.type}
+                    {item.pokeName}
                   </Text>
-                ) : (
-                  <></>
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+                  {item.type ? (
+                    <Text style={{ textTransform: "capitalize" }}>
+                      {item.type}
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : (
+          <View>
+            <Text>Loading...</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

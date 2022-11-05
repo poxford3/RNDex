@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 
-export default function Pokemon() {
+export default function Pokemon({ navigation, route }) {
+  pokemonInfo = route.params;
   // will be view of once pokemon is clicked
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <Text>Pokemon</Text>
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
