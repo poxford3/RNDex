@@ -7,15 +7,40 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Button,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
+import uuid from "react-native-uuid";
 import { genList } from "../assets/generations";
 
 export default function Pokedex({ navigation }) {
   // variables
   const [pokeList, setPokeList] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const PARKER = [];
+  const pokeList1 = [
+    {
+      id: 1,
+      pokeName: "bulbasaur",
+      pokeURL: "https://pokeapi.co/api/v2/pokemon/1",
+      sprite:
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+    },
+    {
+      id: 2,
+      pokeName: "ivysaur",
+      pokeURL: "https://pokeapi.co/api/v2/pokemon/2",
+      sprite:
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+    },
+    {
+      id: 3,
+      pokeName: "venusaur",
+      pokeURL: "https://pokeapi.co/api/v2/pokemon/3",
+      sprite:
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+    },
+  ];
+  const [loaded, setLoaded] = useState(true);
   // const [limit, setLimit] = useState(151);
   // const [offset, setOffset] = useState(0);
 
@@ -32,18 +57,40 @@ export default function Pokedex({ navigation }) {
   // does inital call of API that gets list of pokemon,
   // based on the limit/offset params
   const getPokeList = async () => {
+    setPokeList([]);
+    setLoaded(false);
     let tempList = [];
     const response = await fetch(url);
     const json = await response.json();
 
     json.results.forEach((e) => {
-      getPokeInfo(e).then((result) => {
-        tempList.push(result);
-      });
+      getPokeInfo(e);
     });
 
-    setPokeList(tempList);
     setLoaded(true);
+
+    // var sequential = new Promise((resolve, reject) => {
+    //   json.results.forEach((e, index, json) => {
+    //     // console.log(e, index, json.length);
+    //     getPokeInfo(e).then((result) => {
+    //       tempList.push(result);
+    //       // console.log(tempList);
+    //     });
+    //     if (index === json.length - 1) resolve();
+    //   });
+    // });
+
+    // sequential.then(() => {
+    //   console.log("made it here");
+    //   // console.log(tempList);
+    //   setPokeList(
+    //     // sorting to ensure the id's line up
+    //     tempList.sort((a, b) => {
+    //       return a.id - b.id;
+    //     })
+    //   );
+    //   // console.log(pokeList.length, pokeList1.length);
+    //   setLoaded(true);
   };
 
   // takes list of pokemon names and URLs
@@ -57,8 +104,15 @@ export default function Pokedex({ navigation }) {
       pokeName: json2.name,
       id: json2.id,
       sprite: json2.sprites.front_default,
+      pokeURL: url2,
+      spriteData: json2.sprites,
     };
-    return poke;
+    // console.log(poke);
+
+    // PARKER = [...PARKER, poke];
+    setPokeList([...pokeList, poke]);
+    // console.log(poke);
+    // return poke;
   };
 
   // custom components
@@ -69,10 +123,10 @@ export default function Pokedex({ navigation }) {
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
-          setPokeList([]);
-          getPokeList();
+          // setPokeList([]);
+          // getPokeList();
+          console.log(`gen ${text} selected`);
           flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
-          // console.log(text);
         }}
       >
         <Text style={{ textAlign: "center" }}>{text}</Text>
@@ -80,11 +134,45 @@ export default function Pokedex({ navigation }) {
     );
   };
 
+  const PokemonItem = ({ sprite, pokeName, type, url, spriteData }) => {
+    return (
+      <View style={styles.outerBox}>
+        <TouchableOpacity
+          style={styles.innerBox}
+          onPress={() => {
+            // console.log(pokeList.length);
+            navigation.navigate("Pokemon", {
+              sprite: sprite,
+              pokeName: pokeName,
+              pokeURL: url,
+              type: type,
+              spriteData: spriteData,
+            });
+          }}
+        >
+          <Image source={{ uri: sprite }} style={styles.images} />
+          <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
+          {type ? (
+            <Text style={{ textTransform: "capitalize" }}>{type}</Text>
+          ) : (
+            <></>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   useEffect(() => {
     getPokeList();
+    // console.log(limit);
     setTimeout(() => {
-      console.log("pokeList: ", pokeList[0]);
-    }, 2000);
+      // console.log("pokeList length:", pokeList.length, "items");
+      console.log("pokeList:", pokeList);
+    }, 3000);
+  }, [limit]);
+
+  useEffect(() => {
+    getPokeList();
   }, []);
 
   // view
@@ -135,41 +223,33 @@ export default function Pokedex({ navigation }) {
           marginTop: 10,
         }}
       ></View>
+      <PokemonItem
+        sprite={pokeList1[0].sprite}
+        pokeName={pokeList1[0].pokeName}
+        type={pokeList1[0].type}
+      />
       <View style={styles.pokemonBox}>
         {loaded ? (
           <FlatList
             data={pokeList}
+            // extraData={pokeList}
             numColumns={2}
+            // keyExtractor={(item) => item.id}
             initialNumToRender={20}
+            // style={{ width: "95%" }}
             renderItem={({ item }) => (
-              <View style={styles.outerBox}>
-                <TouchableOpacity
-                  style={styles.innerBox}
-                  onPress={() => {
-                    console.log(pokeList);
-                  }}
-                >
-                  <Image
-                    // source={require("../assets/arse.jpeg")}
-                    source={{ uri: item.sprite }}
-                    style={styles.images}
-                  />
-                  <Text style={{ textTransform: "capitalize" }}>
-                    {item.pokeName}
-                  </Text>
-                  {item.type ? (
-                    <Text style={{ textTransform: "capitalize" }}>
-                      {item.type}
-                    </Text>
-                  ) : (
-                    <></>
-                  )}
-                </TouchableOpacity>
-              </View>
+              <PokemonItem
+                sprite={item.sprite}
+                pokeName={item.pokeName}
+                url={item.pokeURL}
+                type={item.type}
+                spriteData={item.spriteData}
+              />
             )}
           />
         ) : (
-          <View>
+          <View style={styles.loading}>
+            <ActivityIndicator size="large" />
             <Text>Loading...</Text>
           </View>
         )}
@@ -207,8 +287,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   images: {
-    height: 80,
-    width: 80,
+    height: 90,
+    width: 90,
   },
   innerBox: {
     padding: 10,
@@ -217,6 +297,11 @@ const styles = StyleSheet.create({
     // backgroundColor: "lightgrey",
     borderWidth: 0.5,
     borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loading: {
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
