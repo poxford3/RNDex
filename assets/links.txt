@@ -1,0 +1,6 @@
+https://jsonformatter.org/json-pretty-print
+https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number#Generation_II
+https://pokeapi.co/docs/v2
+https://pokeapi.co/api/v2/pokemon/?limit=100&offset=151
+https://stackoverflow.com/questions/38406920/best-way-to-wait-for-foreach-to-complete
+https://stackoverflow.com/questions/72235862/react-native-flatlist-items-disappearing

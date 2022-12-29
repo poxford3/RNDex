@@ -67,7 +67,10 @@ export default function Pokedex({ navigation }) {
       getPokeInfo(e);
     });
 
-    setLoaded(true);
+    // console.log(limit, pokeList.length);
+    if (pokeList.length !== limit) {
+      setLoaded(true);
+    }
 
     // var sequential = new Promise((resolve, reject) => {
     //   json.results.forEach((e, index, json) => {
@@ -106,10 +109,12 @@ export default function Pokedex({ navigation }) {
       sprite: json2.sprites.front_default,
       pokeURL: url2,
       spriteData: json2.sprites,
+      key: uuid,
     };
     // console.log(poke);
 
     // PARKER = [...PARKER, poke];
+    console.log(poke.pokeName);
     setPokeList([...pokeList, poke]);
     // console.log(poke);
     // return poke;
@@ -162,12 +167,19 @@ export default function Pokedex({ navigation }) {
     );
   };
 
+  const LoadingView = () => {
+    <View style={styles.loading}>
+      <ActivityIndicator size="large" />
+      <Text>Loading...</Text>
+    </View>;
+  };
+
   useEffect(() => {
     getPokeList();
     // console.log(limit);
     setTimeout(() => {
-      // console.log("pokeList length:", pokeList.length, "items");
-      console.log("pokeList:", pokeList);
+      console.log("pokeList length:", pokeList.length, "items");
+      // console.log("pokeList:", pokeList);
     }, 3000);
   }, [limit]);
 
@@ -223,11 +235,11 @@ export default function Pokedex({ navigation }) {
           marginTop: 10,
         }}
       ></View>
-      <PokemonItem
+      {/* <PokemonItem // for testing
         sprite={pokeList1[0].sprite}
         pokeName={pokeList1[0].pokeName}
         type={pokeList1[0].type}
-      />
+      /> */}
       <View style={styles.pokemonBox}>
         {loaded ? (
           <FlatList
@@ -235,7 +247,7 @@ export default function Pokedex({ navigation }) {
             // extraData={pokeList}
             numColumns={2}
             // keyExtractor={(item) => item.id}
-            initialNumToRender={20}
+            initialNumToRender={40}
             // style={{ width: "95%" }}
             renderItem={({ item }) => (
               <PokemonItem
@@ -248,10 +260,7 @@ export default function Pokedex({ navigation }) {
             )}
           />
         ) : (
-          <View style={styles.loading}>
-            <ActivityIndicator size="large" />
-            <Text>Loading...</Text>
-          </View>
+          <LoadingView />
         )}
       </View>
     </SafeAreaView>
