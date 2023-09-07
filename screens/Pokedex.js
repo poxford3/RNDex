@@ -111,7 +111,7 @@ export default function Pokedex({ navigation }) {
           setLimit(limit);
           setOffset(offset);
           // setPokeList([]);
-          // getPokeList();
+          getPokeList();
           console.log(`gen ${text} selected`);
           // flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
         }}
