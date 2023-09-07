@@ -6,6 +6,7 @@ export default function Pokemon({ route }) {
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
   // console.log(new_sprite);
   const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
+  // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
   return (
     <SafeAreaView style={styles.container}>
@@ -17,6 +18,7 @@ export default function Pokemon({ route }) {
           style={styles.images}
         />
         {/* <Text>{pokemonInfo.pokeName}</Text> */}
+        <Text>type: {pokemonInfo.type}</Text>
       </View>
     </SafeAreaView>
   );

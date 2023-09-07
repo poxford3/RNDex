@@ -10,7 +10,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import uuid from "react-native-uuid";
+import uuid4 from "react-native-uuid";
 import { genList } from "../assets/generations";
 
 export default function Pokedex({ navigation }) {
@@ -22,6 +22,7 @@ export default function Pokedex({ navigation }) {
       id: 1,
       pokeName: "bulbasaur",
       pokeURL: "https://pokeapi.co/api/v2/pokemon/1",
+      type: "grass",
       sprite:
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
     },
@@ -29,6 +30,7 @@ export default function Pokedex({ navigation }) {
       id: 2,
       pokeName: "ivysaur",
       pokeURL: "https://pokeapi.co/api/v2/pokemon/2",
+      type: "grass",
       sprite:
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
     },
@@ -36,19 +38,20 @@ export default function Pokedex({ navigation }) {
       id: 3,
       pokeName: "venusaur",
       pokeURL: "https://pokeapi.co/api/v2/pokemon/3",
+      type: "grass",
       sprite:
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
     },
   ];
   const [loaded, setLoaded] = useState(true);
-  // const [limit, setLimit] = useState(151);
-  // const [offset, setOffset] = useState(0);
-
-  // variables for testing, need to uncomment above once done
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(151);
   const [offset, setOffset] = useState(0);
 
-  const flatListRef = useRef();
+  // variables for testing, need to uncomment above once done
+  // const [limit, setLimit] = useState(3);
+  // const [offset, setOffset] = useState(0);
+
+  // const flatListRef = useRef();
 
   const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
 
@@ -58,66 +61,44 @@ export default function Pokedex({ navigation }) {
   // based on the limit/offset params
   const getPokeList = async () => {
     setPokeList([]);
-    setLoaded(false);
-    let tempList = [];
     const response = await fetch(url);
     const json = await response.json();
 
+    let tempPokeList = []; // Temporary array to hold values
+    const tasks = []; // To hold promises
+
     json.results.forEach((e) => {
-      getPokeInfo(e);
+      const task = getPokeInfo(e).then((details) => {
+        tempPokeList.push(details);
+      });
+      tasks.push(task);
     });
 
-    // console.log(limit, pokeList.length);
-    if (pokeList.length !== limit) {
-      setLoaded(true);
-    }
-
-    // var sequential = new Promise((resolve, reject) => {
-    //   json.results.forEach((e, index, json) => {
-    //     // console.log(e, index, json.length);
-    //     getPokeInfo(e).then((result) => {
-    //       tempList.push(result);
-    //       // console.log(tempList);
-    //     });
-    //     if (index === json.length - 1) resolve();
-    //   });
-    // });
-
-    // sequential.then(() => {
-    //   console.log("made it here");
-    //   // console.log(tempList);
-    //   setPokeList(
-    //     // sorting to ensure the id's line up
-    //     tempList.sort((a, b) => {
-    //       return a.id - b.id;
-    //     })
-    //   );
-    //   // console.log(pokeList.length, pokeList1.length);
-    //   setLoaded(true);
+    await Promise.all(tasks); // Ensure all async operations are completed before setting the state
+    setPokeList((prevList) => [...prevList, ...tempPokeList]);
   };
 
   // takes list of pokemon names and URLs
   // and gets data from URL provided by API
   const getPokeInfo = async (pokemon) => {
-    let url2 = pokemon.url;
-    const response2 = await fetch(url2);
+    let url_poke = pokemon.url;
+    // console.log(url_poke);
+    const response2 = await fetch(url_poke);
     const json2 = await response2.json();
+
+    console.log(json2.types[0]);
 
     let poke = {
       pokeName: json2.name,
       id: json2.id,
       sprite: json2.sprites.front_default,
-      pokeURL: url2,
+      pokeURL: url_poke,
+      type: json2.types[0]?.type[0]?.name,
       spriteData: json2.sprites,
-      key: uuid,
+      key: uuid4,
     };
-    // console.log(poke);
 
-    // PARKER = [...PARKER, poke];
-    console.log(poke.pokeName);
-    setPokeList([...pokeList, poke]);
-    // console.log(poke);
-    // return poke;
+    return poke;
   };
 
   // custom components
@@ -125,13 +106,14 @@ export default function Pokedex({ navigation }) {
     return (
       <TouchableOpacity
         style={styles.genButtons}
+        key={text}
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
           // setPokeList([]);
           // getPokeList();
           console.log(`gen ${text} selected`);
-          flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+          // flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
         }}
       >
         <Text style={{ textAlign: "center" }}>{text}</Text>
@@ -139,9 +121,9 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  const PokemonItem = ({ sprite, pokeName, type, url, spriteData }) => {
+  const PokemonItem = ({ sprite, pokeName, type, url, spriteData, key }) => {
     return (
-      <View style={styles.outerBox}>
+      <View style={styles.outerBox} key={key}>
         <TouchableOpacity
           style={styles.innerBox}
           onPress={() => {
@@ -174,14 +156,14 @@ export default function Pokedex({ navigation }) {
     </View>;
   };
 
-  useEffect(() => {
-    getPokeList();
-    // console.log(limit);
-    setTimeout(() => {
-      console.log("pokeList length:", pokeList.length, "items");
-      // console.log("pokeList:", pokeList);
-    }, 3000);
-  }, [limit]);
+  // useEffect(() => {
+  //   getPokeList();
+  //   // console.log(limit);
+  //   setTimeout(() => {
+  //     console.log("pokeList length:", pokeList.length, "items");
+  //     // console.log("pokeList:", pokeList);
+  //   }, 3000);
+  // }, [limit]);
 
   useEffect(() => {
     getPokeList();
@@ -202,15 +184,8 @@ export default function Pokedex({ navigation }) {
           RN Dex
         </Text>
         <View style={styles.genSelection}>
-          {/* <Button
-            title="to view"
-            onPress={() => {
-              navigation.navigate("Test");
-            }}
-          /> */}
           <FlatList
             data={genList}
-            ref={flatListRef}
             horizontal={true}
             contentContainerStyle={{
               flexGrow: 1,
@@ -235,20 +210,14 @@ export default function Pokedex({ navigation }) {
           marginTop: 10,
         }}
       ></View>
-      {/* <PokemonItem // for testing
-        sprite={pokeList1[0].sprite}
-        pokeName={pokeList1[0].pokeName}
-        type={pokeList1[0].type}
-      /> */}
       <View style={styles.pokemonBox}>
         {loaded ? (
           <FlatList
-            data={pokeList}
+            data={pokeList.sort((a, b) => a.id - b.id)}
             // extraData={pokeList}
             numColumns={2}
             // keyExtractor={(item) => item.id}
             initialNumToRender={40}
-            // style={{ width: "95%" }}
             renderItem={({ item }) => (
               <PokemonItem
                 sprite={item.sprite}
@@ -256,6 +225,7 @@ export default function Pokedex({ navigation }) {
                 url={item.pokeURL}
                 type={item.type}
                 spriteData={item.spriteData}
+                key={item.id}
               />
             )}
           />

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
 import TestView from "./TestView";
+import APITest from "./APITest";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,11 @@ export default function MyStack() {
         <Stack.Screen
           name="Test"
           component={TestView}
+          //   options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="APITest"
+          component={APITest}
           //   options={{ headerShown: false }}
         />
       </Stack.Navigator>
