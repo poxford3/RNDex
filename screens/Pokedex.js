@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,13 +10,14 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import uuid4 from "react-native-uuid";
+// import Icon from "react-native-ionicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { genList } from "../assets/generations";
 
 export default function Pokedex({ navigation }) {
   // variables
+
   const [pokeList, setPokeList] = useState([]);
-  const PARKER = [];
   const pokeList1 = [
     {
       id: 1,
@@ -47,9 +48,7 @@ export default function Pokedex({ navigation }) {
   const [limit, setLimit] = useState(151);
   const [offset, setOffset] = useState(0);
 
-  // variables for testing, need to uncomment above once done
-  // const [limit, setLimit] = useState(3);
-  // const [offset, setOffset] = useState(0);
+  const [genSelected, setGenSelected] = useState(1);
 
   // const flatListRef = useRef();
 
@@ -86,44 +85,60 @@ export default function Pokedex({ navigation }) {
     const response2 = await fetch(url_poke);
     const json2 = await response2.json();
 
-    console.log(json2.types[0]);
-
     let poke = {
       pokeName: json2.name,
       id: json2.id,
       sprite: json2.sprites.front_default,
       pokeURL: url_poke,
-      type: json2.types[0]?.type[0]?.name,
+      type: json2.types[0]?.type?.name,
       spriteData: json2.sprites,
-      key: uuid4,
     };
 
     return poke;
   };
 
   // custom components
-  const GenSelector = ({ limit, offset, text }) => {
+
+  const GenSelector = ({ limit, offset, text, gen, bkgColor, textColor }) => {
     return (
       <TouchableOpacity
-        style={styles.genButtons}
-        key={text}
+        style={[styles.genButtons, { backgroundColor: bkgColor }]}
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
-          // setPokeList([]);
-          getPokeList();
-          console.log(`gen ${text} selected`);
-          // flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+          setPokeList([]);
+          setLoaded(false);
+          getPokeList().then(() => {
+            setGenSelected(gen);
+            console.log(`gen ${text} selected`);
+            setLoaded(true);
+          });
         }}
       >
-        <Text style={{ textAlign: "center" }}>{text}</Text>
+        <Text style={{ textAlign: "center", color: textColor }}>{text}</Text>
       </TouchableOpacity>
     );
   };
 
-  const PokemonItem = ({ sprite, pokeName, type, url, spriteData, key }) => {
+  const renderGen = ({ item }) => {
+    const bkgColor = item.gen == genSelected ? "black" : "lightgrey";
+    const textColor = item.gen == genSelected ? "white" : "black";
+
     return (
-      <View style={styles.outerBox} key={key}>
+      <GenSelector
+        limit={item.limit}
+        offset={item.offset}
+        text={item.text}
+        gen={item.gen}
+        bkgColor={bkgColor}
+        textColor={textColor}
+      />
+    );
+  };
+
+  const PokemonItem = ({ sprite, pokeName, type, url, spriteData }) => {
+    return (
+      <View style={styles.outerBox}>
         <TouchableOpacity
           style={styles.innerBox}
           onPress={() => {
@@ -156,49 +171,47 @@ export default function Pokedex({ navigation }) {
     </View>;
   };
 
-  // useEffect(() => {
-  //   getPokeList();
-  //   // console.log(limit);
-  //   setTimeout(() => {
-  //     console.log("pokeList length:", pokeList.length, "items");
-  //     // console.log("pokeList:", pokeList);
-  //   }, 3000);
-  // }, [limit]);
-
+  // on start up
   useEffect(() => {
     getPokeList();
   }, []);
 
-  // view
+  // main view
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={"black"} />
       <View style={styles.header}>
-        <Text
-          style={{
-            fontSize: 36,
-            textAlign: "center",
-            fontStyle: "italic",
-          }}
-        >
-          RN Dex
-        </Text>
+        <View style={styles.topBox}>
+          <View style={{ width: 40 }}></View>
+          <Text
+            style={{
+              fontSize: 40,
+              textAlign: "center",
+              fontStyle: "italic",
+            }}
+          >
+            RN Dex
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Information");
+            }}
+          >
+            <Ionicons name="information-circle-outline" size={40} />
+          </TouchableOpacity>
+        </View>
+        <Text style={{ fontStyle: "italic" }}>Generation:</Text>
         <View style={styles.genSelection}>
           <FlatList
             data={genList}
             horizontal={true}
+            keyExtractor={(item) => item.text}
             contentContainerStyle={{
               flexGrow: 1,
               justifyContent: "center",
-              // maxWidth: "90%",
             }}
-            renderItem={({ item }) => (
-              <GenSelector
-                limit={item.limit}
-                offset={item.offset}
-                text={item.text}
-              />
-            )}
+            renderItem={renderGen}
           />
         </View>
       </View>
@@ -216,7 +229,7 @@ export default function Pokedex({ navigation }) {
             data={pokeList.sort((a, b) => a.id - b.id)}
             // extraData={pokeList}
             numColumns={2}
-            // keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id}
             initialNumToRender={40}
             renderItem={({ item }) => (
               <PokemonItem
@@ -225,7 +238,6 @@ export default function Pokedex({ navigation }) {
                 url={item.pokeURL}
                 type={item.type}
                 spriteData={item.spriteData}
-                key={item.id}
               />
             )}
           />
@@ -254,16 +266,20 @@ const styles = StyleSheet.create({
   },
   genSelection: {
     flexDirection: "row",
-    height: 40,
-    width: "100%",
+    height: 50,
+    // width: "100%",
     // backgroundColor: "lime",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 10,
+    marginVertical: 5,
   },
   header: {
     alignItems: "center",
     flex: 1,
+    height: 100,
+    padding: 5,
+    marginBottom: 20,
   },
   images: {
     height: 90,
@@ -296,5 +312,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     flex: 8,
+  },
+  topBox: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    alignItems: "center",
   },
 });

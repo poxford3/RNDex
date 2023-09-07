@@ -6,6 +6,7 @@ import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
 import TestView from "./TestView";
 import APITest from "./APITest";
+import Info from "./Info";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,11 @@ export default function MyStack() {
           name="APITest"
           component={APITest}
           //   options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Information"
+          component={Info}
+          // options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

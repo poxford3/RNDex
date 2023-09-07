@@ -17,8 +17,7 @@ export default function Pokemon({ route }) {
           }}
           style={styles.images}
         />
-        {/* <Text>{pokemonInfo.pokeName}</Text> */}
-        <Text>type: {pokemonInfo.type}</Text>
+        {pokemonInfo.type ? <Text>type: {pokemonInfo.type}</Text> : <></>}
       </View>
     </SafeAreaView>
   );

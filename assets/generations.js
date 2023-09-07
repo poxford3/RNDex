@@ -3,42 +3,42 @@ const genList = [
     limit: 151,
     offset: 0,
     text: "I",
-    key: 1,
+    gen: 1,
     // 0 - 151
   },
   {
     limit: 100,
     offset: 151,
     text: "II",
-    key: 2,
+    gen: 2,
     // 152 - 251
   },
   {
     limit: 134,
     offset: 251,
     text: "III",
-    key: 3,
+    gen: 3,
     // 252 - 386
   },
   {
     limit: 152,
     offset: 386,
     text: "IV",
-    key: 4,
+    gen: 4,
     // 387 - 493
   },
   {
     limit: 156,
     offset: 493,
     text: "V",
-    key: 5,
+    gen: 5,
     // 494 - 649
   },
   {
     limit: 153,
     offset: 649,
     text: "VI",
-    key: 6,
+    gen: 6,
     // 650 - 721
   },
 ];
