@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  Animated,
   ActivityIndicator,
 } from "react-native";
-// import Icon from "react-native-ionicons";
+import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { genList } from "../assets/generations";
 
@@ -147,7 +148,6 @@ export default function Pokedex({ navigation }) {
               sprite: sprite,
               pokeName: pokeName,
               pokeURL: url,
-              type: type,
               spriteData: spriteData,
             });
           }}
@@ -165,11 +165,42 @@ export default function Pokedex({ navigation }) {
   };
 
   const LoadingView = () => {
-    <View style={styles.loading}>
-      <ActivityIndicator size="large" />
-      <Text>Loading...</Text>
-    </View>;
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
   };
+
+  // search bar tracking
+  const [searchText, setSearchText] = useState();
+  searchFilteredData = searchText
+    ? pokeList.filter((x) =>
+        x.pokeName.toLowerCase().includes(searchText.toLowerCase())
+      )
+    : pokeList;
+
+  // search bar animation
+  const [toggleSearchBar, setToggleSearchBar] = useState(false);
+
+  const searchBarAnim = useRef(new Animated.Value(-45)).current;
+
+  useEffect(() => {
+    if (toggleSearchBar) {
+      Animated.timing(searchBarAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(searchBarAnim, {
+        toValue: -45,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [toggleSearchBar]);
 
   // on start up
   useEffect(() => {
@@ -225,22 +256,34 @@ export default function Pokedex({ navigation }) {
       ></View>
       <View style={styles.pokemonBox}>
         {loaded ? (
-          <FlatList
-            data={pokeList.sort((a, b) => a.id - b.id)}
-            // extraData={pokeList}
-            numColumns={2}
-            keyExtractor={(item) => item.id}
-            initialNumToRender={40}
-            renderItem={({ item }) => (
-              <PokemonItem
-                sprite={item.sprite}
-                pokeName={item.pokeName}
-                url={item.pokeURL}
-                type={item.type}
-                spriteData={item.spriteData}
-              />
-            )}
-          />
+          <>
+            <Searchbar
+              style={{ width: "90%" }}
+              value={searchText}
+              onChangeText={(text) => {
+                setSearchText(text);
+              }}
+              placeholder="Find your favorite Pokemon!"
+              placeholderTextColor={"grey"}
+              // iconColor={"green"}
+            />
+            <FlatList
+              data={searchFilteredData.sort((a, b) => a.id - b.id)}
+              // extraData={pokeList}
+              numColumns={2}
+              keyExtractor={(item) => item.id}
+              initialNumToRender={40}
+              renderItem={({ item }) => (
+                <PokemonItem
+                  sprite={item.sprite}
+                  pokeName={item.pokeName}
+                  url={item.pokeURL}
+                  type={item.type}
+                  spriteData={item.spriteData}
+                />
+              )}
+            />
+          </>
         ) : (
           <LoadingView />
         )}
@@ -302,6 +345,7 @@ const styles = StyleSheet.create({
   },
   outerBox: {
     width: "50%",
+    minWidth: 180,
     height: 180,
     // borderWidth: 1,
     padding: 0,
