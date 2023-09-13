@@ -21,6 +21,7 @@ export default function MyStack() {
           }
         }
         initialRouteName="Pokedex"
+        // initialRouteName="Test"
       >
         <Stack.Screen
           name="Pokedex"

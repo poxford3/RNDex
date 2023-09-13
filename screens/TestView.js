@@ -9,24 +9,33 @@ import {
   Image,
 } from "react-native";
 import { genList } from "../assets/generations";
+import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 
 export default function TestView({ navigation }) {
+  data = [
+    { x: "hp", y: 45 },
+    { x: "attack", y: 49 },
+    { x: "defense", y: 49 },
+    { x: "sp atk", y: 65 },
+    { x: "sp def", y: 65 },
+    { x: "speed", y: 45 },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text>test page:</Text>
-      <View style={styles.list}>
-        <FlatList
-          data={genList}
-          // horizontal={true}
-          renderItem={({ item }) => (
-            <View style={styles.listItem}>
-              <Text>{item.text}</Text>
-              <Text>ahhhh</Text>
-            </View>
-          )}
-        />
-      </View>
-      <Text>post test</Text>
+      <Text>test page (Bulbasaur):</Text>
+      <VictoryChart>
+        <VictoryGroup offset={20}>
+          <VictoryBar
+            data={data}
+            style={{
+              data: {
+                fill: "blue",
+              },
+            }}
+          />
+        </VictoryGroup>
+      </VictoryChart>
     </SafeAreaView>
   );
 }
@@ -36,15 +45,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  list: {
-    height: 200,
-    width: "100%",
-    borderWidth: 1,
-    margin: 10,
-  },
-  listItem: {
-    backgroundColor: "lightgrey",
-    height: 50,
   },
 });
