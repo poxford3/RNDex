@@ -6,11 +6,15 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  ScrollView,
 } from "react-native";
+import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+// https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
   const pokemonInfo = route.params;
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
+  const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
 
   const [stats, setStats] = useState([]);
   const [types, setTypes] = useState({
@@ -18,7 +22,16 @@ export default function Pokemon({ route }) {
     type2: null,
   });
 
-  const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
+  const [evolutions, setEvolutions] = useState({
+    evol1: null,
+    evol2: null,
+    evol3: null,
+  });
+
+  const [imgURLs, setImgURLs] = useState([]);
+  const [desc, setDesc] = useState("");
+
+  // API calls
 
   const getPokeStats = async () => {
     url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.pokeName}`;
@@ -30,7 +43,11 @@ export default function Pokemon({ route }) {
     json.stats.forEach((e) => {
       stat_list = [
         ...stat_list,
-        { statName: e.stat.name, base_stat: e.base_stat, EV: e.effort },
+        {
+          x: e.stat.name.replace("-", "\n"),
+          y: e.base_stat,
+          // EV: e.effort,
+        },
       ];
     });
 
@@ -42,6 +59,73 @@ export default function Pokemon({ route }) {
     setStats(stat_list);
     setTypes(type_obj);
   };
+
+  const getEvolutions = async () => {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInfo.pokeName}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    arr = json.flavor_text_entries.filter((elem) => elem.language.name == "en"); // gets most recent description
+
+    description = arr.pop();
+    setDesc(description.flavor_text.replace("\n", ""));
+    // console.log(description);
+
+    let chain_url = json.evolution_chain.url;
+    const chain_resp = await fetch(chain_url);
+    const chain_json = await chain_resp.json();
+
+    setEvolutions({
+      evol1: chain_json.chain.species?.name,
+      evol2: chain_json.chain.evolves_to[0]?.species.name,
+      evol3: chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
+    });
+    setTimeout(() => {}, 1000);
+  };
+
+  const spriteFunction = async (pokemon) => {
+    const response3 = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokemon}`
+    );
+    const json3 = await response3.json();
+    // console.log(json3.sprites);
+    // console.log("pic", json3.sprites.front_default);
+    const pic = json3.sprites.front_default;
+
+    return pic;
+  };
+
+  const getPictures = async (evolutions) => {
+    let pic_list = [];
+    const tasks = [];
+
+    for (const pokemon in evolutions) {
+      const task = spriteFunction(pokemon).then((detail) => {
+        pic_list.push(detail);
+      });
+      tasks.push(task);
+    }
+
+    await Promise.all(tasks);
+    console.log("pic list", pic_list);
+    setImgURLs((prevList) => [...prevList, ...pic_list]);
+  };
+
+  // const getPictures = async (evolutions) => {
+  //   console.log("evolutions:", evolutions);
+  //   let pic_list = [];
+
+  //   evolutions.forEach(async (e) => {
+  //     const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${e}`);
+  //     const json3 = await response3.json();
+  //     // console.log(json3.sprites.front_default);
+  //     pic_list.push(json3.sprites.front_default);
+  //   });
+
+  //   console.log("pic list", pic_list);
+  //   setImgURLs(pic_list.sort());
+  // };
+
+  // functional components
 
   const PokeStats = ({ item }) => {
     return (
@@ -57,9 +141,39 @@ export default function Pokemon({ route }) {
     );
   };
 
+  const EvolImgList = ({ img, evol }) => {
+    // console.log(img);
+    return (
+      <View style={styles.evolItem}>
+        <Image source={{ uri: img }} style={styles.imgSmall} />
+        <Text
+          style={{
+            textTransform: "capitalize",
+            fontSize: 24,
+            textAlign: "center",
+          }}
+        >
+          {evol}
+        </Text>
+      </View>
+    );
+  };
+
+  // on start up
   useEffect(() => {
     getPokeStats();
+    getEvolutions();
+    // .then(() => {
+    //   getPictures(Object.values(evolutions));
+    // });
   }, []);
+
+  // useEffect(() => {
+  //   console.log("should be going...");
+  //   getPictures(Object.values(evolutions));
+  //   // setTimeout(3000);
+  //   console.log("img urls:", imgURLs.sort());
+  // }, [evolutions]);
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
@@ -72,22 +186,77 @@ export default function Pokemon({ route }) {
           }}
           style={styles.images}
         />
+        <Text
+          style={{
+            textTransform: "capitalize",
+            fontSize: 16,
+            textAlign: "center",
+          }}
+        >
+          {desc}
+        </Text>
         {types.type2 ? (
           <View style={{ paddingTop: 10 }}>
-            <Text style={{ textTransform: "capitalize", fontSize: 24 }}>
+            <Text style={{ textTransform: "capitalize", fontSize: 20 }}>
               {types.type1} / {types.type2}
             </Text>
           </View>
         ) : (
           <View style={{ paddingTop: 10 }}>
-            <Text style={{ textTransform: "capitalize", fontSize: 24 }}>
-              Type: {types.type1}
+            <Text style={{ textTransform: "capitalize", fontSize: 20 }}>
+              {types.type1}
             </Text>
           </View>
         )}
-        <View style={styles.statBox}>
-          <FlatList data={stats} renderItem={PokeStats} />
-        </View>
+        <ScrollView
+          style={styles.pokeDetails}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        >
+          {/* <View style={styles.statBox}>
+            <FlatList
+              data={stats}
+              scrollEnabled={false}
+              renderItem={PokeStats}
+            />
+          </View> */}
+          <View style={styles.statBox}>
+            <Text style={{ fontSize: 32, fontWeight: "bold" }}>Stats</Text>
+            <View
+              style={{
+                width: "100%",
+                borderWidth: 1,
+                borderColor: "black",
+                marginTop: 10,
+              }}
+            ></View>
+            <VictoryChart domainPadding={10}>
+              <VictoryGroup offset={20}>
+                <VictoryBar
+                  data={stats}
+                  // domain={{ y: [0, 255] }}
+                  // animate={{
+                  //   duration: 2000,
+                  //   onLoad: { duration: 1000 },
+                  // }}
+                  // horizontal={true}
+                  labels={({ datum }) => datum.y}
+                  alignment="middle"
+                  barRatio={0.8}
+                  style={{
+                    data: {
+                      fill: "blue",
+                    },
+                  }}
+                />
+              </VictoryGroup>
+            </VictoryChart>
+          </View>
+          <View style={styles.imgList}>
+            <EvolImgList img={imgURLs.sort()[0]} evol={evolutions.evol1} />
+            <EvolImgList img={imgURLs.sort()[1]} evol={evolutions.evol2} />
+            <EvolImgList img={imgURLs.sort()[2]} evol={evolutions.evol3} />
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -107,8 +276,22 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
   },
+  imgList: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
+  imgSmall: {
+    height: 100,
+    width: 100,
+  },
+  pokeDetails: {
+    width: "100%",
+    // height: 800,
+  },
   statBox: {
-    height: "100%",
+    // height: "100%",
+    alignItems: "center",
     width: "100%",
     padding: 20,
   },
