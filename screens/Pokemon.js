@@ -99,11 +99,11 @@ export default function Pokemon({ route }) {
     const tasks = [];
 
     if (evolutions[0] == null) {
-      console.log("break");
+      // console.log("break");
       return;
     }
 
-    console.log("continuing", evolutions[0]);
+    // console.log("continuing", evolutions[0]);
     for (const pokemon in evolutions) {
       const task = spriteFunction(evolutions[pokemon])
         .then((detail) => {
@@ -118,26 +118,10 @@ export default function Pokemon({ route }) {
 
     await Promise.all(tasks);
     setImgURLs((prevList) => [...prevList, ...pic_list]);
-    console.log("pic list", pic_list);
     // setImgURLs((prevList) => [...prevList, ...pic_list]);
   };
 
   // functional components
-
-  const PokeStats = ({ item }) => {
-    // unused now
-    return (
-      <View style={styles.statTexts}>
-        <Text style={{ textTransform: "capitalize", fontSize: 24 }}>
-          {item.statName}
-        </Text>
-        <View style={{ alignItems: "flex-end" }}>
-          <Text style={{ fontSize: 20 }}>Base Value: {item.base_stat}</Text>
-          <Text style={{ fontSize: 20 }}>EV: {item.EV}</Text>
-        </View>
-      </View>
-    );
-  };
 
   const EvolImgList = ({ img, evol }) => {
     // console.log(img);
@@ -164,13 +148,9 @@ export default function Pokemon({ route }) {
   }, []);
 
   useEffect(() => {
-    console.log("evo useEffect");
+    // console.log("evo useEffect");
     getPictures(Object.values(evolutions));
   }, [evolutions]);
-
-  useEffect(() => {
-    console.log("img urls:", imgURLs);
-  }, [imgURLs]);
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
