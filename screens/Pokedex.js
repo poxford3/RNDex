@@ -14,37 +14,12 @@ import {
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { genList } from "../assets/generations";
+import LoadingView from "./LoadingView";
 
 export default function Pokedex({ navigation }) {
   // variables
 
   const [pokeList, setPokeList] = useState([]);
-  const pokeList1 = [
-    {
-      id: 1,
-      pokeName: "bulbasaur",
-      pokeURL: "https://pokeapi.co/api/v2/pokemon/1",
-      type: "grass",
-      sprite:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-    },
-    {
-      id: 2,
-      pokeName: "ivysaur",
-      pokeURL: "https://pokeapi.co/api/v2/pokemon/2",
-      type: "grass",
-      sprite:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
-    },
-    {
-      id: 3,
-      pokeName: "venusaur",
-      pokeURL: "https://pokeapi.co/api/v2/pokemon/3",
-      type: "grass",
-      sprite:
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
-    },
-  ];
   const [loaded, setLoaded] = useState(true);
   const [limit, setLimit] = useState(151);
   const [offset, setOffset] = useState(0);
@@ -164,14 +139,14 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  const LoadingView = () => {
-    return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" />
-        <Text>Loading...</Text>
-      </View>
-    );
-  };
+  // const LoadingView = () => {
+  //   return (
+  //     <View style={styles.loading}>
+  //       <ActivityIndicator size="large" />
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // };
 
   // search bar tracking
   const [searchText, setSearchText] = useState();
@@ -332,14 +307,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "90%",
     height: "90%",
-    // backgroundColor: "lightgrey",
     borderWidth: 0.5,
     borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loading: {
-    height: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

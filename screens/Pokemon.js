@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+import LoadingView from "./LoadingView";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
@@ -30,6 +31,7 @@ export default function Pokemon({ route }) {
 
   const [imgURLs, setImgURLs] = useState([]);
   const [desc, setDesc] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   // API calls
 
@@ -57,6 +59,7 @@ export default function Pokemon({ route }) {
     };
 
     setStats(stat_list);
+    setLoaded(true);
     setTypes(type_obj);
   };
 
@@ -157,12 +160,16 @@ export default function Pokemon({ route }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
-        <Image
-          source={{
-            uri: sprite_to_use,
-          }}
-          style={styles.images}
-        />
+        {loaded ? (
+          <Image
+            source={{
+              uri: sprite_to_use,
+            }}
+            style={styles.images}
+          />
+        ) : (
+          <LoadingView />
+        )}
         <Text
           style={{
             textTransform: "capitalize",
@@ -185,55 +192,59 @@ export default function Pokemon({ route }) {
             </Text>
           </View>
         )}
-        <ScrollView
-          style={styles.pokeDetails}
-          contentContainerStyle={{ paddingBottom: 1 }}
-        >
-          {/* <View style={styles.statBox}>
+        {loaded ? (
+          <ScrollView
+            style={styles.pokeDetails}
+            contentContainerStyle={{ paddingBottom: 1 }}
+          >
+            {/* <View style={styles.statBox}>
             <FlatList
               data={stats}
               scrollEnabled={false}
               renderItem={PokeStats}
             />
           </View> */}
-          <View style={styles.statBox}>
-            <Text style={{ fontSize: 32, fontWeight: "bold" }}>Stats</Text>
-            <View
-              style={{
-                width: "100%",
-                borderWidth: 1,
-                borderColor: "black",
-                marginTop: 10,
-              }}
-            ></View>
-            <VictoryChart domainPadding={10}>
-              <VictoryGroup offset={20}>
-                <VictoryBar
-                  data={stats}
-                  // domain={{ y: [0, 255] }}
-                  // animate={{
-                  //   duration: 2000,
-                  //   onLoad: { duration: 1000 },
-                  // }}
-                  // horizontal={true}
-                  labels={({ datum }) => datum.y}
-                  alignment="middle"
-                  barRatio={0.8}
-                  style={{
-                    data: {
-                      fill: "blue",
-                    },
-                  }}
-                />
-              </VictoryGroup>
-            </VictoryChart>
-          </View>
-          <View style={styles.imgList}>
-            <EvolImgList img={imgURLs.sort()[0]} evol={evolutions.evol1} />
-            <EvolImgList img={imgURLs.sort()[1]} evol={evolutions.evol2} />
-            <EvolImgList img={imgURLs.sort()[2]} evol={evolutions.evol3} />
-          </View>
-        </ScrollView>
+            <View style={styles.statBox}>
+              <Text style={{ fontSize: 32, fontWeight: "bold" }}>Stats</Text>
+              <View
+                style={{
+                  width: "100%",
+                  borderWidth: 1,
+                  borderColor: "black",
+                  marginTop: 10,
+                }}
+              ></View>
+              <VictoryChart domainPadding={10}>
+                <VictoryGroup offset={20}>
+                  <VictoryBar
+                    data={stats}
+                    // domain={{ y: [0, 255] }}
+                    // animate={{
+                    //   duration: 2000,
+                    //   onLoad: { duration: 1000 },
+                    // }}
+                    // horizontal={true}
+                    labels={({ datum }) => datum.y}
+                    alignment="middle"
+                    barRatio={0.8}
+                    style={{
+                      data: {
+                        fill: "blue",
+                      },
+                    }}
+                  />
+                </VictoryGroup>
+              </VictoryChart>
+            </View>
+            <View style={styles.imgList}>
+              <EvolImgList img={imgURLs.sort()[0]} evol={evolutions.evol1} />
+              <EvolImgList img={imgURLs.sort()[1]} evol={evolutions.evol2} />
+              <EvolImgList img={imgURLs.sort()[2]} evol={evolutions.evol3} />
+            </View>
+          </ScrollView>
+        ) : (
+          <LoadingView />
+        )}
       </View>
     </SafeAreaView>
   );
