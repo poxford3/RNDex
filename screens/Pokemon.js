@@ -70,7 +70,7 @@ export default function Pokemon({ route }) {
     arr = json.flavor_text_entries.filter((elem) => elem.language.name == "en"); // gets most recent description
 
     description = arr.pop();
-    setDesc(description.flavor_text.replace("\n", ""));
+    setDesc(description.flavor_text.replace("\n", " "));
     // console.log(description);
 
     let chain_url = json.evolution_chain.url;
@@ -126,7 +126,7 @@ export default function Pokemon({ route }) {
 
   // functional components
 
-  const EvolImgList = ({ img, evol }) => {
+  const EvolImgItem = ({ img, evol }) => {
     // console.log(img);
     return (
       <View style={styles.evolItem}>
@@ -237,9 +237,9 @@ export default function Pokemon({ route }) {
               </VictoryChart>
             </View>
             <View style={styles.imgList}>
-              <EvolImgList img={imgURLs.sort()[0]} evol={evolutions.evol1} />
-              <EvolImgList img={imgURLs.sort()[1]} evol={evolutions.evol2} />
-              <EvolImgList img={imgURLs.sort()[2]} evol={evolutions.evol3} />
+              <EvolImgItem img={imgURLs.sort()[0]} evol={evolutions.evol1} />
+              <EvolImgItem img={imgURLs.sort()[1]} evol={evolutions.evol2} />
+              <EvolImgItem img={imgURLs.sort()[2]} evol={evolutions.evol3} />
             </View>
           </ScrollView>
         ) : (

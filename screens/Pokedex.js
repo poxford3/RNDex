@@ -128,11 +128,11 @@ export default function Pokedex({ navigation }) {
         >
           <Image source={{ uri: sprite }} style={styles.images} />
           <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
-          {type ? (
+          {/* {type ? (
             <Text style={{ textTransform: "capitalize" }}>{type}</Text>
           ) : (
             <></>
-          )}
+          )} */}
         </TouchableOpacity>
       </View>
     );
@@ -290,8 +290,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   images: {
-    height: 90,
-    width: 90,
+    height: 110,
+    width: 110,
   },
   innerBox: {
     padding: 10,

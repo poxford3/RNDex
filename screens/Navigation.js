@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -37,6 +38,19 @@ export default function MyStack() {
               route.params.pokeName.substring(1)
             }`,
           })}
+          // options={{
+          //   headerTitle: (
+          //     props // App Logo
+          //   ) => (
+          //     <Image
+          //       style={{ width: 200, height: 50 }}
+          //       // source={require("../assets/arse.jpeg")}
+          //       source={{ uri: props.children }}
+          //       resizeMode="contain"
+          //     />
+          //   ),
+          //   headerTitleStyle: { flex: 1, textAlign: "center" },
+          // }}
         />
         <Stack.Screen
           name="Test"
