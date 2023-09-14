@@ -98,36 +98,34 @@ export default function Pokemon({ route }) {
     let pic_list = [];
     const tasks = [];
 
+    if (evolutions[0] == null) {
+      console.log("break");
+      return;
+    }
+
+    console.log("continuing", evolutions[0]);
     for (const pokemon in evolutions) {
-      const task = spriteFunction(pokemon).then((detail) => {
-        pic_list.push(detail);
-      });
+      const task = spriteFunction(evolutions[pokemon])
+        .then((detail) => {
+          pic_list.push(detail);
+        })
+        .catch((error) => {
+          console.log("error in api");
+          console.log(error.message);
+        });
       tasks.push(task);
     }
 
     await Promise.all(tasks);
-    console.log("pic list", pic_list);
     setImgURLs((prevList) => [...prevList, ...pic_list]);
+    console.log("pic list", pic_list);
+    // setImgURLs((prevList) => [...prevList, ...pic_list]);
   };
-
-  // const getPictures = async (evolutions) => {
-  //   console.log("evolutions:", evolutions);
-  //   let pic_list = [];
-
-  //   evolutions.forEach(async (e) => {
-  //     const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${e}`);
-  //     const json3 = await response3.json();
-  //     // console.log(json3.sprites.front_default);
-  //     pic_list.push(json3.sprites.front_default);
-  //   });
-
-  //   console.log("pic list", pic_list);
-  //   setImgURLs(pic_list.sort());
-  // };
 
   // functional components
 
   const PokeStats = ({ item }) => {
+    // unused now
     return (
       <View style={styles.statTexts}>
         <Text style={{ textTransform: "capitalize", fontSize: 24 }}>
@@ -163,17 +161,16 @@ export default function Pokemon({ route }) {
   useEffect(() => {
     getPokeStats();
     getEvolutions();
-    // .then(() => {
-    //   getPictures(Object.values(evolutions));
-    // });
   }, []);
 
-  // useEffect(() => {
-  //   console.log("should be going...");
-  //   getPictures(Object.values(evolutions));
-  //   // setTimeout(3000);
-  //   console.log("img urls:", imgURLs.sort());
-  // }, [evolutions]);
+  useEffect(() => {
+    console.log("evo useEffect");
+    getPictures(Object.values(evolutions));
+  }, [evolutions]);
+
+  useEffect(() => {
+    console.log("img urls:", imgURLs);
+  }, [imgURLs]);
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
@@ -210,7 +207,7 @@ export default function Pokemon({ route }) {
         )}
         <ScrollView
           style={styles.pokeDetails}
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={{ paddingBottom: 1 }}
         >
           {/* <View style={styles.statBox}>
             <FlatList

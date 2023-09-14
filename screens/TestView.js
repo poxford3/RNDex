@@ -9,7 +9,12 @@ import {
   Image,
 } from "react-native";
 import { genList } from "../assets/generations";
-import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+import {
+  VictoryChart,
+  VictoryGroup,
+  VictoryBar,
+  VictoryPolarAxis,
+} from "victory-native";
 
 export default function TestView({ navigation }) {
   data = [
@@ -24,17 +29,16 @@ export default function TestView({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text>test page (Bulbasaur):</Text>
-      <VictoryChart>
-        <VictoryGroup offset={20}>
-          <VictoryBar
-            data={data}
-            style={{
-              data: {
-                fill: "blue",
-              },
-            }}
-          />
-        </VictoryGroup>
+      <VictoryChart polar>
+        <VictoryPolarAxis
+          style={{ axis: { stroke: "none" } }}
+        ></VictoryPolarAxis>
+        <VictoryBar
+          data={data}
+          style={{
+            data: { fill: "blue", stroke: "black", strokeWidth: 2 },
+          }}
+        />
       </VictoryChart>
     </SafeAreaView>
   );
