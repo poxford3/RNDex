@@ -28,14 +28,13 @@ export default function Pokedex({ navigation }) {
 
   // const flatListRef = useRef();
 
-  const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
-
   // functions
 
   // does inital call of API that gets list of pokemon,
   // based on the limit/offset params
-  const getPokeList = async () => {
+  const getPokeList = async ({ gen, text }) => {
     setPokeList([]);
+    const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
     const response = await fetch(url);
     const json = await response.json();
 
@@ -50,7 +49,12 @@ export default function Pokedex({ navigation }) {
     });
 
     await Promise.all(tasks); // Ensure all async operations are completed before setting the state
+    console.log(tempPokeList[0].pokeName);
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
+    // setPokeList(tempPokeList);
+    setGenSelected(gen);
+    console.log(`gen ${text} selected`);
+    setLoaded(true);
   };
 
   // takes list of pokemon names and URLs
@@ -82,13 +86,8 @@ export default function Pokedex({ navigation }) {
         onPress={() => {
           setLimit(limit);
           setOffset(offset);
-          setPokeList([]);
           setLoaded(false);
-          getPokeList().then(() => {
-            setGenSelected(gen);
-            console.log(`gen ${text} selected`);
-            setLoaded(true);
-          });
+          getPokeList({ gen, text });
         }}
       >
         <Text style={{ textAlign: "center", color: textColor }}>{text}</Text>
@@ -139,15 +138,6 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  // const LoadingView = () => {
-  //   return (
-  //     <View style={styles.loading}>
-  //       <ActivityIndicator size="large" />
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // };
-
   // search bar tracking
   const [searchText, setSearchText] = useState();
   searchFilteredData = searchText
@@ -179,7 +169,7 @@ export default function Pokedex({ navigation }) {
 
   // on start up
   useEffect(() => {
-    getPokeList();
+    getPokeList({ gen: 1, text: "I" });
   }, []);
 
   // main view
