@@ -32,25 +32,25 @@ export default function MyStack() {
         <Stack.Screen
           name="Pokemon"
           component={Pokemon}
-          options={({ route }) => ({
-            title: `${
-              route.params.pokeName[0].toUpperCase() +
-              route.params.pokeName.substring(1)
-            }`,
-          })}
-          // options={{
-          //   headerTitle: (
-          //     props // App Logo
-          //   ) => (
-          //     <Image
-          //       style={{ width: 200, height: 50 }}
-          //       // source={require("../assets/arse.jpeg")}
-          //       source={{ uri: props.children }}
-          //       resizeMode="contain"
-          //     />
-          //   ),
-          //   headerTitleStyle: { flex: 1, textAlign: "center" },
-          // }}
+          // options={({ route }) => ({
+          //   title: `${
+          //     route.params.pokeName[0].toUpperCase() +
+          //     route.params.pokeName.substring(1)
+          //   }`,
+          // })}
+          options={{
+            headerTitle: (
+              props // App Logo
+            ) => (
+              <Image
+                // style={{ width: 200, height: 50 }}
+                source={require("../assets/arse.jpeg")}
+                // source={{ uri: props.children }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleStyle: { flex: 1, textAlign: "center" },
+          }}
         />
         <Stack.Screen
           name="Test"
