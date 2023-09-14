@@ -41,6 +41,27 @@ const genList = [
     gen: 6,
     // 650 - 721
   },
+  {
+    limit: 88,
+    offset: 721,
+    text: "VII",
+    gen: 7,
+    // 722 - 809
+  },
+  {
+    limit: 96,
+    offset: 809,
+    text: "VIII",
+    gen: 8,
+    // 810 - 905
+  },
+  {
+    limit: 121,
+    offset: 905,
+    text: "IX",
+    gen: 9,
+    // 906 - 1017 Guwop
+  },
 ];
 
 export { genList };
