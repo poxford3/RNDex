@@ -49,7 +49,7 @@ export default function Pokedex({ navigation }) {
     });
 
     await Promise.all(tasks); // Ensure all async operations are completed before setting the state
-    console.log(tempPokeList[0].pokeName);
+    // console.log(tempPokeList[0].pokeName);
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
     // setPokeList(tempPokeList);
     setGenSelected(gen);
