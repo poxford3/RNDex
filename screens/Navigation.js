@@ -12,6 +12,18 @@ import Info from "./Info";
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
+  const headerImage = ({ route }) => {
+    const pic = route.params.sprite;
+
+    return (
+      <Image
+        style={{ width: 200, height: 50 }}
+        source={{ uri: pic }}
+        resizeMode="contain"
+      />
+    );
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -33,24 +45,15 @@ export default function MyStack() {
           name="Pokemon"
           component={Pokemon}
           options={({ route }) => ({
-            title: `${
-              route.params.pokeName[0].toUpperCase() +
-              route.params.pokeName.substring(1)
-            }`,
+            // title: `${
+            //   route.params.pokeName[0].toUpperCase() +
+            //   route.params.pokeName.substring(1)
+            // }`,
+            headerTitle: (
+              props // App Logo
+            ) => headerImage({ route }),
+            headerTitleStyle: { flex: 1, textAlign: "center" },
           })}
-          // options={{
-          //   headerTitle: (
-          //     props // App Logo
-          //   ) => (
-          //     <Image
-          //       style={{ width: 200, height: 50 }}
-          //       // source={require("../assets/arse.jpeg")}
-          //       source={{ uri: props.children }}
-          //       resizeMode="contain"
-          //     />
-          //   ),
-          //   headerTitleStyle: { flex: 1, textAlign: "center" },
-          // }}
         />
         <Stack.Screen
           name="Test"
