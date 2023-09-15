@@ -118,11 +118,15 @@ export default function Pokedex({ navigation }) {
           style={styles.innerBox}
           onPress={() => {
             // console.log(pokeList.length);
-            navigation.navigate("Pokemon", {
+            navigation.navigate("PokemonTabNav", {
               sprite: sprite,
-              pokeName: pokeName,
-              pokeURL: url,
-              spriteData: spriteData,
+              screen: "Pokemon",
+              params: {
+                sprite: sprite,
+                pokeName: pokeName,
+                pokeURL: url,
+                spriteData: spriteData,
+              },
             });
           }}
         >

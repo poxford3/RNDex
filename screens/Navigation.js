@@ -2,6 +2,7 @@ import * as React from "react";
 import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
@@ -13,7 +14,8 @@ const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    const pic = route.params.sprite;
+    const pic = route.params.params.sprite;
+    // console.log(route);
 
     return (
       <Image
@@ -42,8 +44,9 @@ export default function MyStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Pokemon"
-          component={Pokemon}
+          name="PokemonTabNav"
+          component={PokemonBottomTabNav}
+          // options={{ headerShown: false }}
           options={({ route }) => ({
             // title: `${
             //   route.params.pokeName[0].toUpperCase() +
@@ -55,22 +58,38 @@ export default function MyStack() {
             headerTitleStyle: { flex: 1, textAlign: "center" },
           })}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Test"
           component={TestView}
-          //   options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="APITest"
-          component={APITest}
-          //   options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Information"
-          component={Info}
-          // options={{ headerShown: false }}
-        />
+        /> */}
+        <Stack.Screen name="APITest" component={APITest} />
+        <Stack.Screen name="Information" component={Info} />
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+// https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
+// will need the above shortly
+
+export function PokemonBottomTabNav() {
+  const headerImage = ({ route }) => {
+    const pic = route.params.sprite;
+
+    return (
+      <Image
+        style={{ width: 200, height: 50 }}
+        source={{ uri: pic }}
+        resizeMode="contain"
+      />
+    );
+  };
+
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Pokemon" component={Pokemon} />
+      <Tab.Screen name="Test" component={TestView} />
+    </Tab.Navigator>
   );
 }
