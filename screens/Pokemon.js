@@ -171,6 +171,7 @@ export default function Pokemon({ route }) {
           />
           <View style={styles.headerText}>
             <View style={styles.headerLeft}>
+              <Text style={{ color: "lightgrey" }}>{pokemonInfo.id}</Text>
               <Text
                 style={{
                   fontSize: 24,

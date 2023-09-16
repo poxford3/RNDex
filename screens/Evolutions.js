@@ -11,7 +11,7 @@ export default function Evolutions() {
     return (
       <View style={styles.evolContainer}>
         <View style={{ alignItems: "flex-start", width: "85%", padding: 5 }}>
-          <Text style={{ fontSize: 30 }}>Level {level}</Text>
+          <Text style={{ fontSize: 28 }}>Level {level}</Text>
         </View>
         <View style={styles.pictureBox}>
           <View>
