@@ -9,7 +9,6 @@ import {
   Image,
   StatusBar,
   Animated,
-  ActivityIndicator,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -111,7 +110,7 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  const PokemonItem = ({ sprite, pokeName, type, url, spriteData }) => {
+  const PokemonItem = ({ sprite, pokeName, url, spriteData, id }) => {
     return (
       <View style={styles.outerBox}>
         <TouchableOpacity
@@ -126,17 +125,13 @@ export default function Pokedex({ navigation }) {
                 pokeName: pokeName,
                 pokeURL: url,
                 spriteData: spriteData,
+                id: id,
               },
             });
           }}
         >
           <Image source={{ uri: sprite }} style={styles.images} />
           <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
-          {/* {type ? (
-            <Text style={{ textTransform: "capitalize" }}>{type}</Text>
-          ) : (
-            <></>
-          )} */}
         </TouchableOpacity>
       </View>
     );

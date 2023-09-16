@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
+import Evolutions from "./Evolutions";
 import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
@@ -37,8 +38,9 @@ export default function MyStack() {
             //   gestureEnabled: false
           }
         }
-        initialRouteName="Pokedex"
+        // initialRouteName="Pokedex"
         // initialRouteName="Test"
+        initialRouteName="Evol"
       >
         <Stack.Screen
           name="Pokedex"
@@ -48,24 +50,17 @@ export default function MyStack() {
         <Stack.Screen
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
-          // options={{ headerShown: false }}
           options={({ route }) => ({
-            // title: `${
-            //   route.params.pokeName[0].toUpperCase() +
-            //   route.params.pokeName.substring(1)
-            // }`,
             headerTitle: (
               props // App Logo
             ) => headerImage({ route }),
             headerTitleStyle: { flex: 1, textAlign: "center" },
           })}
         />
-        {/* <Stack.Screen
-          name="Test"
-          component={TestView}
-        /> */}
+        <Stack.Screen name="Test" component={TestView} />
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
+        <Stack.Screen name="Evol" component={Evolutions} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -78,26 +73,32 @@ const Tab = createMaterialBottomTabNavigator();
 export function PokemonBottomTabNav() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+      }}
       initialRouteName="Pokemon"
     >
       <Tab.Screen
         name="Pokemon"
         component={Pokemon}
         options={{
-          tabBarLabel: "Pokemon",
+          tabBarLabel: "Info",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="information"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />
       <Tab.Screen
         name="Test"
-        component={TestView}
+        component={Evolutions}
         options={{
-          tabBarLabel: "Test",
+          tabBarLabel: "Evolutions",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="duck" color={color} size={26} />
           ),
         }}
       />
