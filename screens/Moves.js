@@ -50,6 +50,15 @@ export default function Moves() {
       power: "-",
       accuracy: "-",
     },
+    {
+      method: "machine",
+      req: "TM46",
+      name: "Cheese",
+      type: "Psychic",
+      damageClass: "Special",
+      power: "100",
+      accuracy: "100",
+    },
   ];
 
   const Move = ({ item }) => {
@@ -57,7 +66,7 @@ export default function Moves() {
       <View style={styles.moveBox}>
         <View style={styles.move}>
           <View style={styles.box}>
-            <Text>{item.req} </Text>
+            <Text style={{ textAlign: "center" }}>{item.req} </Text>
           </View>
           <Text numberOfLines={1} style={{ width: 100 }}>
             {item.name}
@@ -65,10 +74,10 @@ export default function Moves() {
           <Text>{item.damageClass[0]}</Text>
           <Text>{item.type[0]}</Text>
           <View style={styles.box}>
-            <Text>{item.power}</Text>
+            <Text style={{ textAlign: "center" }}>{item.power}</Text>
           </View>
           <View style={styles.box}>
-            <Text>{item.accuracy}</Text>
+            <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
           </View>
         </View>
       </View>

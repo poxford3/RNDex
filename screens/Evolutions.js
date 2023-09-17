@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   pokemonImg: {
-    height: 120,
-    width: 120,
+    height: 90,
+    width: 90,
+    marginHorizontal: 10,
   },
 });

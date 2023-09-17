@@ -33,6 +33,17 @@ export default function Pokemon({ route }) {
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
 
+  const capitalizeString = (str) => {
+    const wordArray = str.split("");
+
+    const capWordsArray = wordArray.map((word) => {
+      word.charAt(0).toUpperCase() + word.slice(1);
+    });
+
+    const cappedString = capWordsArray.join(" ");
+    return cappedString;
+  };
+
   // API calls
 
   const getPokeStats = async () => {
@@ -48,7 +59,7 @@ export default function Pokemon({ route }) {
       stat_list = [
         ...stat_list,
         {
-          x: x_[0].toUpperCase() + x_.substring(1),
+          x: capitalizeString(x_),
           y: e.base_stat,
           // EV: e.effort,
         },
@@ -102,6 +113,7 @@ export default function Pokemon({ route }) {
   const getPictures = async (evolutions) => {
     let pic_list = [];
     const tasks = [];
+    setImgURLs([]);
 
     if (evolutions[0] == null) {
       // console.log("break");
@@ -171,7 +183,9 @@ export default function Pokemon({ route }) {
           />
           <View style={styles.headerText}>
             <View style={styles.headerLeft}>
-              <Text style={{ color: "lightgrey" }}>{pokemonInfo.id}</Text>
+              <Text style={{ color: "lightgrey", fontSize: 12 }}>
+                {pokemonInfo.id}
+              </Text>
               <Text
                 style={{
                   fontSize: 24,
