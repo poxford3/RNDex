@@ -21,10 +21,6 @@ export default function Evolutions({ route }) {
       level: 30,
     },
   ]);
-  const [imgURLs, setImgURLs] = useState([]);
-
-  let pokemon1 = "Pikachu";
-  let pokemon2 = "Raichu";
 
   const getEvolutions = async () => {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInfo.pokeName}`;
@@ -86,12 +82,7 @@ export default function Evolutions({ route }) {
     const tasks = [];
     // setImgURLs([]);
 
-    if (evolutions[0] == null) {
-      // console.log("break");
-      return;
-    }
-
-    if (evolutions[1] == null) {
+    if (evolutions[0] == null || evolutions[1] == null) {
       return;
     }
 
