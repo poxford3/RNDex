@@ -1,19 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import capitalizeString from "./capitalizeString.js";
 
 export default function Moves({ route }) {
-  const a = route.params;
-  console.log(a);
-  const [methSelect, setMethSelect] = useState("level");
-  const [selected, setSelected] = useState("level");
+  const pokemon = route.params;
+  const [methSelect, setMethSelect] = useState("level-up");
+  const [selected, setSelected] = useState("level-up");
+  const [moveList, setMoveList] = useState([]);
+
+  const getMoves = async (id) => {
+    let tempMoveList = [];
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+    const response = await fetch(url);
+    const json = await response.json();
+
+    // console.log(json.moves);
+
+    json.moves.forEach((e) => {
+      let level_or_machine;
+      level_or_machine =
+        e.version_group_details[0].move_learn_method.name == "level-up"
+          ? e.version_group_details[0].level_learned_at
+          : "TM";
+      // console.log(e.version_group_details[0].move_learn_method);
+
+      // if (e.version_group_details[0].move_learn_method == "level-up") {
+      //   console.log(e.move.name);
+      //   level_or_machine = "a";
+      // } else if (e.version_group_details[0].move_learn_method == "machine") {
+      //   level_or_machine = "b";
+      // }
+
+      let move_obj = {
+        move_name: capitalizeString(e.move.name.replace("-", " ")),
+        level_learned: level_or_machine,
+        method: e.version_group_details[0].move_learn_method.name,
+        move_url: e.move.url,
+      };
+      tempMoveList.push(move_obj);
+    });
+
+    setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
+    // console.log(tempMoveList);
+  };
 
   const moveItems = [
     {
@@ -68,18 +104,18 @@ export default function Moves({ route }) {
       <View style={styles.moveBox}>
         <View style={styles.move}>
           <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.req} </Text>
+            <Text style={{ textAlign: "center" }}>{item.level_learned} </Text>
           </View>
           <Text numberOfLines={1} style={{ width: 100 }}>
-            {item.name}
+            {item.move_name}
           </Text>
-          <Text>{item.damageClass[0]}</Text>
-          <Text>{item.type[0]}</Text>
+          {/* <Text>{item.damageClass[0]}</Text> */}
+          {/* <Text>{item.type[0]}</Text> */}
           <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.power}</Text>
+            {/* <Text style={{ textAlign: "center" }}>{item.power}</Text> */}
           </View>
           <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
+            {/* <Text style={{ textAlign: "center" }}>{item.accuracy}</Text> */}
           </View>
         </View>
       </View>
@@ -103,14 +139,19 @@ export default function Moves({ route }) {
     );
   };
 
+  // on load
+  useEffect(() => {
+    getMoves(pokemon.id);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.selector}>
-        <Selector method={"level"} text={"Level"} selected={selected} />
+        <Selector method={"level-up"} text={"Level"} selected={selected} />
         <Selector method={"machine"} text={"TM"} selected={selected} />
       </View>
       <FlatList
-        data={moveItems.filter((x) => x.method == methSelect)}
+        data={moveList.filter((x) => x.method == methSelect)}
         renderItem={Move}
       />
     </SafeAreaView>
@@ -139,6 +180,7 @@ const styles = StyleSheet.create({
   },
   moveBox: {
     width: "100%",
+    maxWidth: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -153,11 +195,12 @@ const styles = StyleSheet.create({
   },
   selectorBox: {
     height: 40,
-    width: 180,
+    width: "50%",
     justifyContent: "center",
     alignItems: "center",
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 20,
+    marginHorizontal: 5,
   },
 });

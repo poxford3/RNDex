@@ -18,8 +18,7 @@ const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    const pic = route.params.sprite;
-    // console.log(route);
+    const pic = route.params.params.sprite;
 
     return (
       <Image
@@ -72,7 +71,10 @@ const Tab = createMaterialBottomTabNavigator();
 // https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
 // will need the above shortly
 
-export function PokemonBottomTabNav() {
+export function PokemonBottomTabNav({ route }) {
+  let info = route.params.params;
+  // console.log(route);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -97,6 +99,7 @@ export function PokemonBottomTabNav() {
       <Tab.Screen
         name="Evol"
         component={Evolutions}
+        initialParams={info}
         options={{
           tabBarLabel: "Evolutions",
           tabBarIcon: ({ color, size }) => (
@@ -107,6 +110,7 @@ export function PokemonBottomTabNav() {
       <Tab.Screen
         name="Moves"
         component={Moves}
+        initialParams={info}
         options={{
           tabBarLabel: "Moves",
           tabBarIcon: ({ color, size }) => (

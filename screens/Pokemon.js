@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import LoadingView from "./LoadingView";
+import capitalizeString from "./capitalizeString";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
@@ -33,17 +34,6 @@ export default function Pokemon({ route }) {
   const [imgURLs, setImgURLs] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
-
-  const capitalizeString = (str) => {
-    const wordArray = str.split("");
-
-    const capWordsArray = wordArray.map((word) => {
-      word.charAt(0).toUpperCase() + word.slice(1);
-    });
-
-    const cappedString = capWordsArray.join(" ");
-    return cappedString;
-  };
 
   // API calls
 
@@ -125,7 +115,7 @@ export default function Pokemon({ route }) {
       return;
     }
 
-    console.log("continuing", evolutions[0]);
+    // console.log("continuing", evolutions[0]);
     for (const pokemon in evolutions) {
       const task = spriteFunction(evolutions[pokemon])
         .then((detail) => {
@@ -144,24 +134,6 @@ export default function Pokemon({ route }) {
   };
 
   // functional components
-
-  const EvolImgItem = ({ img, evol }) => {
-    // console.log(img);
-    return (
-      <View style={styles.evolItem}>
-        <Image source={{ uri: img }} style={styles.imgSmall} />
-        <Text
-          style={{
-            textTransform: "capitalize",
-            fontSize: 24,
-            textAlign: "center",
-          }}
-        >
-          {evol}
-        </Text>
-      </View>
-    );
-  };
 
   // on start up
   useEffect(() => {
@@ -263,11 +235,6 @@ export default function Pokemon({ route }) {
                   />
                 </VictoryGroup>
               </VictoryChart>
-            </View>
-            <View style={styles.imgList}>
-              <EvolImgItem img={imgURLs.sort()[0]} evol={evolutions.evol1} />
-              <EvolImgItem img={imgURLs.sort()[1]} evol={evolutions.evol2} />
-              <EvolImgItem img={imgURLs.sort()[2]} evol={evolutions.evol3} />
             </View>
           </View>
         ) : (
