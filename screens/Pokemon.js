@@ -16,6 +16,7 @@ export default function Pokemon({ route }) {
   const pokemonInfo = route.params;
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
   const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
+  const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
   const [types, setTypes] = useState({
@@ -120,7 +121,11 @@ export default function Pokemon({ route }) {
       return;
     }
 
-    // console.log("continuing", evolutions[0]);
+    if (evolutions[1] == null) {
+      return;
+    }
+
+    console.log("continuing", evolutions[0]);
     for (const pokemon in evolutions) {
       const task = spriteFunction(evolutions[pokemon])
         .then((detail) => {
@@ -183,9 +188,7 @@ export default function Pokemon({ route }) {
           />
           <View style={styles.headerText}>
             <View style={styles.headerLeft}>
-              <Text style={{ color: "lightgrey", fontSize: 12 }}>
-                {pokemonInfo.id}
-              </Text>
+              <Text style={{ color: "grey", fontSize: 14 }}>#{id_text}</Text>
               <Text
                 style={{
                   fontSize: 24,
@@ -198,7 +201,7 @@ export default function Pokemon({ route }) {
               <Text
                 style={{
                   textTransform: "capitalize",
-                  textAlign: "center",
+                  // textAlign: "center",
                   fontSize: 20,
                 }}
               >
@@ -299,7 +302,7 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
   images: {
     height: 300,

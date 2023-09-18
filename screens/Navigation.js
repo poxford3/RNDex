@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    const pic = route.params.params.sprite;
+    const pic = route.params.sprite;
     // console.log(route);
 
     return (
@@ -39,9 +39,9 @@ export default function MyStack() {
             //   gestureEnabled: false
           }
         }
-        // initialRouteName="Pokedex"
+        initialRouteName="Pokedex"
         // initialRouteName="Test"
-        initialRouteName="Evol"
+        // initialRouteName="Evol"
       >
         <Stack.Screen
           name="Pokedex"
@@ -61,8 +61,8 @@ export default function MyStack() {
         <Stack.Screen name="Test" component={TestView} />
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
-        <Stack.Screen name="Evol" component={Evolutions} />
-        <Stack.Screen name="Move" component={Moves} />
+        {/* <Stack.Screen name="Evol" component={Evolutions} /> */}
+        {/* <Stack.Screen name="Move" component={Moves} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -110,7 +110,7 @@ export function PokemonBottomTabNav() {
         options={{
           tabBarLabel: "Moves",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="list" color={color} size={26} />
+            <MaterialCommunityIcons name="abacus" color={color} size={26} />
           ),
         }}
       />

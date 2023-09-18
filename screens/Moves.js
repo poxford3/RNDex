@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export default function Moves() {
+export default function Moves({ route }) {
+  const a = route.params;
+  console.log(a);
   const [methSelect, setMethSelect] = useState("level");
   const [selected, setSelected] = useState("level");
 

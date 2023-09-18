@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function Evolutions() {
+export default function Evolutions({ route }) {
+  console.log("evol names?", route?.params);
   let pokemon1 = "Pikachu";
   let pokemon2 = "Raichu";
   let level = 20;
