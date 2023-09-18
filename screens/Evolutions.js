@@ -39,16 +39,16 @@ export default function Evolutions({ route }) {
       chain_json.chain.evolves_to[0]?.species.name,
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
     ];
-    // console.log(
-    //   "level",
-    //   chain_json.chain.evolves_to[0]?.evolution_detials[0].min_level
-    // );
-    // let levels = [
-    //   null,
-    //   chain_json.chain.evolves_to[0]?.evolution_details[0]?.min_level,
-    //   chain_json.chain.evolves_to[0].evolves_to[0].evolution_details[0]
-    //     .min_level,
-    // ];
+    console.log(
+      "level",
+      chain_json.chain.evolves_to[0]?.evolution_details[0].min_level
+    );
+    let levels = [
+      null,
+      chain_json.chain.evolves_to[0]?.evolution_details[0].min_level,
+      chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
+        .min_level,
+    ];
 
     pic_list = await getPictures(evol_names);
 
@@ -56,17 +56,17 @@ export default function Evolutions({ route }) {
       {
         evol: evol_names[0],
         pic: pic_list[0],
-        // level: levels[0],
+        level: levels[0],
       },
       {
         evol: evol_names[1],
         pic: pic_list[1],
-        // level: levels[1],
+        level: levels[1],
       },
       {
         evol: evol_names[2],
         pic: pic_list[2],
-        // level: levels[2],
+        level: levels[2],
       },
     ]);
   };
