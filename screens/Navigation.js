@@ -2,18 +2,23 @@ import * as React from "react";
 import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
+import Evolutions from "./Evolutions";
 import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
+import Moves from "./Moves";
 
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    const pic = route.params.sprite;
+    const pic = route.params.params.sprite;
 
     return (
       <Image
@@ -35,6 +40,7 @@ export default function MyStack() {
         }
         initialRouteName="Pokedex"
         // initialRouteName="Test"
+        // initialRouteName="Evol"
       >
         <Stack.Screen
           name="Pokedex"
@@ -42,35 +48,76 @@ export default function MyStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Pokemon"
-          component={Pokemon}
+          name="PokemonTabNav"
+          component={PokemonBottomTabNav}
           options={({ route }) => ({
-            // title: `${
-            //   route.params.pokeName[0].toUpperCase() +
-            //   route.params.pokeName.substring(1)
-            // }`,
             headerTitle: (
               props // App Logo
             ) => headerImage({ route }),
             headerTitleStyle: { flex: 1, textAlign: "center" },
           })}
         />
-        <Stack.Screen
-          name="Test"
-          component={TestView}
-          //   options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="APITest"
-          component={APITest}
-          //   options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Information"
-          component={Info}
-          // options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Test" component={TestView} />
+        <Stack.Screen name="APITest" component={APITest} />
+        <Stack.Screen name="Information" component={Info} />
+        {/* <Stack.Screen name="Evol" component={Evolutions} /> */}
+        {/* <Stack.Screen name="Move" component={Moves} /> */}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+const Tab = createMaterialBottomTabNavigator();
+// https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
+// will need the above shortly
+
+export function PokemonBottomTabNav({ route }) {
+  let info = route.params.params;
+  // console.log(route);
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="Pokemon"
+    >
+      <Tab.Screen
+        name="Pokemon"
+        component={Pokemon}
+        options={{
+          tabBarLabel: "Info",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="information"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Evol"
+        component={Evolutions}
+        initialParams={info}
+        options={{
+          tabBarLabel: "Evolutions",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="duck" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Moves"
+        component={Moves}
+        initialParams={info}
+        options={{
+          tabBarLabel: "Moves",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="abacus" color={color} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }

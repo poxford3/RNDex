@@ -9,7 +9,6 @@ import {
   Image,
   StatusBar,
   Animated,
-  ActivityIndicator,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -49,7 +48,7 @@ export default function Pokedex({ navigation }) {
     });
 
     await Promise.all(tasks); // Ensure all async operations are completed before setting the state
-    console.log(tempPokeList[0].pokeName);
+    // console.log(tempPokeList[0].pokeName);
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
     // setPokeList(tempPokeList);
     setGenSelected(gen);
@@ -111,28 +110,31 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  const PokemonItem = ({ sprite, pokeName, type, url, spriteData }) => {
+  const PokemonItem = ({ sprite, pokeName, url, spriteData, id }) => {
     return (
       <View style={styles.outerBox}>
         <TouchableOpacity
           style={styles.innerBox}
           onPress={() => {
             // console.log(pokeList.length);
-            navigation.navigate("Pokemon", {
-              sprite: sprite,
-              pokeName: pokeName,
-              pokeURL: url,
-              spriteData: spriteData,
+            navigation.navigate("PokemonTabNav", {
+              screen: "Pokemon",
+              params: {
+                sprite: sprite,
+                pokeName: pokeName,
+                pokeURL: url,
+                spriteData: spriteData,
+                id: id,
+              },
+              // screen: "Evol",
+              // params: {
+              //   pokeName: pokeName,
+              // },
             });
           }}
         >
           <Image source={{ uri: sprite }} style={styles.images} />
           <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
-          {/* {type ? (
-            <Text style={{ textTransform: "capitalize" }}>{type}</Text>
-          ) : (
-            <></>
-          )} */}
         </TouchableOpacity>
       </View>
     );
@@ -244,6 +246,7 @@ export default function Pokedex({ navigation }) {
                   pokeName={item.pokeName}
                   url={item.pokeURL}
                   type={item.type}
+                  id={item.id}
                   spriteData={item.spriteData}
                 />
               )}
