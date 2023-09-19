@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "RNDex",
-    "slug": "RNDex",
+    "slug": "rndex",
+    "description": "React Native Pokedex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "952db7ed-0aa5-44c9-8cbe-6e7ea282bc59"
+      }
+    },
+    "owner": "poxford3"
   }
 }
