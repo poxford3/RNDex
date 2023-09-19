@@ -205,19 +205,21 @@ export default function Evolutions({ route }) {
         <></>
       )}
       {variety.length > 0 ? (
-        <View style={styles.otherFormSection}>
+        <View>
           <Text style={styles.headerText}>Other Forms</Text>
-          <View style={styles.pictureBox}>
-            {variety.map((item, index) => {
-              return (
-                <View key={index}>
-                  <OtherForm
-                    img={item.img_url}
-                    // fullName={item.pokeNameForm}
-                  />
-                </View>
-              );
-            })}
+          <View style={styles.otherFormBox}>
+            <View style={styles.pictureBox}>
+              {variety.map((item, index) => {
+                return (
+                  <View key={index}>
+                    <OtherForm
+                      img={item.img_url}
+                      // fullName={item.pokeNameForm}
+                    />
+                  </View>
+                );
+              })}
+            </View>
           </View>
         </View>
       ) : (
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     padding: 10,
   },
-  otherFormSection: {
+  otherFormBox: {
     justifyContent: "center",
     alignItems: "center",
   },
