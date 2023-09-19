@@ -22,8 +22,8 @@ export default function Evolutions({ route }) {
     },
   ]);
 
-  const getEvolutions = async () => {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInfo.pokeName}`;
+  const getEvolutions = async (name) => {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
     const response = await fetch(url);
     const json = await response.json();
 
@@ -127,12 +127,8 @@ export default function Evolutions({ route }) {
   };
 
   useEffect(() => {
-    getEvolutions();
+    getEvolutions(pokemonInfo.pokeName);
   }, []);
-
-  // useEffect(() => {
-  //   getPictures();
-  // }, [evolutions]);
 
   return (
     <ScrollView>

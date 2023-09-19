@@ -24,13 +24,6 @@ export default function Pokemon({ route }) {
     type1: null,
     type2: null,
   });
-
-  const [evolutions, setEvolutions] = useState({
-    evol1: null,
-    evol2: null,
-    evol3: null,
-  });
-
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -42,7 +35,7 @@ export default function Pokemon({ route }) {
     const response = await fetch(url);
     const json = await response.json();
 
-    getDesc(json.id);
+    // await getDesc(json.id);
 
     // console.log(json.stats);
     json.stats.forEach((e) => {

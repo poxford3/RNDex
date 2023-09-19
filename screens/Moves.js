@@ -29,14 +29,6 @@ export default function Moves({ route }) {
         e.version_group_details[0].move_learn_method.name == "level-up"
           ? e.version_group_details[0].level_learned_at
           : "TM";
-      // console.log(e.version_group_details[0].move_learn_method);
-
-      // if (e.version_group_details[0].move_learn_method == "level-up") {
-      //   console.log(e.move.name);
-      //   level_or_machine = "a";
-      // } else if (e.version_group_details[0].move_learn_method == "machine") {
-      //   level_or_machine = "b";
-      // }
 
       let move_obj = {
         move_name: capitalizeString(e.move.name.replace("-", " ")),
