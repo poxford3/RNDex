@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/952db7ed-0aa5-44c9-8cbe-6e7ea282bc59"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -35,6 +36,9 @@
         "projectId": "952db7ed-0aa5-44c9-8cbe-6e7ea282bc59"
       }
     },
-    "owner": "poxford3"
+    "owner": "poxford3",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }
