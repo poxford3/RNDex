@@ -35,7 +35,7 @@ export default function Pokemon({ route }) {
     const response = await fetch(url);
     const json = await response.json();
 
-    // await getDesc(json.id);
+    getDesc(json.id);
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
@@ -62,10 +62,12 @@ export default function Pokemon({ route }) {
   };
 
   const getDesc = async (id) => {
-    url2 = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
-    const response2 = await fetch(url2);
-    const json2 = await response2.json();
-    arr = json2.flavor_text_entries.filter(
+    const url_id = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    const response = await fetch(url_id);
+    const json_id = await response.json();
+    // console.log(json_id.flavor_text_entries[0]);
+
+    arr = json_id.flavor_text_entries.filter(
       (elem) => elem.language.name == "en"
     ); // gets most recent description
 
@@ -73,9 +75,13 @@ export default function Pokemon({ route }) {
     setDesc(description.flavor_text.replace("\n", " "));
   };
 
+  // functional components
+
+  // on start up
   useEffect(() => {
     getPokeStats();
-  });
+  }, []);
+
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
