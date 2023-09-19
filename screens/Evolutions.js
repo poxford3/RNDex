@@ -48,6 +48,8 @@ export default function Evolutions({ route }) {
             ? (formType = "Mega")
             : e.pokemon.name.includes("gmax")
             ? "GMax"
+            : e.pokemon.name.includes("alola")
+            ? "Alola"
             : "Other";
 
           setVariety((prevList) => [
@@ -161,8 +163,13 @@ export default function Evolutions({ route }) {
     );
   };
 
-  const OtherForm = ({ img }) => {
-    return <Image style={styles.pokemonImg} source={{ uri: img }} />;
+  const OtherForm = ({ img, fullName }) => {
+    return (
+      <View>
+        <Image style={styles.pokemonImg} source={{ uri: img }} />
+        <Text>{fullName}</Text>
+      </View>
+    );
   };
 
   useEffect(() => {
@@ -198,18 +205,21 @@ export default function Evolutions({ route }) {
         <></>
       )}
       {variety.length > 0 ? (
-        <>
+        <View style={styles.otherFormSection}>
           <Text style={styles.headerText}>Other Forms</Text>
-          {variety.map((item, index) => {
-            return (
-              <View key={index}>
-                <Text>{item.formType}</Text>
-                <Text>{item.pokeNameForm}</Text>
-                <OtherForm img={item.img_url} />
-              </View>
-            );
-          })}
-        </>
+          <View style={styles.pictureBox}>
+            {variety.map((item, index) => {
+              return (
+                <View key={index}>
+                  <OtherForm
+                    img={item.img_url}
+                    // fullName={item.pokeNameForm}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </View>
       ) : (
         <></>
       )}
@@ -224,7 +234,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
   },
-  headerText: { fontWeight: "bold", fontSize: 32, padding: 10 },
+  headerText: {
+    fontWeight: "bold",
+    fontSize: 32,
+    padding: 10,
+  },
+  otherFormSection: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   pictureBox: {
     width: "85%",
     padding: 10,
