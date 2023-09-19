@@ -25,13 +25,13 @@ export default function Pokemon({ route }) {
     type2: null,
   });
 
-  const [evolutions, setEvolutions] = useState({
-    evol1: null,
-    evol2: null,
-    evol3: null,
-  });
+  // const [evolutions, setEvolutions] = useState({
+  //   evol1: null,
+  //   evol2: null,
+  //   evol3: null,
+  // });
 
-  const [imgURLs, setImgURLs] = useState([]);
+  // const [imgURLs, setImgURLs] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -42,6 +42,8 @@ export default function Pokemon({ route }) {
     let stat_list = [];
     const response = await fetch(url);
     const json = await response.json();
+
+    getDesc(json.id);
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
@@ -67,70 +69,18 @@ export default function Pokemon({ route }) {
     setTypes(type_obj);
   };
 
-  const getEvolutions = async () => {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInfo.pokeName}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    arr = json.flavor_text_entries.filter((elem) => elem.language.name == "en"); // gets most recent description
+  const getDesc = async (id) => {
+    const url_id = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    const response = await fetch(url_id);
+    const json_id = await response.json();
+    // console.log(json_id.flavor_text_entries[0]);
+
+    arr = json_id.flavor_text_entries.filter(
+      (elem) => elem.language.name == "en"
+    ); // gets most recent description
 
     description = arr.pop();
     setDesc(description.flavor_text.replace("\n", " "));
-    // console.log(description);
-
-    let chain_url = json.evolution_chain.url;
-    const chain_resp = await fetch(chain_url);
-    const chain_json = await chain_resp.json();
-
-    setEvolutions({
-      evol1: chain_json.chain.species?.name,
-      evol2: chain_json.chain.evolves_to[0]?.species.name,
-      evol3: chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
-    });
-    setTimeout(() => {}, 1000);
-  };
-
-  const spriteFunction = async (pokemon) => {
-    const response3 = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-    );
-    const json3 = await response3.json();
-    // console.log(json3.sprites);
-    // console.log("pic", json3.sprites.front_default);
-    const pic = json3.sprites.front_default;
-
-    return pic;
-  };
-
-  const getPictures = async (evolutions) => {
-    let pic_list = [];
-    const tasks = [];
-    setImgURLs([]);
-
-    if (evolutions[0] == null) {
-      // console.log("break");
-      return;
-    }
-
-    if (evolutions[1] == null) {
-      return;
-    }
-
-    // console.log("continuing", evolutions[0]);
-    for (const pokemon in evolutions) {
-      const task = spriteFunction(evolutions[pokemon])
-        .then((detail) => {
-          pic_list.push(detail);
-        })
-        .catch((error) => {
-          console.log("error in api");
-          console.log(error.message);
-        });
-      tasks.push(task);
-    }
-
-    await Promise.all(tasks);
-    setImgURLs((prevList) => [...prevList, ...pic_list]);
-    // setImgURLs((prevList) => [...prevList, ...pic_list]);
   };
 
   // functional components
@@ -138,13 +88,7 @@ export default function Pokemon({ route }) {
   // on start up
   useEffect(() => {
     getPokeStats();
-    getEvolutions();
   }, []);
-
-  useEffect(() => {
-    // console.log("evo useEffect");
-    getPictures(Object.values(evolutions));
-  }, [evolutions]);
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
