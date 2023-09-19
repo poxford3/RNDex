@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "./capitalizeString";
 
@@ -22,18 +29,37 @@ export default function Evolutions({ route }) {
       level: 30,
     },
   ]);
-  const [variety, setVariety] = useState();
+  const [variety, setVariety] = useState([]);
   // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png
 
   const getEvolutions = async (name) => {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
     const response = await fetch(url);
     const json = await response.json();
+    let formType = "";
 
     if (json.varieties.length > 1) {
       json.varieties.forEach((e) => {
         if (e.is_default == false) {
-          console.log(e.pokemon.name, e.pokemon.url.split("/")[6]);
+          // console.log(e.pokemon.name, e.pokemon.url.split("/")[6]);
+          let temp_id = e.pokemon.url.split("/")[6];
+
+          e.pokemon.name.includes("mega")
+            ? (formType = "Mega")
+            : e.pokemon.name.includes("gmax")
+            ? "GMax"
+            : e.pokemon.name.includes("alola")
+            ? "Alola"
+            : "Other";
+
+          setVariety((prevList) => [
+            ...prevList,
+            {
+              form: formType,
+              img_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${temp_id}.png`,
+              pokeNameForm: capitalizeString(e.pokemon.name.replace("-", " ")),
+            },
+          ]);
         }
       });
     }
@@ -137,8 +163,13 @@ export default function Evolutions({ route }) {
     );
   };
 
-  const OtherForm = ({ img }) => {
-    <Image style={styles.pokemonImg} source={{ uri: img }} />;
+  const OtherForm = ({ img, fullName }) => {
+    return (
+      <View>
+        <Image style={styles.pokemonImg} source={{ uri: img }} />
+        <Text>{fullName}</Text>
+      </View>
+    );
   };
 
   useEffect(() => {
@@ -147,15 +178,17 @@ export default function Evolutions({ route }) {
 
   return (
     <ScrollView>
-      <Text style={styles.headerText}>Evolutions</Text>
       {evolutions[1].evol ? (
-        <EvolChain
-          pokemon1={evolutions[0].evol}
-          pokemon2={evolutions[1].evol}
-          img1={evolutions[0].pic}
-          img2={evolutions[1].pic}
-          level={evolutions[1].level}
-        />
+        <>
+          <Text style={styles.headerText}>Evolutions</Text>
+          <EvolChain
+            pokemon1={evolutions[0].evol}
+            pokemon2={evolutions[1].evol}
+            img1={evolutions[0].pic}
+            img2={evolutions[1].pic}
+            level={evolutions[1].level}
+          />
+        </>
       ) : (
         <></>
       )}
@@ -171,7 +204,27 @@ export default function Evolutions({ route }) {
       ) : (
         <></>
       )}
-      {/* <Text style={styles.headerText}>Other Forms</Text> */}
+      {variety.length > 0 ? (
+        <View>
+          <Text style={styles.headerText}>Other Forms</Text>
+          <View style={styles.otherFormBox}>
+            <View style={styles.pictureBox}>
+              {variety.map((item, index) => {
+                return (
+                  <View key={index}>
+                    <OtherForm
+                      img={item.img_url}
+                      // fullName={item.pokeNameForm}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
     </ScrollView>
   );
 }
@@ -183,7 +236,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
   },
-  headerText: { fontWeight: "bold", fontSize: 32, padding: 10 },
+  headerText: {
+    fontWeight: "bold",
+    fontSize: 32,
+    padding: 10,
+  },
+  otherFormBox: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   pictureBox: {
     width: "85%",
     padding: 10,
