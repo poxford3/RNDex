@@ -24,7 +24,6 @@ export default function Pokemon({ route }) {
     type1: null,
     type2: null,
   });
-
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
 
@@ -82,6 +81,7 @@ export default function Pokemon({ route }) {
   useEffect(() => {
     getPokeStats();
   }, []);
+
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
