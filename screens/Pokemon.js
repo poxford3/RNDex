@@ -25,13 +25,6 @@ export default function Pokemon({ route }) {
     type2: null,
   });
 
-  // const [evolutions, setEvolutions] = useState({
-  //   evol1: null,
-  //   evol2: null,
-  //   evol3: null,
-  // });
-
-  // const [imgURLs, setImgURLs] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
 
