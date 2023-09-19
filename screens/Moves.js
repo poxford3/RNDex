@@ -17,13 +17,14 @@ export default function Moves({ route }) {
 
   const getMoves = async (id) => {
     let tempMoveList = [];
+    let tasks = [];
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
     const response = await fetch(url);
     const json = await response.json();
 
     // console.log(json.moves);
 
-    json.moves.forEach((e) => {
+    json.moves.forEach(async (e) => {
       let level_or_machine;
       level_or_machine =
         e.version_group_details[0].move_learn_method.name == "level-up"
@@ -36,11 +37,52 @@ export default function Moves({ route }) {
         method: e.version_group_details[0].move_learn_method.name,
         move_url: e.move.url,
       };
-      tempMoveList.push(move_obj);
+
+      const task = getMoveDetails(e.move.url).then((detail) => {
+        detail[0] == null ? (accuracy = "-") : (accuracy = detail[0]);
+        detail[1] == null ? (power = "-") : (power = detail[1]);
+        move_obj.accuracy = accuracy;
+        move_obj.power = power;
+        move_obj.type = detail[2];
+        move_obj.damageClass = detail[3];
+        move_obj.mach_name = detail[4];
+
+        tempMoveList.push(move_obj);
+      });
+      tasks.push(task);
     });
 
+    await Promise.all(tasks);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
+    console.log(moveList[0]);
     // console.log(tempMoveList);
+  };
+
+  const getMoveDetails = async (url) => {
+    const response = await fetch(url);
+    const json = await response.json();
+
+    json.machines[0].machine.url
+      ? (mach_name = await getTMName(json.machines[0].machine.url))
+      : (mach_name = null);
+
+    return [
+      json.accuracy,
+      json.power,
+      json.type.name,
+      json.damage_class.name,
+      mach_name.toUpperCase(),
+    ];
+  };
+
+  const getTMName = async (url) => {
+    const machine_url = json.machines[0]?.machine.url;
+    // console.log(json.machines[0].machine.url);
+    const mach_response = await fetch(machine_url);
+    const mach_json = await mach_response.json();
+    const mach_name = mach_json.item.name;
+    // console.log(mach_json.item.name);
+    return mach_name;
   };
 
   const moveItems = [
@@ -101,13 +143,13 @@ export default function Moves({ route }) {
           <Text numberOfLines={1} style={{ width: 100 }}>
             {item.move_name}
           </Text>
-          {/* <Text>{item.damageClass[0]}</Text> */}
-          {/* <Text>{item.type[0]}</Text> */}
+          <Text>{item.damageClass[0]}</Text>
+          <Text>{item.type[0]}</Text>
           <View style={styles.box}>
-            {/* <Text style={{ textAlign: "center" }}>{item.power}</Text> */}
+            <Text style={{ textAlign: "center" }}>{item.power}</Text>
           </View>
           <View style={styles.box}>
-            {/* <Text style={{ textAlign: "center" }}>{item.accuracy}</Text> */}
+            <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
           </View>
         </View>
       </View>

@@ -35,6 +35,9 @@ export default function Pokemon({ route }) {
     const response = await fetch(url);
     const json = await response.json();
 
+    // height it 1/10th of a meter
+    // weight is 1/10th of a kg
+
     getDesc(json.id);
 
     // console.log(json.stats);
@@ -81,7 +84,6 @@ export default function Pokemon({ route }) {
   useEffect(() => {
     getPokeStats();
   }, []);
-
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked

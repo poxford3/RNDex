@@ -67,15 +67,13 @@ export default function Evolutions({ route }) {
     let chain_url = json.evolution_chain.url;
     const chain_resp = await fetch(chain_url);
     const chain_json = await chain_resp.json();
+
     let evol_names = [
       chain_json.chain.species?.name,
       chain_json.chain.evolves_to[0]?.species.name,
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
     ];
-    console.log(
-      "level",
-      chain_json.chain.evolves_to[0]?.evolution_details[0].min_level
-    );
+
     let levels = [
       null,
       chain_json.chain.evolves_to[0]?.evolution_details[0].min_level,
