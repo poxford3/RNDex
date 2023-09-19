@@ -26,4 +26,4 @@ The following information can be found in the tabs:
 
 See image below using Charizard as an example
 
-<img src="/assets/pokemon_tabs.gif" alt="pokemon view with stats and description" height=250>
+<img src="/assets/pokemon_tabs.gif" alt="pokemon view with stats and description" height=350>
