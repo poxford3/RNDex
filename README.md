@@ -16,7 +16,7 @@ Once you select a Pokemon, the Pokemon's detailed view will show up with tabs at
 
 The following information can be found in the tabs:
 
-- Pokemon number/id
+- Pokemon number/ID
 - Description
 - Type
 - Stats
