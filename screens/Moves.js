@@ -25,15 +25,9 @@ export default function Moves({ route }) {
     // console.log(json.moves);
 
     json.moves.forEach(async (e) => {
-      let level_or_machine;
-      level_or_machine =
-        e.version_group_details[0].move_learn_method.name == "level-up"
-          ? e.version_group_details[0].level_learned_at
-          : "TM";
-
       let move_obj = {
         move_name: capitalizeString(e.move.name.replace("-", " ")),
-        level_learned: level_or_machine,
+        level_learned: e.version_group_details[0].level_learned_at,
         method: e.version_group_details[0].move_learn_method.name,
         move_url: e.move.url,
       };
@@ -62,23 +56,27 @@ export default function Moves({ route }) {
     const response = await fetch(url);
     const json = await response.json();
 
-    json.machines[0].machine.url
+    // json.machines[0].machine?.url.length !== 0
+    json.machines.length !== 0
       ? (mach_name = await getTMName(json.machines[0].machine.url))
       : (mach_name = null);
+
+    // let mach_name = "c";
 
     return [
       json.accuracy,
       json.power,
       json.type.name,
       json.damage_class.name,
-      mach_name.toUpperCase(),
+      mach_name ? mach_name.toUpperCase() : null,
     ];
   };
 
   const getTMName = async (url) => {
-    const machine_url = json.machines[0]?.machine.url;
+    // const machine_url = json.machines[0]?.machine.url;
+
     // console.log(json.machines[0].machine.url);
-    const mach_response = await fetch(machine_url);
+    const mach_response = await fetch(url);
     const mach_json = await mach_response.json();
     const mach_name = mach_json.item.name;
     // console.log(mach_json.item.name);
@@ -134,11 +132,13 @@ export default function Moves({ route }) {
   ];
 
   const Move = ({ item }) => {
+    let left_box_text =
+      item.level_learned > 0 ? item.level_learned : item.mach_name;
     return (
       <View style={styles.moveBox}>
         <View style={styles.move}>
           <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.level_learned} </Text>
+            <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
           </View>
           <Text numberOfLines={1} style={{ width: 100 }}>
             {item.move_name}
