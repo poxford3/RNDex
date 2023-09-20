@@ -48,7 +48,7 @@ export default function Moves({ route }) {
 
     await Promise.all(tasks);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
-    console.log(moveList[0]);
+    // console.log(moveList[0]);
     // console.log(tempMoveList);
   };
 
@@ -82,54 +82,6 @@ export default function Moves({ route }) {
     // console.log(mach_json.item.name);
     return mach_name;
   };
-
-  const moveItems = [
-    {
-      method: "level",
-      req: 13,
-      name: "Vine Whip",
-      damageClass: "Physical",
-      type: "grass",
-      power: 50,
-      accuracy: 100,
-    },
-    {
-      method: "level",
-      req: 16,
-      name: "attack attack attack",
-      type: "normal",
-      damageClass: "Special",
-      power: 50,
-      accuracy: "-",
-    },
-    {
-      method: "machine",
-      req: "HM01",
-      name: "Cut",
-      damageClass: "Physical",
-      type: "normal",
-      power: 40,
-      accuracy: 100,
-    },
-    {
-      method: "machine",
-      req: "HM02",
-      name: "Flash",
-      type: "normal",
-      damageClass: "Special",
-      power: "-",
-      accuracy: "-",
-    },
-    {
-      method: "machine",
-      req: "TM46",
-      name: "Cheese",
-      type: "Psychic",
-      damageClass: "Special",
-      power: "100",
-      accuracy: "100",
-    },
-  ];
 
   const Move = ({ item }) => {
     let left_box_text =
