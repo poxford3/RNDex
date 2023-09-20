@@ -5,8 +5,11 @@ import {
   StyleSheet,
   SafeAreaView,
   FlatList,
+  Image,
   TouchableOpacity,
 } from "react-native";
+import LoadingView from "./LoadingView";
+import images from "../assets/types";
 import capitalizeString from "./capitalizeString.js";
 
 export default function Moves({ route }) {
@@ -14,10 +17,12 @@ export default function Moves({ route }) {
   const [methSelect, setMethSelect] = useState("level-up");
   const [selected, setSelected] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const getMoves = async (id) => {
     let tempMoveList = [];
     let tasks = [];
+    setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
     const response = await fetch(url);
     const json = await response.json();
@@ -48,6 +53,7 @@ export default function Moves({ route }) {
 
     await Promise.all(tasks);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
+    setLoaded(true);
     // console.log(moveList[0]);
     // console.log(tempMoveList);
   };
@@ -86,6 +92,7 @@ export default function Moves({ route }) {
   const Move = ({ item }) => {
     let left_box_text =
       item.level_learned > 0 ? item.level_learned : item.mach_name;
+
     return (
       <View style={styles.moveBox}>
         <View style={styles.move}>
@@ -95,8 +102,11 @@ export default function Moves({ route }) {
           <Text numberOfLines={1} style={{ width: 100 }}>
             {item.move_name}
           </Text>
-          <Text>{item.damageClass[0]}</Text>
-          <Text>{item.type[0]}</Text>
+          <Image style={styles.miniImg} source={images[item.type]} />
+          {/* <Image
+            style={styles.miniImg} // will be damageClass
+            source={images.dragon}
+          /> */}
           <View style={styles.box}>
             <Text style={{ textAlign: "center" }}>{item.power}</Text>
           </View>
@@ -136,10 +146,14 @@ export default function Moves({ route }) {
         <Selector method={"level-up"} text={"Level"} selected={selected} />
         <Selector method={"machine"} text={"TM"} selected={selected} />
       </View>
-      <FlatList
-        data={moveList.filter((x) => x.method == methSelect)}
-        renderItem={Move}
-      />
+      {loaded ? (
+        <FlatList
+          data={moveList.filter((x) => x.method == methSelect)}
+          renderItem={Move}
+        />
+      ) : (
+        <LoadingView />
+      )}
     </SafeAreaView>
   );
 }
@@ -156,6 +170,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 10,
+  },
+  miniImg: {
+    height: 30,
+    width: 30,
   },
   move: {
     flexDirection: "row",
