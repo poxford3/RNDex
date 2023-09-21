@@ -11,10 +11,9 @@ import {
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import LoadingView from "./LoadingView";
 import capitalizeString from "./capitalizeString";
-import { PokemonBottomTabNav } from "./Navigation";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
-export default function Pokemon({ navigation, route }) {
+export default function Pokemon({ route }) {
   const pokemonInfo = route.params;
   // console.log(pokemonInfo);
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
@@ -89,14 +88,14 @@ export default function Pokemon({ navigation, route }) {
 
   useEffect(() => {
     getPokeStats();
-    console.log(pokemonInfo.pokeName, pokemonInfo.id);
-    navigation.setOptions({
-      route: {
-        sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonInfo.id}.png`,
-        pokeName: pokemonInfo.pokeName,
-        id: pokemonInfo.id,
-      },
-    });
+    // console.log(pokemonInfo.pokeName, pokemonInfo.id);
+    // navigation.setOptions({
+    //   route: {
+    //     sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonInfo.id}.png`,
+    //     pokeName: pokemonInfo.pokeName,
+    //     id: pokemonInfo.id,
+    //   },
+    // });
   }, [route]);
 
   // console.log(pokemonInfo);
