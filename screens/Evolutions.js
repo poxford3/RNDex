@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   FlatList,
+  Dimensions,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "./capitalizeString";
@@ -30,6 +31,7 @@ export default function Evolutions({ route }) {
     },
   ]);
   const [variety, setVariety] = useState([]);
+  const [scrollOn, setScrollOn] = useState(true);
   // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png
 
   const getEvolutions = async (name) => {
@@ -80,6 +82,15 @@ export default function Evolutions({ route }) {
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
         .min_level,
     ];
+
+    if (
+      evol_names[1] == null ||
+      (evol_names == undefined && variety.length > 0)
+    ) {
+      setScrollOn(false);
+      console.log("no evolutions or extra forms");
+      return;
+    }
 
     pic_list = await getPictures(evol_names);
 
@@ -170,58 +181,87 @@ export default function Evolutions({ route }) {
     );
   };
 
+  const NoEvolutionsView = () => {
+    return (
+      <View
+        style={{
+          height: Dimensions.get("window").height - 50,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          source={{
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`,
+          }}
+          style={styles.pokemonImg}
+        />
+        <Text>
+          {capitalizeString(pokemonInfo.pokeName)} has no evolutions or other
+          forms
+        </Text>
+      </View>
+    );
+  };
+
   useEffect(() => {
     getEvolutions(pokemonInfo.pokeName);
   }, []);
 
   return (
-    <ScrollView>
-      {evolutions[1].evol ? (
+    <ScrollView scrollEnabled={scrollOn}>
+      {scrollOn ? (
         <>
-          <Text style={styles.headerText}>Evolutions</Text>
-          <EvolChain
-            pokemon1={evolutions[0].evol}
-            pokemon2={evolutions[1].evol}
-            img1={evolutions[0].pic}
-            img2={evolutions[1].pic}
-            level={evolutions[1].level}
-          />
+          {evolutions[1].evol ? (
+            <>
+              <Text style={styles.headerText}>Evolutions</Text>
+              <EvolChain
+                pokemon1={evolutions[0].evol}
+                pokemon2={evolutions[1].evol}
+                img1={evolutions[0].pic}
+                img2={evolutions[1].pic}
+                level={evolutions[1].level}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+
+          {evolutions[2].evol ? (
+            <EvolChain
+              pokemon1={evolutions[1].evol}
+              pokemon2={evolutions[2].evol}
+              img1={evolutions[1].pic}
+              img2={evolutions[2].pic}
+              level={evolutions[2].level}
+            />
+          ) : (
+            <></>
+          )}
+          {variety.length > 0 ? (
+            <View>
+              <Text style={styles.headerText}>Other Forms</Text>
+              <View style={styles.otherFormBox}>
+                <View style={styles.pictureBox}>
+                  {variety.map((item, index) => {
+                    return (
+                      <View key={index}>
+                        <OtherForm
+                          img={item.img_url}
+                          // fullName={item.pokeNameForm}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+            </View>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
-        <></>
-      )}
-
-      {evolutions[2].evol ? (
-        <EvolChain
-          pokemon1={evolutions[1].evol}
-          pokemon2={evolutions[2].evol}
-          img1={evolutions[1].pic}
-          img2={evolutions[2].pic}
-          level={evolutions[2].level}
-        />
-      ) : (
-        <></>
-      )}
-      {variety.length > 0 ? (
-        <View>
-          <Text style={styles.headerText}>Other Forms</Text>
-          <View style={styles.otherFormBox}>
-            <View style={styles.pictureBox}>
-              {variety.map((item, index) => {
-                return (
-                  <View key={index}>
-                    <OtherForm
-                      img={item.img_url}
-                      // fullName={item.pokeNameForm}
-                    />
-                  </View>
-                );
-              })}
-            </View>
-          </View>
-        </View>
-      ) : (
-        <></>
+        <NoEvolutionsView />
       )}
     </ScrollView>
   );

@@ -96,7 +96,7 @@ export default function Moves({ route }) {
     return (
       <View style={styles.moveBox}>
         <View style={styles.move}>
-          <View style={styles.box}>
+          <View style={[styles.box, { width: "12%", maxWidth: 50 }]}>
             <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
           </View>
           <View style={styles.nameBox}>
@@ -108,11 +108,13 @@ export default function Moves({ route }) {
               <Image style={styles.miniImg} source={images[item.damageClass]} />
             </View>
           </View>
-          <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.power}</Text>
-          </View>
-          <View style={styles.box}>
-            <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
+          <View style={styles.rightSide}>
+            <View style={styles.box}>
+              <Text style={{ textAlign: "center" }}>{item.power}</Text>
+            </View>
+            <View style={styles.box}>
+              <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 35,
     width: 40,
+    // marginHorizontal: 5,
   },
   container: {
     flex: 1,
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
     // height: 20,
     // width: 60,
     marginRight: 5,
+    marginLeft: 2,
   },
   miniImgContainer: {
     flexDirection: "row",
@@ -202,8 +206,14 @@ const styles = StyleSheet.create({
   },
   nameBox: {
     alignItems: "flex-start",
-    // width: "100%",
+    width: "58%",
     marginLeft: 10,
+  },
+  rightSide: {
+    width: "30%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   selector: {
     paddingVertical: 10,
