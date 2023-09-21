@@ -91,7 +91,7 @@ export default function Moves({ route }) {
 
   const Move = ({ item }) => {
     let left_box_text =
-      item.level_learned > 0 ? item.level_learned : item.mach_name;
+      item.level_learned > 0 ? "Lv " + item.level_learned : item.mach_name;
 
     return (
       <View style={styles.moveBox}>
@@ -99,14 +99,15 @@ export default function Moves({ route }) {
           <View style={styles.box}>
             <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
           </View>
-          <Text numberOfLines={1} style={{ width: 100 }}>
-            {item.move_name}
-          </Text>
-          <Image style={styles.miniImg} source={images[item.type]} />
-          {/* <Image
-            style={styles.miniImg} // will be damageClass
-            source={images.dragon}
-          /> */}
+          <View style={styles.nameBox}>
+            <Text numberOfLines={1} style={{ fontSize: 20 }}>
+              {item.move_name}
+            </Text>
+            <View style={styles.miniImgContainer}>
+              <Image style={styles.miniImg} source={images[item.type]} />
+              <Image style={styles.miniImg} source={images[item.damageClass]} />
+            </View>
+          </View>
           <View style={styles.box}>
             <Text style={{ textAlign: "center" }}>{item.power}</Text>
           </View>
@@ -163,8 +164,8 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgrey",
     justifyContent: "center",
     alignItems: "center",
-    height: 50,
-    width: 50,
+    height: 35,
+    width: 40,
   },
   container: {
     flex: 1,
@@ -172,8 +173,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   miniImg: {
-    height: 30,
-    width: 30,
+    // height: 20,
+    // width: 60,
+    marginRight: 5,
+  },
+  miniImgContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   move: {
     flexDirection: "row",
@@ -187,9 +194,16 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     justifyContent: "center",
     alignItems: "center",
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
   },
   moveList: {
     alignItems: "center",
+  },
+  nameBox: {
+    alignItems: "flex-start",
+    // width: "100%",
+    marginLeft: 10,
   },
   selector: {
     paddingVertical: 10,

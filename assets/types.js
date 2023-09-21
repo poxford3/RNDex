@@ -17,4 +17,7 @@ export default images = {
   rock: require("./types/rock.png"),
   steel: require("./types/steel.png"),
   water: require("./types/water.png"),
+  physical: require("./types/physical.png"),
+  special: require("./types/special.png"),
+  status: require("./types/status.png"),
 };
