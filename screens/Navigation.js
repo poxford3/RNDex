@@ -18,12 +18,23 @@ const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    const pic = route.params.params.sprite;
+    // console.log("header", route.params.params.sprite);
+    // console.log(
+    //   route.params.params.sprite == undefined
+    //     ? route.params.sprite
+    //     : route.params.params.sprite
+    // );
+    console.log(route);
+    const pic =
+      route.params.params.sprite == undefined
+        ? route.params.sprite
+        : route.params.params.sprite;
 
     return (
       <Image
         style={{ width: 200, height: 50 }}
         source={{ uri: pic }}
+        // source={require("../assets/types/dragon.png")}
         resizeMode="contain"
       />
     );
