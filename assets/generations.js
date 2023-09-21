@@ -14,14 +14,14 @@ const genList = [
     // 152 - 251
   },
   {
-    limit: 134,
+    limit: 135,
     offset: 251,
     text: "III",
     gen: 3,
     // 252 - 386
   },
   {
-    limit: 152,
+    limit: 107,
     offset: 386,
     text: "IV",
     gen: 4,
@@ -29,13 +29,13 @@ const genList = [
   },
   {
     limit: 156,
-    offset: 493,
+    offset: 495,
     text: "V",
     gen: 5,
     // 494 - 649
   },
   {
-    limit: 153,
+    limit: 156,
     offset: 649,
     text: "VI",
     gen: 6,

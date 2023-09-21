@@ -5,29 +5,32 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  FlatList,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "./capitalizeString";
 
-export default function Evolutions({ route }) {
+export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;
   const [evolutions, setEvolutions] = useState([
     {
       evol: null,
       pic: null,
       level: null,
+      id: null,
     },
     {
       evol: null,
       pic: null,
-      level: 20,
+      level: null,
+      id: null,
     },
     {
       evol: null,
       pic: null,
-      level: 30,
+      level: null,
+      id: null,
     },
   ]);
   const [variety, setVariety] = useState([]);
@@ -76,6 +79,12 @@ export default function Evolutions({ route }) {
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
     ];
 
+    let ids = [
+      chain_json.chain.species?.url.split("/")[6],
+      chain_json.chain.evolves_to[0].species.url.split("/")[6],
+      chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.url.split("/")[6],
+    ];
+
     let levels = [
       null,
       chain_json.chain.evolves_to[0]?.evolution_details[0].min_level,
@@ -84,11 +93,12 @@ export default function Evolutions({ route }) {
     ];
 
     if (
-      evol_names[1] == null ||
-      (evol_names == undefined && variety.length > 0)
+      (evol_names[1] == null || evol_names[1] === undefined) &&
+      variety.length > 0
     ) {
       setScrollOn(false);
       console.log("no evolutions or extra forms");
+      console.log(evol_names[1], variety.length);
       return;
     }
 
@@ -99,16 +109,19 @@ export default function Evolutions({ route }) {
         evol: evol_names[0],
         pic: pic_list[0],
         level: levels[0],
+        id: ids[0],
       },
       {
         evol: evol_names[1],
         pic: pic_list[1],
         level: levels[1],
+        id: ids[1],
       },
       {
         evol: evol_names[2],
         pic: pic_list[2],
         level: levels[2],
+        id: ids[2],
       },
     ]);
   };
@@ -151,22 +164,38 @@ export default function Evolutions({ route }) {
 
   // functional components
 
-  const EvolChain = ({ pokemon1, pokemon2, img1, img2, level }) => {
+  const EvolChain = ({ pokemon1, pokemon2, img1, img2, level, id1, id2 }) => {
     return (
       <View style={styles.evolContainer}>
         <View style={{ alignItems: "flex-start", width: "85%", padding: 5 }}>
           <Text style={{ fontSize: 28 }}>Level {level}</Text>
         </View>
-        <View style={styles.pictureBox}>
-          <View>
+        <View style={[styles.pictureBox, { justifyContent: "space-around" }]}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Pokemon", {
+                sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id1}.png`,
+                pokeName: pokemon1,
+                id: id1,
+              });
+            }}
+          >
             <Image style={styles.pokemonImg} source={{ uri: img1 }} />
             <Text style={styles.pokeName}>{pokemon1}</Text>
-          </View>
+          </TouchableOpacity>
           <Ionicons name="arrow-forward-outline" size={40} />
-          <View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Pokemon", {
+                sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id2}.png`,
+                pokeName: pokemon2,
+                id: id2,
+              });
+            }}
+          >
             <Image style={styles.pokemonImg} source={{ uri: img2 }} />
             <Text style={styles.pokeName}>{pokemon2}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -174,10 +203,10 @@ export default function Evolutions({ route }) {
 
   const OtherForm = ({ img, fullName }) => {
     return (
-      <View>
+      <TouchableOpacity>
         <Image style={styles.pokemonImg} source={{ uri: img }} />
         <Text>{fullName}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -220,6 +249,8 @@ export default function Evolutions({ route }) {
                 pokemon2={evolutions[1].evol}
                 img1={evolutions[0].pic}
                 img2={evolutions[1].pic}
+                id1={evolutions[0].id}
+                id2={evolutions[1].id}
                 level={evolutions[1].level}
               />
             </>
@@ -233,6 +264,8 @@ export default function Evolutions({ route }) {
               pokemon2={evolutions[2].evol}
               img1={evolutions[1].pic}
               img2={evolutions[2].pic}
+              id1={evolutions[1].id}
+              id2={evolutions[2].id}
               level={evolutions[2].level}
             />
           ) : (
@@ -242,7 +275,15 @@ export default function Evolutions({ route }) {
             <View>
               <Text style={styles.headerText}>Other Forms</Text>
               <View style={styles.otherFormBox}>
-                <View style={styles.pictureBox}>
+                <View
+                  style={[
+                    styles.pictureBox,
+                    {
+                      justifyContent:
+                        variety.length == 1 ? "center" : "space-around",
+                    },
+                  ]}
+                >
                   {variety.map((item, index) => {
                     return (
                       <View key={index}>
@@ -288,7 +329,6 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: "lightgrey",
     borderRadius: 10,
   },

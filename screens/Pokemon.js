@@ -15,6 +15,7 @@ import capitalizeString from "./capitalizeString";
 
 export default function Pokemon({ route }) {
   const pokemonInfo = route.params;
+  // console.log(pokemonInfo);
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
   const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
@@ -84,6 +85,18 @@ export default function Pokemon({ route }) {
   useEffect(() => {
     getPokeStats();
   }, []);
+
+  useEffect(() => {
+    getPokeStats();
+    // console.log(pokemonInfo.pokeName, pokemonInfo.id);
+    // navigation.setOptions({
+    //   route: {
+    //     sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonInfo.id}.png`,
+    //     pokeName: pokemonInfo.pokeName,
+    //     id: pokemonInfo.id,
+    //   },
+    // });
+  }, [route]);
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
