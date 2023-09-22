@@ -9,8 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
-import LoadingView from "./utils/LoadingView";
-import capitalizeString from "./functions/capitalizeString";
+import LoadingView from "../utils/LoadingView";
+import capitalizeString from "../functions/capitalizeString";
 import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 

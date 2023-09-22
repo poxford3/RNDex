@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import capitalizeString from "./functions/capitalizeString";
+import capitalizeString from "../functions/capitalizeString";
 
 export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;

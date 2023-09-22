@@ -64,4 +64,4 @@ const genList = [
   },
 ];
 
-export { genList };
+export default { genList };

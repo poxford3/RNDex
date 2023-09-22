@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { genList } from "../assets/generations";
+// import genList from ".../assets/generations.js";
+// import { genList } from ".../assets/generations.js";
 import {
   VictoryChart,
   VictoryGroup,
