@@ -8,9 +8,9 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import LoadingView from "./LoadingView";
+import LoadingView from "./utils/LoadingView";
 import images from "../assets/types";
-import capitalizeString from "./capitalizeString.js";
+import capitalizeString from "./functions/capitalizeString.js";
 
 export default function Moves({ route }) {
   const pokemon = route.params;

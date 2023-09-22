@@ -13,7 +13,7 @@ import {
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { genList } from "../assets/generations";
-import LoadingView from "./LoadingView";
+import LoadingView from "./utils/LoadingView";
 
 export default function Pokedex({ navigation }) {
   // variables

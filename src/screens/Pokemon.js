@@ -9,8 +9,9 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
-import LoadingView from "./LoadingView";
-import capitalizeString from "./capitalizeString";
+import LoadingView from "./utils/LoadingView";
+import capitalizeString from "./functions/capitalizeString";
+import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
@@ -32,8 +33,8 @@ export default function Pokemon({ route }) {
   const getPokeStats = async () => {
     url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.pokeName}`;
     let stat_list = [];
-    const response = await fetch(url);
-    const json = await response.json();
+
+    const json = await API_CALL(url);
 
     // height it 1/10th of a meter
     // weight is 1/10th of a kg
@@ -66,9 +67,8 @@ export default function Pokemon({ route }) {
 
   const getDesc = async (id) => {
     const url_id = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
-    const response = await fetch(url_id);
-    const json_id = await response.json();
-    // console.log(json_id.flavor_text_entries[0]);
+
+    const json_id = await API_CALL(url_id);
 
     arr = json_id.flavor_text_entries.filter(
       (elem) => elem.language.name == "en"

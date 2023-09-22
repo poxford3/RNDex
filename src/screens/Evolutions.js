@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import capitalizeString from "./capitalizeString";
+import capitalizeString from "./functions/capitalizeString";
 
 export default function Evolutions({ route }) {
   const pokemonInfo = route.params;
