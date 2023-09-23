@@ -15,6 +15,7 @@ import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
+  // console.log("received", route);
   const pokemonInfo = route.params;
   // console.log(pokemonInfo);
   const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
