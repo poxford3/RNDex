@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { genList } from "../../assets/generations";
+import genList from "../../assets/generations";
 import LoadingView from "../utils/LoadingView";
 
 export default function Pokedex({ navigation }) {
@@ -202,7 +202,7 @@ export default function Pokedex({ navigation }) {
         <Text style={{ fontStyle: "italic" }}>Generation:</Text>
         <View style={styles.genSelection}>
           <FlatList
-            data={genList}
+            data={genList.genList}
             horizontal={true}
             keyExtractor={(item) => item.text}
             contentContainerStyle={{
