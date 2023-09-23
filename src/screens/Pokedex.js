@@ -17,21 +17,18 @@ import LoadingView from "../utils/LoadingView";
 
 export default function Pokedex({ navigation }) {
   // variables
-
   const [pokeList, setPokeList] = useState([]);
   const [loaded, setLoaded] = useState(true);
-  const [limit, setLimit] = useState(151);
-  const [offset, setOffset] = useState(0);
+  // const [limit, setLimit] = useState(151);
+  // const [offset, setOffset] = useState(0);
 
   const [genSelected, setGenSelected] = useState(1);
-
-  // const flatListRef = useRef();
 
   // functions
 
   // does inital call of API that gets list of pokemon,
   // based on the limit/offset params
-  const getPokeList = async ({ gen, text }) => {
+  const getPokeList = async ({ gen, text, limit, offset }) => {
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
     const response = await fetch(url);
@@ -50,7 +47,6 @@ export default function Pokedex({ navigation }) {
     await Promise.all(tasks); // Ensure all async operations are completed before setting the state
     // console.log(tempPokeList[0].pokeName);
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
-    // setPokeList(tempPokeList);
     setGenSelected(gen);
     console.log(`gen ${text} selected`);
     setLoaded(true);
@@ -82,11 +78,12 @@ export default function Pokedex({ navigation }) {
     return (
       <TouchableOpacity
         style={[styles.genButtons, { backgroundColor: bkgColor }]}
+        disabled={!loaded}
         onPress={() => {
-          setLimit(limit);
-          setOffset(offset);
+          // setLimit(limit);
+          // setOffset(offset);
           setLoaded(false);
-          getPokeList({ gen, text });
+          getPokeList({ gen, text, limit, offset });
         }}
       >
         <Text style={{ textAlign: "center", color: textColor }}>{text}</Text>

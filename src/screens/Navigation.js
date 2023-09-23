@@ -24,7 +24,7 @@ export default function MyStack() {
     //     ? route.params.sprite
     //     : route.params.params.sprite
     // );
-    console.log(route);
+    // console.log(route);
     const pic =
       route.params.params.sprite == undefined
         ? route.params.sprite
