@@ -18,17 +18,10 @@ const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
   const headerImage = ({ route }) => {
-    // console.log("header", route.params.params.sprite);
-    // console.log(
-    //   route.params.params.sprite == undefined
-    //     ? route.params.sprite
-    //     : route.params.params.sprite
-    // );
-    // console.log(route);
-    const pic =
-      route.params.params.sprite == undefined
-        ? route.params.sprite
-        : route.params.params.sprite;
+    // console.log("in nav", route.params.sprite);
+    // const pic = route.params.sprite;
+    const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${route.params.id}.png`;
+    // console.log(route.params.id);
 
     return (
       <Image
@@ -43,15 +36,8 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={
-          {
-            //   headerShown: false,
-            //   gestureEnabled: false
-          }
-        }
         initialRouteName="Pokedex"
         // initialRouteName="Test"
-        // initialRouteName="Evol"
       >
         <Stack.Screen
           name="Pokedex"
@@ -62,17 +48,12 @@ export default function MyStack() {
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
           options={({ route }) => ({
-            headerTitle: (
-              props // App Logo
-            ) => headerImage({ route }),
-            headerTitleStyle: { flex: 1, textAlign: "center" },
+            headerTitle: (props) => headerImage({ route }),
           })}
         />
         <Stack.Screen name="Test" component={TestView} />
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
-        {/* <Stack.Screen name="Evol" component={Evolutions} /> */}
-        {/* <Stack.Screen name="Move" component={Moves} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -83,8 +64,8 @@ const Tab = createMaterialBottomTabNavigator();
 // will need the above shortly
 
 export function PokemonBottomTabNav({ route }) {
-  let info = route.params.params;
-  // console.log(route);
+  let info = route.params;
+  // console.log("in tab", route.params);
 
   return (
     <Tab.Navigator
@@ -92,10 +73,12 @@ export function PokemonBottomTabNav({ route }) {
         headerShown: false,
       }}
       initialRouteName="Pokemon"
+      initialParams={info}
     >
       <Tab.Screen
         name="Pokemon"
         component={Pokemon}
+        initialParams={info}
         options={{
           tabBarLabel: "Info",
           tabBarIcon: ({ color, size }) => (

@@ -29,7 +29,7 @@ const genList = [
   },
   {
     limit: 156,
-    offset: 495,
+    offset: 494,
     text: "V",
     gen: 5,
     // 494 - 649

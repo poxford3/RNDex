@@ -173,6 +173,9 @@ export default function Evolutions({ navigation, route }) {
         <View style={[styles.pictureBox, { justifyContent: "space-around" }]}>
           <TouchableOpacity
             onPress={() => {
+              navigation.setOptions({
+                id: id1,
+              });
               navigation.navigate("Pokemon", {
                 sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id1}.png`,
                 pokeName: pokemon1,
@@ -186,6 +189,9 @@ export default function Evolutions({ navigation, route }) {
           <Ionicons name="arrow-forward-outline" size={40} />
           <TouchableOpacity
             onPress={() => {
+              navigation.setOptions({
+                id: id2,
+              });
               navigation.navigate("Pokemon", {
                 sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id2}.png`,
                 pokeName: pokemon2,

@@ -9,17 +9,17 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
 import capitalizeString from "../functions/capitalizeString";
 import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
-  // console.log("received", route);
+  // console.log("in pokemon", route);
   const pokemonInfo = route.params;
-  // console.log(pokemonInfo);
-  const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
-  const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
+  // console.log("in pokemon", pokemonInfo);
+  const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
