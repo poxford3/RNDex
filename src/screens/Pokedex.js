@@ -171,6 +171,7 @@ export default function Pokedex({ navigation }) {
           <FlatList
             data={genList.genList}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.text}
             contentContainerStyle={{
               flexGrow: 1,
