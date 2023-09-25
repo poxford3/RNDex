@@ -12,6 +12,7 @@ import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
 import capitalizeString from "../functions/capitalizeString";
+import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
@@ -23,6 +24,7 @@ export default function Pokemon({ route }) {
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
+  const [mainColor, setMainColor] = useState(null);
   const [types, setTypes] = useState({
     type1: null,
     type2: null,
@@ -62,6 +64,7 @@ export default function Pokemon({ route }) {
       type2: json.types[1]?.type?.name,
     };
 
+    setMainColor(type_colors[json.types[0].type.name]);
     setStats(stat_list);
     setLoaded(true);
     setTypes(type_obj);
@@ -128,6 +131,7 @@ export default function Pokemon({ route }) {
                   textTransform: "capitalize",
                   // textAlign: "center",
                   fontSize: 20,
+                  color: mainColor ? mainColor : "black",
                 }}
               >
                 {types.type1} {types.type2 ? `/ ${types.type2}` : ""}
