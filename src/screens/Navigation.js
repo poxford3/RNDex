@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import HeaderImage from "../utils/HeaderImage";
 
 import Pokedex from "./Pokedex";
 import Pokemon from "./Pokemon";
@@ -17,22 +18,6 @@ import Moves from "./Moves";
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
-  const headerImage = ({ route }) => {
-    // console.log("in nav", route.params.sprite);
-    // const pic = route.params.sprite;
-    const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${route.params.id}.png`;
-    // console.log(route.params.id);
-
-    return (
-      <Image
-        style={{ width: 200, height: 50 }}
-        source={{ uri: pic }}
-        // source={require("../assets/types/dragon.png")}
-        resizeMode="contain"
-      />
-    );
-  };
-
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -48,7 +33,7 @@ export default function MyStack() {
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
           options={({ route }) => ({
-            headerTitle: (props) => headerImage({ route }),
+            headerTitle: (props) => <HeaderImage route={route} />,
           })}
         />
         <Stack.Screen name="Test" component={TestView} />

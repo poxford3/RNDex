@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, PureComponent } from "react";
 import {
   View,
   Text,
