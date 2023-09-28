@@ -10,25 +10,23 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "../functions/capitalizeString";
+import handleEvolutions from "../functions/handleEvolutions";
 
 export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;
   const [evolutions, setEvolutions] = useState([
     {
       evol: null,
-      pic: null,
       level: null,
       id: null,
     },
     {
       evol: null,
-      pic: null,
       level: null,
       id: null,
     },
     {
       evol: null,
-      pic: null,
       level: null,
       id: null,
     },
@@ -73,27 +71,10 @@ export default function Evolutions({ navigation, route }) {
     const chain_resp = await fetch(chain_url);
     const chain_json = await chain_resp.json();
 
-    let evol_names = [
-      chain_json.chain.species?.name,
-      chain_json.chain.evolves_to[0]?.species.name,
-      chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.name,
-    ];
-
-    let ids = [
-      chain_json.chain.species?.url.split("/")[6],
-      chain_json.chain.evolves_to[0].species.url.split("/")[6],
-      chain_json.chain.evolves_to[0]?.evolves_to[0]?.species.url.split("/")[6],
-    ];
-
-    let levels = [
-      null,
-      chain_json.chain.evolves_to[0]?.evolution_details[0].min_level,
-      chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
-        .min_level,
-    ];
+    setEvolutions(handleEvolutions(chain_json));
 
     if (
-      (evol_names[1] == null || evol_names[1] === undefined) &&
+      (evolutions[1] == null || evolutions[1] === undefined) &&
       variety.length > 0
     ) {
       setScrollOn(false);
@@ -101,74 +82,24 @@ export default function Evolutions({ navigation, route }) {
       console.log(evol_names[1], variety.length);
       return;
     }
-
-    pic_list = await getPictures(evol_names);
-
-    setEvolutions([
-      {
-        evol: evol_names[0],
-        pic: pic_list[0],
-        level: levels[0],
-        id: ids[0],
-      },
-      {
-        evol: evol_names[1],
-        pic: pic_list[1],
-        level: levels[1],
-        id: ids[1],
-      },
-      {
-        evol: evol_names[2],
-        pic: pic_list[2],
-        level: levels[2],
-        id: ids[2],
-      },
-    ]);
-  };
-
-  const spriteFunction = async (pokemon) => {
-    const response3 = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-    );
-    const json3 = await response3.json();
-    const pic = json3.sprites.front_default;
-
-    return pic;
-  };
-
-  const getPictures = async (evolutions) => {
-    let pic_list = [];
-    const tasks = [];
-    // setImgURLs([]);
-
-    if (evolutions[0] == null || evolutions[1] == null) {
-      return;
-    }
-
-    // console.log("continuing", evolutions[0]);
-    for (const pokemon in evolutions) {
-      const task = spriteFunction(evolutions[pokemon])
-        .then((detail) => {
-          pic_list.push(detail);
-        })
-        .catch((error) => {
-          console.log("error in api");
-          console.log(error.message);
-        });
-      tasks.push(task);
-    }
-
-    await Promise.all(tasks);
-    return pic_list.sort();
   };
 
   // functional components
 
-  const EvolChain = ({ pokemon1, pokemon2, img1, img2, level, id1, id2 }) => {
+  const EvolChain = ({ pokemon1, pokemon2 }) => {
+    const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon1.id}.png`;
+    const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon2.id}.png`;
+    const method =
+      pokemon2.method == "level-up"
+        ? `Level ${pokemon2.level}`
+        : pokemon2.method == "trade"
+        ? `Trade`
+        : `Other`;
+
     return (
       <View style={styles.evolContainer}>
         <View style={{ alignItems: "flex-start", width: "85%", padding: 5 }}>
-          <Text style={{ fontSize: 28 }}>Level {level}</Text>
+          <Text style={{ fontSize: 28 }}>{method}</Text>
         </View>
         <View style={[styles.pictureBox, { justifyContent: "space-around" }]}>
           <TouchableOpacity
@@ -177,14 +108,14 @@ export default function Evolutions({ navigation, route }) {
                 id: id1,
               });
               navigation.navigate("Pokemon", {
-                sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id1}.png`,
-                pokeName: pokemon1,
-                id: id1,
+                sprite: img1,
+                pokeName: pokemon1.evol,
+                id: pokemon1.id,
               });
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img1 }} />
-            <Text style={styles.pokeName}>{pokemon1}</Text>
+            <Text style={styles.pokeName}>{pokemon1.evol}</Text>
           </TouchableOpacity>
           <Ionicons name="arrow-forward-outline" size={40} />
           <TouchableOpacity
@@ -193,14 +124,14 @@ export default function Evolutions({ navigation, route }) {
                 id: id2,
               });
               navigation.navigate("Pokemon", {
-                sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id2}.png`,
+                sprite: img2,
                 pokeName: pokemon2,
                 id: id2,
               });
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img2 }} />
-            <Text style={styles.pokeName}>{pokemon2}</Text>
+            <Text style={styles.pokeName}>{pokemon2.evol}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -250,30 +181,14 @@ export default function Evolutions({ navigation, route }) {
           {evolutions[1].evol ? (
             <>
               <Text style={styles.headerText}>Evolutions</Text>
-              <EvolChain
-                pokemon1={evolutions[0].evol}
-                pokemon2={evolutions[1].evol}
-                img1={evolutions[0].pic}
-                img2={evolutions[1].pic}
-                id1={evolutions[0].id}
-                id2={evolutions[1].id}
-                level={evolutions[1].level}
-              />
+              <EvolChain pokemon1={evolutions[0]} pokemon2={evolutions[1]} />
             </>
           ) : (
             <></>
           )}
 
           {evolutions[2].evol ? (
-            <EvolChain
-              pokemon1={evolutions[1].evol}
-              pokemon2={evolutions[2].evol}
-              img1={evolutions[1].pic}
-              img2={evolutions[2].pic}
-              id1={evolutions[1].id}
-              id2={evolutions[2].id}
-              level={evolutions[2].level}
-            />
+            <EvolChain pokemon1={evolutions[1]} pokemon2={evolutions[2]} />
           ) : (
             <></>
           )}

@@ -209,14 +209,7 @@ export default function Pokedex({ navigation }) {
               keyExtractor={(item) => item.pokeID}
               initialNumToRender={40}
               renderItem={({ item }) => (
-                <PokemonItem
-                  // sprite={item.sprite}
-                  pokeName={item.pokeName}
-                  // url={item.pokeURL}
-                  // type={item.type}
-                  id={item.pokeID}
-                  // spriteData={item.spriteData}
-                />
+                <PokemonItem pokeName={item.pokeName} id={item.pokeID} />
               )}
             />
           </>

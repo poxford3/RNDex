@@ -24,6 +24,7 @@ export default function Pokemon({ route }) {
   const pokemonInfo = route.params;
   // console.log("in pokemon", pokemonInfo);
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
@@ -214,6 +215,8 @@ export default function Pokemon({ route }) {
                   />
                 </VictoryGroup>
               </VictoryChart>
+              <Text style={styles.headerText}>Shiny</Text>
+              <Image source={{ uri: shiny_sprite }} style={styles.images} />
             </View>
           </View>
         ) : (
