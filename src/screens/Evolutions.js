@@ -90,13 +90,16 @@ export default function Evolutions({ navigation, route }) {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon1.id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon2.id}.png`;
     const method =
-      pokemon2.method == "level-up"
+      pokemon2.method == "level-up" && pokemon2.happy == 0
         ? `Level ${pokemon2.level}`
+        : pokemon2.method == "level-up" && pokemon2.happy > 0
+        ? `Level up with high happiness`
         : pokemon2.method == "trade"
         ? `Trade`
         : pokemon2.method == "use-item"
-        ? `Using a ${pokemon2.item}`
+        ? `${pokemon2.item}`
         : `Other`;
+    // console.log(pokemon2.id);
 
     return (
       <View style={styles.evolContainer}>
@@ -107,7 +110,7 @@ export default function Evolutions({ navigation, route }) {
           <TouchableOpacity
             onPress={() => {
               navigation.setOptions({
-                id: id1,
+                id: pokemon1.id,
               });
               navigation.navigate("Pokemon", {
                 sprite: img1,
@@ -123,12 +126,12 @@ export default function Evolutions({ navigation, route }) {
           <TouchableOpacity
             onPress={() => {
               navigation.setOptions({
-                id: id2,
+                id: pokemon2.id,
               });
               navigation.navigate("Pokemon", {
                 sprite: img2,
-                pokeName: pokemon2,
-                id: id2,
+                pokeName: pokemon2.evol,
+                id: pokemon2.id,
               });
             }}
           >

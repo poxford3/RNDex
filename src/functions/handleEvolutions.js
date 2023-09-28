@@ -21,27 +21,6 @@ export default function handleEvolutions(chain_json) {
     });
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);
   } else if (chain_json.chain.evolves_to.length == 1) {
-    // evos = [
-    //   {
-    //     evol: null,
-    //     level: null,
-    //     id: null,
-    //     method: null,
-    //   },
-    //   {
-    //     evol: null,
-    //     level: null,
-    //     id: null,
-    //     method: null,
-    //   },
-    //   {
-    //     evol: null,
-    //     level: null,
-    //     id: null,
-    //     method: null,
-    //   },
-    // ];
-
     console.log("length 1");
     let evol_names = [
       chain_json.chain.species?.name,
@@ -81,6 +60,14 @@ export default function handleEvolutions(chain_json) {
     ];
     // console.log(items);
 
+    let happys = [
+      null,
+      chain_json.chain.evolves_to[0]?.evolution_details[0].min_happiness,
+      chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
+        .min_happiness,
+    ];
+    console.log(happys);
+
     evos = [
       {
         evol: evol_names[0],
@@ -88,6 +75,7 @@ export default function handleEvolutions(chain_json) {
         id: ids[0],
         method: methods[0],
         item: items[0],
+        happy: happys[0],
       },
       {
         evol: evol_names[1],
@@ -95,6 +83,7 @@ export default function handleEvolutions(chain_json) {
         id: ids[1],
         method: methods[1],
         item: items[1],
+        happy: happys[1],
       },
       {
         evol: evol_names[2],
@@ -102,6 +91,7 @@ export default function handleEvolutions(chain_json) {
         id: ids[2],
         method: methods[2],
         item: items[2],
+        happy: happys[2],
       },
     ];
     // console.log("in if evos", evos);
