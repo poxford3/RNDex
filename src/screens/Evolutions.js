@@ -92,6 +92,8 @@ export default function Evolutions({ navigation, route }) {
     const method =
       pokemon2.method == "level-up" && pokemon2.happy == 0
         ? `Level ${pokemon2.level}`
+        : pokemon2.method == "level-up" && pokemon2.move != null
+        ? `Level up knowing ${pokemon2.move}`
         : pokemon2.method == "level-up" && pokemon2.happy > 0
         ? `Level up with high happiness`
         : pokemon2.method == "trade"

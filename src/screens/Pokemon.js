@@ -215,7 +215,15 @@ export default function Pokemon({ route }) {
                   />
                 </VictoryGroup>
               </VictoryChart>
-              <Text style={styles.headerText}>Shiny</Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 32,
+                  fontWeight: "bold",
+                }}
+              >
+                Shiny Sprite
+              </Text>
               <Image source={{ uri: shiny_sprite }} style={styles.images} />
             </View>
           </View>
