@@ -11,7 +11,7 @@ export default function handleEvolutions(chain_json) {
       level: null,
     });
     chain_json.chain.evolves_to.forEach((e) => {
-      // console.log(e.species.name);
+      console.log(e.evolution_details[0].trigger.name);
       evos.push({
         evol: e.species.name,
         id: e.species?.url.split("/")[6],
@@ -21,26 +21,26 @@ export default function handleEvolutions(chain_json) {
     });
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);
   } else if (chain_json.chain.evolves_to.length == 1) {
-    evos = [
-      {
-        evol: null,
-        level: null,
-        id: null,
-        method: null,
-      },
-      {
-        evol: null,
-        level: null,
-        id: null,
-        method: null,
-      },
-      {
-        evol: null,
-        level: null,
-        id: null,
-        method: null,
-      },
-    ];
+    // evos = [
+    //   {
+    //     evol: null,
+    //     level: null,
+    //     id: null,
+    //     method: null,
+    //   },
+    //   {
+    //     evol: null,
+    //     level: null,
+    //     id: null,
+    //     method: null,
+    //   },
+    //   {
+    //     evol: null,
+    //     level: null,
+    //     id: null,
+    //     method: null,
+    //   },
+    // ];
 
     console.log("length 1");
     let evol_names = [
@@ -67,6 +67,19 @@ export default function handleEvolutions(chain_json) {
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
         .trigger.name,
     ];
+    console.log(methods);
+
+    let items = [
+      null,
+      capitalizeString(
+        chain_json.chain.evolves_to[0]?.evolution_details[0].item?.name
+      ),
+      capitalizeString(
+        chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0].item
+          ?.name
+      ),
+    ];
+    // console.log(items);
 
     evos = [
       {
@@ -74,18 +87,21 @@ export default function handleEvolutions(chain_json) {
         level: levels[0],
         id: ids[0],
         method: methods[0],
+        item: items[0],
       },
       {
         evol: evol_names[1],
         level: levels[1],
         id: ids[1],
         method: methods[1],
+        item: items[1],
       },
       {
         evol: evol_names[2],
         level: levels[2],
         id: ids[2],
         method: methods[2],
+        item: items[2],
       },
     ];
     // console.log("in if evos", evos);

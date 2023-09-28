@@ -94,6 +94,8 @@ export default function Evolutions({ navigation, route }) {
         ? `Level ${pokemon2.level}`
         : pokemon2.method == "trade"
         ? `Trade`
+        : pokemon2.method == "use-item"
+        ? `Using a ${pokemon2.item}`
         : `Other`;
 
     return (
