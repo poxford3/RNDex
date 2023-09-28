@@ -9,6 +9,7 @@ export default function handleEvolutions(chain_json) {
       id: chain_json.chain.species?.url.split("/")[6],
       method: null,
       level: null,
+      time: "",
     });
     chain_json.chain.evolves_to.forEach((e) => {
       console.log(e.evolution_details[0].trigger.name);
@@ -17,6 +18,7 @@ export default function handleEvolutions(chain_json) {
         id: e.species?.url.split("/")[6],
         method: e.evolution_details[0].trigger.name,
         level: e.evolution_details[0].min_level,
+        time: "",
       });
     });
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);

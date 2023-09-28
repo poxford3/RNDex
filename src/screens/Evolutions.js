@@ -47,6 +47,7 @@ export default function Evolutions({ navigation, route }) {
         if (e.is_default == false) {
           // console.log(e.pokemon.name, e.pokemon.url.split("/")[6]);
           let temp_id = e.pokemon.url.split("/")[6];
+          console.log(e.pokemon.url);
 
           e.pokemon.name.includes("mega")
             ? (formType = "Mega")
@@ -62,6 +63,7 @@ export default function Evolutions({ navigation, route }) {
               form: formType,
               img_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${temp_id}.png`,
               pokeNameForm: capitalizeString(e.pokemon.name.replace("-", " ")),
+              id: temp_id,
             },
           ]);
         }
@@ -79,16 +81,14 @@ export default function Evolutions({ navigation, route }) {
       // console.log("post set", evolutions);
     }
 
-    console.log("ahhhhh", evols.length, variety.length == 0);
+    // console.log("ahhhhh", evols.length, variety.length == 0);
     if (evols.length == 0 && variety.length == 0) {
       setScrollOn(false);
       console.log("no evolutions or extra forms");
       // console.log(evol_names[1], variety.length);
       return;
     } else {
-      console.log(scrollOn);
       setScrollOn(true);
-      console.log(scrollOn);
     }
   };
 
@@ -167,11 +167,23 @@ export default function Evolutions({ navigation, route }) {
     );
   };
 
-  const OtherForm = ({ img, fullName }) => {
+  const OtherForm = ({ pokemon }) => {
+    let img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.setOptions({
+            id: pokemon.id,
+          });
+          navigation.navigate("Pokemon", {
+            sprite: img,
+            pokeName: pokemon.pokeNameForm,
+            id: pokemon.id,
+          });
+        }}
+      >
         <Image style={styles.pokemonImg} source={{ uri: img }} />
-        <Text>{fullName}</Text>
+        {/* <Text>{pokemon.pokeNameForm}</Text> */}
       </TouchableOpacity>
     );
   };
@@ -238,7 +250,7 @@ export default function Evolutions({ navigation, route }) {
                     return (
                       <View key={index}>
                         <OtherForm
-                          img={item.img_url}
+                          pokemon={item}
                           // fullName={item.pokeNameForm}
                         />
                       </View>
