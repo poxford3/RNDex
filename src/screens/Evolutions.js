@@ -89,18 +89,23 @@ export default function Evolutions({ navigation, route }) {
   const EvolChain = ({ pokemon1, pokemon2 }) => {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon1.id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon2.id}.png`;
-    const method =
+    const method_level =
       pokemon2.method == "level-up" && pokemon2.happy == 0
         ? `Level ${pokemon2.level}`
         : pokemon2.method == "level-up" && pokemon2.move != null
         ? `Level up knowing ${pokemon2.move}`
+        : pokemon2.method == "level-up" && pokemon2.time != null
+        ? `Level up during the ${pokemon2.time}`
         : pokemon2.method == "level-up" && pokemon2.happy > 0
         ? `Level up with high happiness`
-        : pokemon2.method == "trade"
-        ? `Trade`
-        : pokemon2.method == "use-item"
-        ? `${pokemon2.item}`
-        : `Other`;
+        : null;
+    const method = method_level
+      ? method_level
+      : pokemon2.method == "trade"
+      ? `Trade`
+      : pokemon2.method == "use-item"
+      ? `${pokemon2.item}`
+      : `Other`;
     // console.log(pokemon2.id);
 
     return (

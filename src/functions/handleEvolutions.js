@@ -78,7 +78,13 @@ export default function handleEvolutions(chain_json) {
           .known_move?.name
       ),
     ];
-    console.log(moves);
+
+    let times = [
+      null,
+      chain_json.chain.evolves_to[0]?.evolution_details[0].time_of_day,
+      chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
+        .time_of_day,
+    ];
 
     evos = [
       {
@@ -89,6 +95,7 @@ export default function handleEvolutions(chain_json) {
         item: items[0],
         happy: happys[0],
         move: moves[0],
+        time: times[0],
       },
       {
         evol: evol_names[1],
@@ -98,6 +105,7 @@ export default function handleEvolutions(chain_json) {
         item: items[1],
         happy: happys[1],
         move: moves[1],
+        time: times[1],
       },
       {
         evol: evol_names[2],
@@ -107,6 +115,7 @@ export default function handleEvolutions(chain_json) {
         item: items[2],
         happy: happys[2],
         move: moves[2],
+        time: times[2],
       },
     ];
     // console.log("in if evos", evos);
