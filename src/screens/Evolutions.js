@@ -41,6 +41,7 @@ export default function Evolutions({ navigation, route }) {
     const json = await response.json();
     let formType = "";
 
+    // console.log("var length", json.varieties.length);
     if (json.varieties.length > 1) {
       json.varieties.forEach((e) => {
         if (e.is_default == false) {
@@ -71,16 +72,23 @@ export default function Evolutions({ navigation, route }) {
     const chain_resp = await fetch(chain_url);
     const chain_json = await chain_resp.json();
 
-    setEvolutions(handleEvolutions(chain_json));
+    let evols = [];
+    if (chain_json.chain.evolves_to.length > 0) {
+      evols = handleEvolutions(chain_json);
+      setEvolutions(evols);
+      // console.log("post set", evolutions);
+    }
 
-    if (
-      (evolutions[1] == null || evolutions[1] === undefined) &&
-      variety.length > 0
-    ) {
+    console.log("ahhhhh", evols.length, variety.length == 0);
+    if (evols.length == 0 && variety.length == 0) {
       setScrollOn(false);
       console.log("no evolutions or extra forms");
-      console.log(evol_names[1], variety.length);
+      // console.log(evol_names[1], variety.length);
       return;
+    } else {
+      console.log(scrollOn);
+      setScrollOn(true);
+      console.log(scrollOn);
     }
   };
 
@@ -89,16 +97,25 @@ export default function Evolutions({ navigation, route }) {
   const EvolChain = ({ pokemon1, pokemon2 }) => {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon1.id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon2.id}.png`;
-    const method_level =
-      pokemon2.method == "level-up" && pokemon2.happy == 0
-        ? `Level ${pokemon2.level}`
-        : pokemon2.method == "level-up" && pokemon2.move != null
-        ? `Level up knowing ${pokemon2.move}`
-        : pokemon2.method == "level-up" && pokemon2.time != null
-        ? `Level up during the ${pokemon2.time}`
-        : pokemon2.method == "level-up" && pokemon2.happy > 0
-        ? `Level up with high happiness`
-        : null;
+    let method_level;
+    // determine what to display to show how to evolve
+    switch (true) {
+      case pokemon2.level != null && pokemon2.time == "":
+        method_level = `Level ${pokemon2.level}`;
+        break;
+      case pokemon2.level != null && pokemon2.time != "":
+        method_level = `Level up (${pokemon2.level}) during the ${pokemon2.time}`;
+        break;
+      case pokemon2.level == null && pokemon2.happy > 0:
+        method_level = `Level up with high happiness`;
+        break;
+      case pokemon2.level == null && pokemon2.move != null:
+        method_level = `Level up knowing ${pokemon2.move}`;
+        break;
+      default:
+        method_level = null;
+        break;
+    }
     const method = method_level
       ? method_level
       : pokemon2.method == "trade"

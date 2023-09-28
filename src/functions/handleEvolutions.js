@@ -22,7 +22,8 @@ export default function handleEvolutions(chain_json) {
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);
   } else if (chain_json.chain.evolves_to.length == 1) {
     console.log("length 1");
-    console.log(chain_json.chain.species.url);
+    // console.log(chain_json.chain.species.url);
+
     let evol_names = [
       chain_json.chain.species?.name,
       chain_json.chain.evolves_to[0]?.species.name,
@@ -47,7 +48,7 @@ export default function handleEvolutions(chain_json) {
       chain_json.chain.evolves_to[0]?.evolves_to[0]?.evolution_details[0]
         .trigger.name,
     ];
-    console.log(methods);
+    // console.log(methods);
 
     let items = [
       null,
@@ -118,7 +119,7 @@ export default function handleEvolutions(chain_json) {
         time: times[2],
       },
     ];
-    // console.log("in if evos", evos);
+    // console.log("in if evos", evos[1]);
   }
   // console.log("in func evos", evos);
   return evos;
