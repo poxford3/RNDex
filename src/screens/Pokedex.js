@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, PureComponent } from "react";
 import {
   View,
   Text,
@@ -35,41 +35,18 @@ export default function Pokedex({ navigation }) {
     const json = await response.json();
 
     let tempPokeList = []; // Temporary array to hold values
-    const tasks = []; // To hold promises
 
     json.results.forEach((e) => {
-      const task = getPokeInfo(e).then((details) => {
-        tempPokeList.push(details);
+      tempPokeList.push({
+        pokeName: e.name,
+        pokeID: e.url.split("/")[6],
       });
-      tasks.push(task);
     });
 
-    await Promise.all(tasks); // Ensure all async operations are completed before setting the state
-    // console.log(tempPokeList[0].pokeName);
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
     setGenSelected(gen);
     console.log(`gen ${text} selected`);
     setLoaded(true);
-  };
-
-  // takes list of pokemon names and URLs
-  // and gets data from URL provided by API
-  const getPokeInfo = async (pokemon) => {
-    let url_poke = pokemon.url;
-    // console.log(url_poke);
-    const response2 = await fetch(url_poke);
-    const json2 = await response2.json();
-
-    let poke = {
-      pokeName: json2.name,
-      id: json2.id,
-      sprite: json2.sprites.front_default,
-      pokeURL: url_poke,
-      type: json2.types[0]?.type?.name,
-      spriteData: json2.sprites,
-    };
-
-    return poke;
   };
 
   // custom components
@@ -107,30 +84,23 @@ export default function Pokedex({ navigation }) {
     );
   };
 
-  const PokemonItem = ({ sprite, pokeName, url, spriteData, id }) => {
+  // const PokemonItem = ({ sprite, pokeName, url, spriteData, id }) => {
+  const PokemonItem = ({ pokeName, id }) => {
+    const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+    // console.log(poke_sprite);
+
     return (
       <View style={styles.outerBox}>
         <TouchableOpacity
           style={styles.innerBox}
           onPress={() => {
-            // console.log(pokeList.length);
             navigation.navigate("PokemonTabNav", {
-              screen: "Pokemon",
-              params: {
-                sprite: sprite,
-                pokeName: pokeName,
-                pokeURL: url,
-                spriteData: spriteData,
-                id: id,
-              },
-              // screen: "Evol",
-              // params: {
-              //   pokeName: pokeName,
-              // },
+              pokeName: pokeName,
+              id: id,
             });
           }}
         >
-          <Image source={{ uri: sprite }} style={styles.images} />
+          <Image source={{ uri: poke_sprite }} style={styles.images} />
           <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
         </TouchableOpacity>
       </View>
@@ -168,7 +138,7 @@ export default function Pokedex({ navigation }) {
 
   // on start up
   useEffect(() => {
-    getPokeList({ gen: 1, text: "I" });
+    getPokeList({ gen: 1, text: "I", limit: 151, offset: 0 });
   }, []);
 
   // main view
@@ -201,6 +171,7 @@ export default function Pokedex({ navigation }) {
           <FlatList
             data={genList.genList}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.text}
             contentContainerStyle={{
               flexGrow: 1,
@@ -232,20 +203,13 @@ export default function Pokedex({ navigation }) {
               // iconColor={"green"}
             />
             <FlatList
-              data={searchFilteredData.sort((a, b) => a.id - b.id)}
+              data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
               // extraData={pokeList}
               numColumns={2}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.pokeID}
               initialNumToRender={40}
               renderItem={({ item }) => (
-                <PokemonItem
-                  sprite={item.sprite}
-                  pokeName={item.pokeName}
-                  url={item.pokeURL}
-                  type={item.type}
-                  id={item.id}
-                  spriteData={item.spriteData}
-                />
+                <PokemonItem pokeName={item.pokeName} id={item.pokeID} />
               )}
             />
           </>

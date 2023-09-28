@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet, Linking } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 
 export default function Info() {
   // https://pokeapi.co/
@@ -21,6 +28,9 @@ export default function Info() {
           {"\n\n\n"}The intent of this app is to practice React Native API calls
           to create a seemless tool.
         </Text>
+        <TouchableOpacity style={{ marginTop: 30 }}>
+          <Text>To view a list of all the generations, click here</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -9,20 +9,26 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+import { NavigationContext } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
+import HeaderImage from "../utils/HeaderImage";
 import capitalizeString from "../functions/capitalizeString";
+import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../functions/API_CALL";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
-  // console.log("received", route);
+  const navigation = useContext(NavigationContext);
+  // console.log("in pokemon", route);
   const pokemonInfo = route.params;
-  // console.log(pokemonInfo);
-  const new_sprite = pokemonInfo.spriteData?.other?.home.front_default;
-  const sprite_to_use = new_sprite ? new_sprite : pokemonInfo.sprite;
+  // console.log("in pokemon", pokemonInfo);
+  const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
+  const [mainColor, setMainColor] = useState(null);
   const [types, setTypes] = useState({
     type1: null,
     type2: null,
@@ -62,6 +68,7 @@ export default function Pokemon({ route }) {
       type2: json.types[1]?.type?.name,
     };
 
+    setMainColor(type_colors[json.types[0].type.name]);
     setStats(stat_list);
     setLoaded(true);
     setTypes(type_obj);
@@ -90,14 +97,18 @@ export default function Pokemon({ route }) {
   useEffect(() => {
     getPokeStats();
     // console.log(pokemonInfo.pokeName, pokemonInfo.id);
-    // navigation.setOptions({
-    //   route: {
-    //     sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonInfo.id}.png`,
-    //     pokeName: pokemonInfo.pokeName,
-    //     id: pokemonInfo.id,
-    //   },
-    // });
+    navigation?.setOptions({
+      route: {
+        pokeName: pokemonInfo.pokeName,
+        id: pokemonInfo.id,
+      },
+    });
   }, [route]);
+
+  // route: {
+  //   pokeName: pokemonInfo.pokeName,
+  //   id: pokemonInfo.id,
+  // },
 
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
@@ -105,12 +116,27 @@ export default function Pokemon({ route }) {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.body}>
         <View style={styles.header}>
-          <Image
-            source={{
-              uri: sprite_to_use,
+          <LinearGradient
+            colors={[
+              mainColor,
+              mainColor,
+              mainColor,
+              "transparent",
+              "transparent",
+            ]}
+            style={{
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            style={styles.images}
-          />
+          >
+            <Image
+              source={{
+                uri: sprite_to_use,
+              }}
+              style={styles.images}
+            />
+          </LinearGradient>
           <View style={styles.headerText}>
             <View style={styles.headerLeft}>
               <Text style={{ color: "grey", fontSize: 14 }}>#{id_text}</Text>
@@ -128,6 +154,7 @@ export default function Pokemon({ route }) {
                   textTransform: "capitalize",
                   // textAlign: "center",
                   fontSize: 20,
+                  color: mainColor ? mainColor : "black",
                 }}
               >
                 {types.type1} {types.type2 ? `/ ${types.type2}` : ""}
@@ -188,6 +215,16 @@ export default function Pokemon({ route }) {
                   />
                 </VictoryGroup>
               </VictoryChart>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 32,
+                  fontWeight: "bold",
+                }}
+              >
+                Shiny Sprite
+              </Text>
+              <Image source={{ uri: shiny_sprite }} style={styles.images} />
             </View>
           </View>
         ) : (
