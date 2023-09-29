@@ -14,6 +14,7 @@ import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
 import Moves from "./Moves";
+import GenerationList from "./GenerationList";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,8 +22,8 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Pokedex"
-        // initialRouteName="Test"
+        // initialRouteName="Pokedex"
+        initialRouteName="Test"
       >
         <Stack.Screen
           name="Pokedex"
@@ -39,6 +40,7 @@ export default function MyStack() {
         <Stack.Screen name="Test" component={TestView} />
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
+        <Stack.Screen name="Gens" component={GenerationList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -17,15 +17,47 @@ import {
   VictoryPolarAxis,
 } from "victory-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { List } from "react-native-paper";
 
 export default function TestView({ navigation }) {
-  data = [
+  const data = [
     { x: "hp", y: 45 },
     { x: "attack", y: 49 },
     { x: "defense", y: 49 },
     { x: "sp atk", y: 65 },
     { x: "sp def", y: 65 },
     { x: "speed", y: 45 },
+  ];
+
+  const [expanded, setExpanded] = useState(false);
+  const handlePress = () => setExpanded(!expanded);
+  const gens = [
+    {
+      name: "gen1",
+      games: [
+        {
+          game: "red blue",
+          key: 1,
+        },
+        {
+          game: "yellow",
+          key: 2,
+        },
+      ],
+    },
+    {
+      name: "gen2",
+      games: [
+        {
+          game: "gold silver",
+          key: 3,
+        },
+        {
+          game: "crystal",
+          key: 4,
+        },
+      ],
+    },
   ];
 
   const ChartTest = () => {
@@ -72,10 +104,32 @@ export default function TestView({ navigation }) {
     );
   };
 
+  const ListTest = ({ game, games }) => {
+    return (
+      <View>
+        <List.Section>
+          <List.Accordion
+            style={{ width: 300 }}
+            title={game}
+            left={(props) => <List.Icon {...props} icon="duck" />}
+            expanded={expanded}
+            onPress={handlePress}
+          >
+            {games.map((e, idx) => {
+              return <List.Item title={e.game} key={idx} />;
+            })}
+          </List.Accordion>
+        </List.Section>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>test page (Bulbasaur):</Text>
-      <GradientTest />
+      {gens.map((e, idx) => {
+        return <ListTest game={e.name} games={e.games} key={idx} />;
+      })}
     </SafeAreaView>
   );
 }
