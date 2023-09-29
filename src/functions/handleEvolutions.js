@@ -4,6 +4,7 @@ let evos = [];
 export default function handleEvolutions(chain_json) {
   evos = [];
   if (chain_json.chain.evolves_to.length > 1) {
+    console.log(chain_json.chain.species.url);
     evos.push({
       evol: chain_json.chain.species?.name,
       id: chain_json.chain.species?.url.split("/")[6],
@@ -24,7 +25,7 @@ export default function handleEvolutions(chain_json) {
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);
   } else if (chain_json.chain.evolves_to.length == 1) {
     console.log("length 1");
-    // console.log(chain_json.chain.species.url);
+    console.log(chain_json.chain.species.url);
 
     let evol_names = [
       chain_json.chain.species?.name,
