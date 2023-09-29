@@ -22,8 +22,8 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Pokedex"
-        initialRouteName="Test"
+        initialRouteName="Pokedex"
+        // initialRouteName="Test"
       >
         <Stack.Screen
           name="Pokedex"

@@ -3,11 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
+  Dimensions,
   SafeAreaView,
   FlatList,
   Image,
   TouchableOpacity,
 } from "react-native";
+import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import images from "../../assets/types";
 import capitalizeString from "../functions/capitalizeString.js";
@@ -121,21 +123,42 @@ export default function Moves({ route }) {
     );
   };
 
-  const Selector = ({ method, text, selected }) => {
-    const bkgColor = selected == method ? "blue" : "white";
-    const textColor = selected == method ? "white" : "black";
-
+  const NoMove = () => {
     return (
-      <TouchableOpacity
-        style={[styles.selectorBox, { backgroundColor: bkgColor }]}
-        onPress={() => {
-          setMethSelect(method);
-          setSelected(method);
+      <View
+        style={{
+          height: Dimensions.get("window").height - 100,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <Text style={{ color: textColor }}>{text}</Text>
-      </TouchableOpacity>
+        <Image
+          source={{
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`,
+          }}
+          style={styles.pokemonImg}
+        />
+        <Text>
+          {capitalizeString(pokemon.pokeName)} has no moves that can be learned
+          by {methSelect}.
+        </Text>
+      </View>
     );
+  };
+
+  filteredList = moveList.filter((x) => x.method == methSelect);
+  filteredListLength = filteredList.length;
+
+  const Body = () => {
+    if (loaded) {
+      if (filteredList.length > 0) {
+        return <FlatList data={filteredList} renderItem={Move} />;
+      } else {
+        return <NoMove />;
+      }
+    } else {
+      return <LoadingView />;
+    }
   };
 
   // on load
@@ -146,17 +169,43 @@ export default function Moves({ route }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.selector}>
-        <Selector method={"level-up"} text={"Level"} selected={selected} />
-        <Selector method={"machine"} text={"TM"} selected={selected} />
-      </View>
-      {loaded ? (
-        <FlatList
-          data={moveList.filter((x) => x.method == methSelect)}
-          renderItem={Move}
+        <SegmentedButtons
+          value={methSelect}
+          onValueChange={setMethSelect}
+          style={{ width: "100%" }}
+          buttons={[
+            {
+              value: "level-up",
+              label: "Level",
+              checkedColor: "white",
+              uncheckedColor: "black",
+              style: {
+                backgroundColor: methSelect == "level-up" ? "blue" : "white",
+              },
+            },
+            {
+              value: "tutor",
+              label: "Tutor",
+              checkedColor: "white",
+              uncheckedColor: "black",
+              style: {
+                backgroundColor: methSelect == "tutor" ? "blue" : "white",
+              },
+            },
+            {
+              value: "machine",
+              label: "TM",
+              checkedColor: "white",
+              uncheckedColor: "black",
+              style: {
+                backgroundColor: methSelect == "machine" ? "blue" : "white",
+              },
+            },
+          ]}
         />
-      ) : (
-        <LoadingView />
-      )}
+      </View>
+
+      <Body />
     </SafeAreaView>
   );
 }
@@ -215,11 +264,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
   },
+  pokemonImg: {
+    height: 90,
+    width: 90,
+    marginHorizontal: 10,
+  },
   selector: {
     paddingVertical: 10,
     flexDirection: "row",
     width: "85%",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
+    justifyContent: "center",
   },
   selectorBox: {
     height: 40,
