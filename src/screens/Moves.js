@@ -15,7 +15,7 @@ import images from "../../assets/types";
 import capitalizeString from "../functions/capitalizeString.js";
 
 export default function Moves({ route }) {
-  const pokemon = route.params;
+  const pokemonInfo = route.params;
   const [methSelect, setMethSelect] = useState("level-up");
   const [selected, setSelected] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
@@ -134,13 +134,13 @@ export default function Moves({ route }) {
       >
         <Image
           source={{
-            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`,
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`,
           }}
           style={styles.pokemonImg}
         />
         <Text>
-          {capitalizeString(pokemon.pokeName)} has no moves that can be learned
-          by {methSelect}.
+          {capitalizeString(pokemonInfo.pokeName)} has no moves that can be
+          learned by {methSelect}.
         </Text>
       </View>
     );
@@ -163,7 +163,7 @@ export default function Moves({ route }) {
 
   // on load
   useEffect(() => {
-    getMoves(pokemon.id);
+    getMoves(pokemonInfo.id);
   }, []);
 
   return (
