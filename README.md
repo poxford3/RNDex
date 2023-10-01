@@ -1,12 +1,15 @@
-# RNDex
-
-a pokedex using React Native, click around to see your favorite pokemon throughout the generations!
+<h1 align="center">
+  <!-- <img alt="Pokedex" src="https://ik.imagekit.io/hwyksvj4iv/pokedex_N_WgWrJK0s.png" width="250px" /> -->
+  RNDex
+</h1>
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/poxford3/rndex">
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/poxford3/rndex">
   <img alt="Repository Size" src="https://img.shields.io/github/repo-size/poxford3/rndex">
 </p>
+
+a pokedex using React Native, click around to see your favorite pokemon throughout the generations!
 
 ### Main Pokedex View
 
