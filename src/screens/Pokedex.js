@@ -48,7 +48,7 @@ export default function Pokedex({ navigation }) {
 
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
     setGenSelected(gen);
-    console.log(`gen ${text} selected`);
+    // console.log(`gen ${text} selected`);
     setLoaded(true);
   };
 
