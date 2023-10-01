@@ -13,6 +13,7 @@ import {
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
+import theme from "../styles/theme";
 import LoadingView from "../utils/LoadingView";
 
 export default function Pokedex({ navigation }) {
@@ -23,6 +24,8 @@ export default function Pokedex({ navigation }) {
   // const [offset, setOffset] = useState(0);
 
   const [genSelected, setGenSelected] = useState(1);
+
+  let activeColors = theme.light;
 
   // functions
 
@@ -92,7 +95,7 @@ export default function Pokedex({ navigation }) {
     return (
       <View style={styles.outerBox}>
         <TouchableOpacity
-          style={styles.innerBox}
+          style={[styles.innerBox, { borderColor: activeColors.border }]}
           onPress={() => {
             navigation.navigate("PokemonTabNav", {
               pokeName: pokeName,
@@ -101,7 +104,14 @@ export default function Pokedex({ navigation }) {
           }}
         >
           <Image source={{ uri: poke_sprite }} style={styles.images} />
-          <Text style={{ textTransform: "capitalize" }}>{pokeName}</Text>
+          <Text
+            style={{
+              textTransform: "capitalize",
+              color: activeColors.textColor,
+            }}
+          >
+            {pokeName}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -144,8 +154,9 @@ export default function Pokedex({ navigation }) {
   // main view
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={"black"} />
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
       <View style={styles.header}>
         <View style={styles.topBox}>
           <View style={{ width: 40 }}></View>
@@ -154,6 +165,7 @@ export default function Pokedex({ navigation }) {
               fontSize: 40,
               textAlign: "center",
               fontStyle: "italic",
+              color: activeColors.textColor,
             }}
           >
             RN Dex
@@ -163,10 +175,16 @@ export default function Pokedex({ navigation }) {
               navigation.navigate("Information");
             }}
           >
-            <Ionicons name="information-circle-outline" size={40} />
+            <Ionicons
+              name="information-circle-outline"
+              size={40}
+              color={activeColors.textColor}
+            />
           </TouchableOpacity>
         </View>
-        <Text style={{ fontStyle: "italic" }}>Generation:</Text>
+        <Text style={{ fontStyle: "italic", color: activeColors.textColor }}>
+          Generation:
+        </Text>
         <View style={styles.genSelection}>
           <FlatList
             data={genList.genList}
@@ -193,13 +211,19 @@ export default function Pokedex({ navigation }) {
         {loaded ? (
           <>
             <Searchbar
-              style={{ width: "95%" }}
+              style={{
+                marginTop: 5,
+                width: "95%",
+                backgroundColor: activeColors.searchbarBkgColor,
+                borderColor: activeColors.border,
+              }}
+              iconColor={activeColors.textColor}
               value={searchText}
               onChangeText={(text) => {
                 setSearchText(text);
               }}
               placeholder="Find your favorite Pokemon!"
-              placeholderTextColor={"grey"}
+              placeholderTextColor={activeColors.searchBarPlaceholder}
               // iconColor={"green"}
             />
             <FlatList
@@ -240,11 +264,9 @@ const styles = StyleSheet.create({
   genSelection: {
     flexDirection: "row",
     height: 50,
-    // width: "100%",
-    // backgroundColor: "lime",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
     marginVertical: 5,
   },
   header: {
