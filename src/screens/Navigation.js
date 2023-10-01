@@ -8,12 +8,9 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import HeaderImage from "../utils/HeaderImage";
 
 import Pokedex from "./Pokedex";
-import Pokemon from "./Pokemon";
-import Evolutions from "./Evolutions";
 import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
-import Moves from "./Moves";
 import GenerationList from "./GenerationList";
 
 const Stack = createNativeStackNavigator();
@@ -45,6 +42,11 @@ export default function MyStack() {
     </NavigationContainer>
   );
 }
+
+import Pokemon from "./Pokemon";
+import Evolutions from "./Evolutions";
+import Locations from "./Locations";
+import Moves from "./Moves";
 
 const Tab = createMaterialBottomTabNavigator();
 // https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
@@ -85,6 +87,17 @@ export function PokemonBottomTabNav({ route }) {
           tabBarLabel: "Evolutions",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="duck" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Locs"
+        component={Locations}
+        initialParams={info}
+        options={{
+          tabBarLabel: "Locations",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="map" color={color} size={26} />
           ),
         }}
       />

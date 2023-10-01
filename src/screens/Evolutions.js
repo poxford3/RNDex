@@ -11,6 +11,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "../functions/capitalizeString";
 import handleEvolutions from "../functions/handleEvolutions";
+import MissingInfo from "../utils/MissingInfo";
 
 export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;
@@ -188,29 +189,6 @@ export default function Evolutions({ navigation, route }) {
     );
   };
 
-  const NoEvolutionsView = () => {
-    return (
-      <View
-        style={{
-          height: Dimensions.get("window").height - 50,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          source={{
-            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`,
-          }}
-          style={styles.pokemonImg}
-        />
-        <Text>
-          {capitalizeString(pokemonInfo.pokeName)} has no evolutions or other
-          forms
-        </Text>
-      </View>
-    );
-  };
-
   useEffect(() => {
     getEvolutions(pokemonInfo.pokeName);
   }, []);
@@ -264,7 +242,10 @@ export default function Evolutions({ navigation, route }) {
           )}
         </>
       ) : (
-        <NoEvolutionsView />
+        <MissingInfo
+          str={`${capitalizeString(pokemonInfo.pokeName)} has no evolutions`}
+          id={pokemonInfo.id}
+        />
       )}
     </ScrollView>
   );

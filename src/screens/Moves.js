@@ -13,11 +13,11 @@ import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import images from "../../assets/types";
 import capitalizeString from "../functions/capitalizeString.js";
+import MissingInfo from "../utils/MissingInfo";
 
 export default function Moves({ route }) {
-  const pokemon = route.params;
+  const pokemonInfo = route.params;
   const [methSelect, setMethSelect] = useState("level-up");
-  const [selected, setSelected] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -123,38 +123,29 @@ export default function Moves({ route }) {
     );
   };
 
-  const NoMove = () => {
-    return (
-      <View
-        style={{
-          height: Dimensions.get("window").height - 100,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          source={{
-            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`,
-          }}
-          style={styles.pokemonImg}
-        />
-        <Text>
-          {capitalizeString(pokemon.pokeName)} has no moves that can be learned
-          by {methSelect}.
-        </Text>
-      </View>
-    );
-  };
-
   filteredList = moveList.filter((x) => x.method == methSelect);
   filteredListLength = filteredList.length;
 
   const Body = () => {
     if (loaded) {
       if (filteredList.length > 0) {
-        return <FlatList data={filteredList} renderItem={Move} />;
+        return (
+          <FlatList
+            data={filteredList}
+            renderItem={Move}
+            maxToRenderPerBatch={10}
+          />
+        );
       } else {
-        return <NoMove />;
+        return (
+          <MissingInfo
+            str={`${capitalizeString(
+              pokemonInfo.pokeName
+            )} has no moves that can be
+        learned by ${methSelect}`}
+            id={pokemonInfo.id}
+          />
+        );
       }
     } else {
       return <LoadingView />;
@@ -163,7 +154,7 @@ export default function Moves({ route }) {
 
   // on load
   useEffect(() => {
-    getMoves(pokemon.id);
+    getMoves(pokemonInfo.id);
   }, []);
 
   return (

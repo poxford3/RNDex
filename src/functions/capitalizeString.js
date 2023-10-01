@@ -1,7 +1,7 @@
 const capitalizeString = (str) => {
   if (str != null) {
     str = str
-      .replace("-", " ")
+      .replaceAll("-", " ")
       .toLowerCase()
       .split(" ")
       .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
