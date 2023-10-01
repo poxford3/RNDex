@@ -1,3 +1,5 @@
+// deprecated
+
 const spriteFunction = async (pokemon) => {
   const response3 = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
   const json3 = await response3.json();

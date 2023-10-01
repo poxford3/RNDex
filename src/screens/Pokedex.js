@@ -193,7 +193,7 @@ export default function Pokedex({ navigation }) {
         {loaded ? (
           <>
             <Searchbar
-              style={{ width: "90%" }}
+              style={{ width: "95%" }}
               value={searchText}
               onChangeText={(text) => {
                 setSearchText(text);
@@ -206,6 +206,7 @@ export default function Pokedex({ navigation }) {
               data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
               // extraData={pokeList}
               numColumns={2}
+              maxToRenderPerBatch={10}
               keyExtractor={(item) => item.pokeID}
               initialNumToRender={40}
               renderItem={({ item }) => (

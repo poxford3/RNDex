@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Image,
-  FlatList,
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
