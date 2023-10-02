@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import Navigation from "./src/screens/Navigation";
-import theme from "./src/styles/theme";
+import { ThemeContext } from "./src/contexts/ThemeContext";
 
 export default function App() {
-  let activeColors = theme.light;
+  const [theme, setTheme] = useState("dark");
+
+  const updateTheme = (newTheme) => {
+    let mode;
+    if (!newTheme) {
+      mode = theme === "dark" ? "light" : "dark";
+      newTheme = mode;
+    }
+    console.log("theme:", mode);
+    setTheme(mode);
+  };
   // return <PokemonList />;
   return (
-    <>
+    <ThemeContext.Provider value={{ theme, updateTheme }}>
       <Navigation />
-      <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />
-    </>
+      {/* <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" /> */}
+    </ThemeContext.Provider>
   );
 }

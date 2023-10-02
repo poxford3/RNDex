@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "../functions/capitalizeString";
 import handleEvolutions from "../functions/handleEvolutions";
 import MissingInfo from "../utils/MissingInfo";
+import theme from "../styles/theme";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;
@@ -34,7 +35,8 @@ export default function Evolutions({ navigation, route }) {
   ]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
-  // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
 
   const getEvolutions = async (name) => {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
@@ -129,12 +131,25 @@ export default function Evolutions({ navigation, route }) {
     return (
       <View style={styles.evolContainer}>
         <View style={{ alignItems: "flex-start", width: "85%", padding: 5 }}>
-          <Text style={{ fontSize: 28 }}>{method}</Text>
+          <Text style={{ fontSize: 28, color: activeColors.textColor }}>
+            {method}
+          </Text>
         </View>
-        <View style={[styles.pictureBox, { justifyContent: "space-around" }]}>
+        <View
+          style={[
+            styles.pictureBox,
+            {
+              justifyContent: "space-around",
+              backgroundColor: activeColors.accent,
+            },
+          ]}
+        >
           <TouchableOpacity
             onPress={() => {
-              navigation.setOptions({
+              // navigation.setOptions({
+              //   id: pokemon1.id,
+              // });
+              navigation.setParams({
                 id: pokemon1.id,
               });
               navigation.navigate("Pokemon", {
@@ -194,12 +209,19 @@ export default function Evolutions({ navigation, route }) {
   }, []);
 
   return (
-    <ScrollView scrollEnabled={scrollOn}>
+    <ScrollView
+      scrollEnabled={scrollOn}
+      style={{ backgroundColor: activeColors.background }}
+    >
       {scrollOn ? (
         <>
           {evolutions[1].evol ? (
             <>
-              <Text style={styles.headerText}>Evolutions</Text>
+              <Text
+                style={[styles.headerText, { color: activeColors.textColor }]}
+              >
+                Evolutions
+              </Text>
               <EvolChain pokemon1={evolutions[0]} pokemon2={evolutions[1]} />
             </>
           ) : (
@@ -213,7 +235,11 @@ export default function Evolutions({ navigation, route }) {
           )}
           {variety.length > 0 ? (
             <View>
-              <Text style={styles.headerText}>Other Forms</Text>
+              <Text
+                style={[styles.headerText, { color: activeColors.textColor }]}
+              >
+                Other Forms
+              </Text>
               <View style={styles.otherFormBox}>
                 <View
                   style={[
@@ -221,6 +247,7 @@ export default function Evolutions({ navigation, route }) {
                     {
                       justifyContent:
                         variety.length == 1 ? "center" : "space-around",
+                      backgroundColor: activeColors.accent,
                     },
                   ]}
                 >
@@ -272,7 +299,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "lightgrey",
+    // backgroundColor: "lightgrey",
     borderRadius: 10,
   },
   pokeName: {

@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Image } from "react-native";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
@@ -16,11 +16,22 @@ import GenerationList from "./GenerationList";
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Pokedex"
         // initialRouteName="Test"
+        screenOptions={{
+          headerColor: activeColors.background,
+        }}
+        options={{
+          headerStyle: {
+            backgroundColor: activeColors.backgroud,
+          },
+        }}
       >
         <Stack.Screen
           name="Pokedex"
@@ -32,6 +43,9 @@ export default function MyStack() {
           component={PokemonBottomTabNav}
           options={({ route }) => ({
             headerTitle: (props) => <HeaderImage route={route} />,
+            headerStyle: {
+              backgroundColor: activeColors.backgroud,
+            },
           })}
         />
         <Stack.Screen name="Test" component={TestView} />
@@ -54,12 +68,17 @@ const Tab = createMaterialBottomTabNavigator();
 
 export function PokemonBottomTabNav({ route }) {
   let info = route.params;
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
   // console.log("in tab", route.params);
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarOptions: {
+          backgroundColor: activeColors.background,
+        },
       }}
       initialRouteName="Pokemon"
       initialParams={info}

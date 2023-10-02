@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, PureComponent } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  StatusBar,
   Animated,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
-import theme from "../styles/theme";
 import LoadingView from "../utils/LoadingView";
+import theme from "../styles/theme";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -25,7 +25,9 @@ export default function Pokedex({ navigation }) {
 
   const [genSelected, setGenSelected] = useState(1);
 
-  let activeColors = theme.light;
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
+  console.log(mode);
 
   // functions
 
@@ -214,7 +216,7 @@ export default function Pokedex({ navigation }) {
               style={{
                 marginTop: 5,
                 width: "95%",
-                backgroundColor: activeColors.searchbarBkgColor,
+                backgroundColor: activeColors.accent,
                 borderColor: activeColors.border,
               }}
               iconColor={activeColors.textColor}

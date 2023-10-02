@@ -11,10 +11,11 @@ import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import { NavigationContext } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
-import HeaderImage from "../utils/HeaderImage";
 import capitalizeString from "../functions/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../functions/API_CALL";
+import theme from "../styles/theme";
+import { ThemeContext } from "../contexts/ThemeContext";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
@@ -34,6 +35,9 @@ export default function Pokemon({ route }) {
   });
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
+
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
 
   // API calls
 
@@ -112,7 +116,9 @@ export default function Pokemon({ route }) {
   // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
       <ScrollView style={styles.body}>
         <View style={styles.header}>
           <LinearGradient
@@ -144,6 +150,7 @@ export default function Pokemon({ route }) {
                   fontSize: 24,
                   textTransform: "capitalize",
                   fontWeight: "bold",
+                  color: activeColors.textColor,
                 }}
               >
                 {pokemonInfo.pokeName}
@@ -171,6 +178,7 @@ export default function Pokemon({ route }) {
                 style={{
                   textTransform: "capitalize",
                   fontSize: 16,
+                  color: activeColors.textColor,
                   // textAlign: "center",
                 }}
               >
@@ -185,7 +193,15 @@ export default function Pokemon({ route }) {
             contentContainerStyle={{ paddingBottom: 1 }}
           >
             <View style={styles.statBox}>
-              <Text style={{ fontSize: 32, fontWeight: "bold" }}>Stats</Text>
+              <Text
+                style={{
+                  fontSize: 32,
+                  fontWeight: "bold",
+                  color: activeColors.textColor,
+                }}
+              >
+                Stats
+              </Text>
               <View
                 style={{
                   width: "100%",
@@ -219,6 +235,7 @@ export default function Pokemon({ route }) {
                   textAlign: "center",
                   fontSize: 32,
                   fontWeight: "bold",
+                  color: activeColors.textColor,
                 }}
               >
                 Shiny Sprite
