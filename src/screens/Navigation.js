@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
+import { StatusBar } from "react-native";
+import theme from "../styles/theme";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 import Pokedex from "./Pokedex";
@@ -23,15 +25,11 @@ export default function MyStack() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Pokedex"
-        // initialRouteName="Test"
         screenOptions={{
-          headerColor: activeColors.background,
+          headerTintColor: activeColors.textColor,
+          headerStyle: { backgroundColor: activeColors.background },
         }}
-        options={{
-          headerStyle: {
-            backgroundColor: activeColors.backgroud,
-          },
-        }}
+        // initialRouteName="Test"
       >
         <Stack.Screen
           name="Pokedex"
@@ -43,16 +41,26 @@ export default function MyStack() {
           component={PokemonBottomTabNav}
           options={({ route }) => ({
             headerTitle: (props) => <HeaderImage route={route} />,
-            headerStyle: {
-              backgroundColor: activeColors.backgroud,
-            },
           })}
         />
-        <Stack.Screen name="Test" component={TestView} />
+        <Stack.Screen
+          name="Test"
+          component={TestView}
+          // options={{
+          //   headerStyle: { backgroundColor: activeColors.background },
+          // }}
+        />
         <Stack.Screen name="APITest" component={APITest} />
-        <Stack.Screen name="Information" component={Info} />
+        <Stack.Screen
+          name="Information"
+          component={Info}
+          // options={{
+          //   headerStyle: { backgroundColor: activeColors.background },
+          // }}
+        />
         <Stack.Screen name="Gens" component={GenerationList} />
       </Stack.Navigator>
+      <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />
     </NavigationContainer>
   );
 }
@@ -76,9 +84,12 @@ export function PokemonBottomTabNav({ route }) {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarOptions: {
-          backgroundColor: activeColors.background,
-        },
+      }}
+      // activeColor={activeColors.textColor}
+      barStyle={{
+        backgroundColor: activeColors.background,
+        borderTopColor: activeColors.grey,
+        borderTopWidth: 0.4,
       }}
       initialRouteName="Pokemon"
       initialParams={info}
@@ -92,6 +103,7 @@ export function PokemonBottomTabNav({ route }) {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="information"
+              // color={activeColors.textColor}
               color={color}
               size={26}
             />

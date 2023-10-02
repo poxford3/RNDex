@@ -6,6 +6,9 @@ export default theme = {
     barStyle: "dark-content",
     accent: "#eee8f5",
     searchBarPlaceholder: "grey",
+    grey: "grey",
+    selectorActive: "white",
+    selectorInactive: "black",
   },
   dark: {
     textColor: "white",
@@ -14,5 +17,9 @@ export default theme = {
     barStyle: "light-content",
     accent: "#8899ac",
     searchBarPlaceholder: "lightgrey",
+    grey: "grey",
+    grey: "grey",
+    selectorActive: "white",
+    selectorInactive: "white",
   },
 };

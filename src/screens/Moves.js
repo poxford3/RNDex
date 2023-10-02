@@ -10,6 +10,7 @@ import {
 import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import images from "../../assets/types";
+import theme from "../styles/theme";
 import capitalizeString from "../functions/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
@@ -104,7 +105,10 @@ export default function Moves({ route }) {
             <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
           </View>
           <View style={styles.nameBox}>
-            <Text numberOfLines={1} style={{ fontSize: 20 }}>
+            <Text
+              numberOfLines={1}
+              style={{ fontSize: 20, color: activeColors.textColor }}
+            >
               {item.move_name}
             </Text>
             <View style={styles.miniImgContainer}>
@@ -160,7 +164,9 @@ export default function Moves({ route }) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
       <View style={styles.selector}>
         <SegmentedButtons
           value={methSelect}
@@ -170,28 +176,31 @@ export default function Moves({ route }) {
             {
               value: "level-up",
               label: "Level",
-              checkedColor: "white",
-              uncheckedColor: "black",
+              checkedColor: activeColors.selectorActive,
+              uncheckedColor: activeColors.selectorInactive,
               style: {
-                backgroundColor: methSelect == "level-up" ? "blue" : "white",
+                backgroundColor:
+                  methSelect == "level-up" ? "blue" : activeColors.background,
               },
             },
             {
               value: "tutor",
               label: "Tutor",
-              checkedColor: "white",
-              uncheckedColor: "black",
+              checkedColor: activeColors.selectorActive,
+              uncheckedColor: activeColors.selectorInactive,
               style: {
-                backgroundColor: methSelect == "tutor" ? "blue" : "white",
+                backgroundColor:
+                  methSelect == "tutor" ? "blue" : activeColors.background,
               },
             },
             {
               value: "machine",
               label: "TM",
-              checkedColor: "white",
-              uncheckedColor: "black",
+              checkedColor: activeColors.selectorActive,
+              uncheckedColor: activeColors.selectorInactive,
               style: {
-                backgroundColor: methSelect == "machine" ? "blue" : "white",
+                backgroundColor:
+                  methSelect == "machine" ? "blue" : activeColors.background,
               },
             },
           ]}

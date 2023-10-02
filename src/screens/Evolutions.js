@@ -35,6 +35,7 @@ export default function Evolutions({ navigation, route }) {
   ]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
+
   const mode = useContext(ThemeContext);
   let activeColors = theme[mode.theme];
 

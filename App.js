@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import Navigation from "./src/screens/Navigation";
+import { theme as theme_obj } from "./src/styles/theme";
 import { ThemeContext } from "./src/contexts/ThemeContext";
 
 export default function App() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   const updateTheme = (newTheme) => {
     let mode;
@@ -15,11 +16,10 @@ export default function App() {
     console.log("theme:", mode);
     setTheme(mode);
   };
-  // return <PokemonList />;
+
   return (
     <ThemeContext.Provider value={{ theme, updateTheme }}>
       <Navigation />
-      {/* <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" /> */}
     </ThemeContext.Provider>
   );
 }

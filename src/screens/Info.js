@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   // Text,
@@ -8,13 +8,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text, Divider } from "react-native-paper";
+import theme from "../styles/theme";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Info({ navigation }) {
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
   // https://pokeapi.co/
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
       <View style={styles.body}>
-        <Text style={styles.mostText}>
+        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
           This app uses the PokeAPI tool linked here:{"\n"}
         </Text>
         <Text
@@ -25,19 +31,11 @@ export default function Info({ navigation }) {
         >
           PokeAPI
         </Text>
-        <Text style={styles.mostText}>
+        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
           {"\n\n\n"}The intent of this app is to practice React Native API calls
           to create a seemless tool.
         </Text>
         <Divider bold={true} />
-        {/* <View
-          style={{
-            width: "100%",
-            borderWidth: 1,
-            borderColor: "#909090",
-            marginTop: 20,
-          }}
-        ></View> */}
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Gens");
