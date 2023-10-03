@@ -24,7 +24,7 @@ export default function handleEvolutions(chain_json) {
     });
     // console.log("evol2", chain_json.chain.evolves_to[1].species.name);
   } else if (chain_json.chain.evolves_to.length == 1) {
-    console.log("length 1");
+    // console.log("length 1");
     console.log(chain_json.chain.species.url);
 
     let evol_names = [

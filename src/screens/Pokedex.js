@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, PureComponent } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  StatusBar,
   Animated,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
-import theme from "../styles/theme";
 import LoadingView from "../utils/LoadingView";
+import themeColors from "../styles/themeColors";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -25,7 +25,8 @@ export default function Pokedex({ navigation }) {
 
   const [genSelected, setGenSelected] = useState(1);
 
-  let activeColors = theme.light;
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   // functions
 
@@ -159,7 +160,18 @@ export default function Pokedex({ navigation }) {
     >
       <View style={styles.header}>
         <View style={styles.topBox}>
-          <View style={{ width: 40 }}></View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Settings");
+            }}
+            style={{ width: 40 }}
+          >
+            <Ionicons
+              name="settings-outline"
+              size={30}
+              color={activeColors.textColor}
+            />
+          </TouchableOpacity>
           <Text
             style={{
               fontSize: 40,
@@ -174,10 +186,11 @@ export default function Pokedex({ navigation }) {
             onPress={() => {
               navigation.navigate("Information");
             }}
+            style={{ width: 40 }}
           >
             <Ionicons
               name="information-circle-outline"
-              size={40}
+              size={32}
               color={activeColors.textColor}
             />
           </TouchableOpacity>
@@ -204,7 +217,7 @@ export default function Pokedex({ navigation }) {
           width: "100%",
           borderWidth: 1,
           borderColor: "black",
-          marginTop: 10,
+          marginVertical: 10,
         }}
       ></View>
       <View style={styles.pokemonBox}>
@@ -214,7 +227,7 @@ export default function Pokedex({ navigation }) {
               style={{
                 marginTop: 5,
                 width: "95%",
-                backgroundColor: activeColors.searchbarBkgColor,
+                backgroundColor: activeColors.accent,
                 borderColor: activeColors.border,
               }}
               iconColor={activeColors.textColor}
@@ -255,7 +268,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,
-    // padding: 10,
     marginHorizontal: 10,
     height: 40,
     width: 40,
@@ -266,15 +278,13 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 10,
     marginVertical: 5,
   },
   header: {
     alignItems: "center",
     flex: 1,
-    height: 100,
     padding: 5,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   images: {
     height: 110,
@@ -293,7 +303,6 @@ const styles = StyleSheet.create({
     width: "50%",
     minWidth: 180,
     height: 180,
-    // borderWidth: 1,
     padding: 0,
     alignItems: "center",
     justifyContent: "center",

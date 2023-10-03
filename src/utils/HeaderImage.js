@@ -11,7 +11,6 @@ export default function HeaderImage({ route }) {
     <Image
       style={{ width: 200, height: 50 }}
       source={{ uri: pic }}
-      // source={require("../assets/types/dragon.png")}
       resizeMode="contain"
     />
   );

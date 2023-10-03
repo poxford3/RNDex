@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import API_CALL from "../functions/API_CALL";
 import capitalizeString from "../functions/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import MissingInfo from "../utils/MissingInfo";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Locations({ route }) {
   const pokemonInfo = route.params;
   const [locations, setLocations] = useState([]);
   const [loaded, setLoaded] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const getLocations = async (id) => {
     setLoaded(false);
@@ -47,12 +51,18 @@ export default function Locations({ route }) {
         ? `Lv ${loc.min_level}`
         : `Lv ${loc.min_level} - ${loc.max_level}`;
     return (
-      <View style={styles.locationBox}>
-        <Text style={styles.locText}>{loc.location_name}</Text>
+      <View
+        style={[styles.locationBox, { borderBottomColor: activeColors.accent }]}
+      >
+        <Text style={[styles.locText, { color: activeColors.textColor }]}>
+          {loc.location_name}
+        </Text>
         <Text style={styles.miniLocText}>
           {loc.chance}% - {level_disp}
         </Text>
-        <Text>Game found: {loc.game}</Text>
+        <Text style={{ color: activeColors.textColor }}>
+          Game found: {loc.game}
+        </Text>
       </View>
     );
   };
@@ -86,8 +96,12 @@ export default function Locations({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Locations</Text>
+    <View
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
+      <Text style={[styles.headerText, { color: activeColors.textColor }]}>
+        Locations
+      </Text>
       <View style={styles.list}>
         <Body />
       </View>
@@ -110,7 +124,7 @@ const styles = StyleSheet.create({
   locationBox: {
     height: 150,
     padding: 10,
-    borderBottomColor: "black",
+    // borderBottomColor: "black",
     borderBottomWidth: 1,
     justifyContent: "center",
   },

@@ -1,25 +1,35 @@
-import * as React from "react";
-import { Image } from "react-native";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
+import { StatusBar } from "react-native";
+import themeColors from "../styles/themeColors";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
+import Settings from "./Settings";
 
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Pokedex"
+        screenOptions={{
+          headerTintColor: activeColors.textColor,
+          headerStyle: { backgroundColor: activeColors.background },
+        }}
         // initialRouteName="Test"
       >
         <Stack.Screen
@@ -31,6 +41,7 @@ export default function MyStack() {
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
           options={({ route }) => ({
+            // title: route.params.pokeName,
             headerTitle: (props) => <HeaderImage route={route} />,
           })}
         />
@@ -38,7 +49,13 @@ export default function MyStack() {
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
+        <Stack.Group
+          screenOptions={{ presentation: "modal", headerShown: false }}
+        >
+          <Stack.Screen name="Settings" component={Settings} />
+        </Stack.Group>
       </Stack.Navigator>
+      <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />
     </NavigationContainer>
   );
 }
@@ -54,64 +71,44 @@ const Tab = createMaterialBottomTabNavigator();
 
 export function PokemonBottomTabNav({ route }) {
   let info = route.params;
-  // console.log("in tab", route.params);
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-      }}
-      initialRouteName="Pokemon"
-      initialParams={info}
-    >
-      <Tab.Screen
-        name="Pokemon"
-        component={Pokemon}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Info",
-          tabBarIcon: ({ color, size }) => (
+        tabBarIcon: ({ color, size }) => {
+          const icons = {
+            Pokemon: "information",
+            Evol: "duck",
+            Locations: "map",
+            Moves: "abacus",
+          };
+
+          return (
             <MaterialCommunityIcons
-              name="information"
+              name={icons[route.name]}
               color={color}
               size={26}
             />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Evol"
-        component={Evolutions}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Evolutions",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="duck" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Locs"
-        component={Locations}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Locations",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="map" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Moves"
-        component={Moves}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Moves",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="abacus" color={color} size={26} />
-          ),
-        }}
-      />
+          );
+        },
+      })}
+      barStyle={{
+        backgroundColor: activeColors.background,
+        borderTopColor: activeColors.grey,
+        borderTopWidth: 0.4,
+        // tabBarActiveTintColor: activeColors.textColor,
+        // tabBarInactiveTintColor: "gray",
+      }}
+      initialRouteName="Pokemon"
+      // initialParams={info}
+    >
+      <Tab.Screen name="Pokemon" component={Pokemon} initialParams={info} />
+      <Tab.Screen name="Evol" component={Evolutions} initialParams={info} />
+      <Tab.Screen name="Locations" component={Locations} initialParams={info} />
+      <Tab.Screen name="Moves" component={Moves} initialParams={info} />
     </Tab.Navigator>
   );
 }

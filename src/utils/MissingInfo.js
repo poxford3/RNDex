@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function MissingInfo({ id, str }) {
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
+
   return (
     <View
       style={{
@@ -16,7 +20,9 @@ export default function MissingInfo({ id, str }) {
         }}
         style={styles.pokemonImg}
       />
-      <Text style={{ textAlign: "center" }}>{str}</Text>
+      <Text style={{ textAlign: "center", color: activeColors.textColor }}>
+        {str}
+      </Text>
     </View>
   );
 }
