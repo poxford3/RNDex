@@ -7,10 +7,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Checkbox } from "react-native-paper";
 import theme from "../styles/theme";
 import appearance from "../styles/appearance";
-import types from "../../assets/types";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Settings() {
@@ -18,30 +17,34 @@ export default function Settings() {
   const updateTheme = useContext(ThemeContext).updateTheme;
   let activeColors = theme[mode.theme];
 
-  console.log(appearance);
-
-  const handleChange = () => {
-    updateTheme();
-  };
-
-  const LightingSetting = ({ lightingType, background, appearanceName }) => {
+  const LightingSetting = ({ appearanceName, active }) => {
+    const imgBkg = active ? "blue" : activeColors.oppositeBkg;
     return (
       <TouchableOpacity
         onPress={() => {
-          handleChange();
+          updateTheme(appearanceName);
         }}
-        style={[styles.toggleBox, { backgroundColor: background }]}
+        style={styles.toggleBox}
       >
         <Image
           source={appearance[appearanceName]}
-          style={styles.selectionImg}
+          style={[styles.selectionImg, { borderColor: imgBkg }]}
         />
+        {/* <View style={styles.lowerOption}> */}
         <Text
-          style={{ color: activeColors.textColor, textTransform: "capitalize" }}
+          style={{
+            color: activeColors.textColor,
+            textTransform: "capitalize",
+            marginVertical: 5,
+          }}
         >
           {appearanceName}
         </Text>
-        <Text>{lightingType}</Text>
+        {/* <Checkbox
+          status={active ? "checked" : "unchecked"}
+          color={activeColors.textColor}
+        /> */}
+        {/* </View> */}
       </TouchableOpacity>
     );
   };
@@ -50,25 +53,53 @@ export default function Settings() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      {/* <View style={styles.toggleBoxList}> */}
-      <Text style={{ color: activeColors.textColor }}>Settings</Text>
-      <Text style={{ fontSize: 30, color: activeColors.textColor }}>
+      <Text
+        style={{
+          fontSize: 30,
+          color: activeColors.textColor,
+          marginBottom: 10,
+        }}
+      >
         Appearance
       </Text>
-      <LightingSetting appearanceName={"system"} />
+      <View style={styles.boxCont}>
+        <View style={styles.boxList}>
+          <LightingSetting
+            appearanceName={"light"}
+            active={mode.theme === "light"}
+          />
+          <LightingSetting
+            appearanceName={"dark"}
+            active={mode.theme === "dark"}
+          />
+          <LightingSetting appearanceName={"system"} />
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  boxCont: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  boxList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "85%",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+  lowerOption: {
+    flexDirection: "row",
+  },
   toggleBox: {
-    height: 200,
-    width: 200,
+    marginHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -85,10 +116,9 @@ const styles = StyleSheet.create({
     // opacity: 0.5,
   },
   selectionImg: {
-    height: 100,
-    width: 100,
-    borderColor: "white",
-    borderWidth: 1,
-    borderRadius: 30,
+    height: 87,
+    width: 110,
+    borderWidth: 5,
+    borderRadius: 20,
   },
 });

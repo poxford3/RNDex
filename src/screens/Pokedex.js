@@ -217,7 +217,7 @@ export default function Pokedex({ navigation }) {
           width: "100%",
           borderWidth: 1,
           borderColor: "black",
-          marginTop: 10,
+          marginVertical: 10,
         }}
       ></View>
       <View style={styles.pokemonBox}>
@@ -268,7 +268,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,
-    // padding: 10,
     marginHorizontal: 10,
     height: 40,
     width: 40,
@@ -279,15 +278,13 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 10,
     marginVertical: 5,
   },
   header: {
     alignItems: "center",
     flex: 1,
-    height: 100,
     padding: 5,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   images: {
     height: 110,
@@ -306,7 +303,6 @@ const styles = StyleSheet.create({
     width: "50%",
     minWidth: 180,
     height: 180,
-    // borderWidth: 1,
     padding: 0,
     alignItems: "center",
     justifyContent: "center",
