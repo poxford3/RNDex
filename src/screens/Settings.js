@@ -34,7 +34,6 @@ export default function Settings() {
           source={appearance[appearanceName]}
           style={[styles.selectionImg, { borderColor: imgBkg }]}
         />
-        {/* <View style={styles.lowerOption}> */}
         <Text
           style={{
             color: activeColors.textColor,
@@ -44,11 +43,6 @@ export default function Settings() {
         >
           {appearanceName}
         </Text>
-        {/* <Checkbox
-          status={active ? "checked" : "unchecked"}
-          color={activeColors.textColor}
-        /> */}
-        {/* </View> */}
       </TouchableOpacity>
     );
   };
@@ -57,27 +51,32 @@ export default function Settings() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <Text
-        style={{
-          fontSize: 30,
-          color: activeColors.textColor,
-          marginBottom: 10,
-        }}
-      >
-        Appearance
-      </Text>
-      <View style={styles.boxCont}>
-        <View style={styles.boxList}>
-          <LightingSetting
-            appearanceName={"light"}
-            active={theme.mode === "light" && !theme.system}
-          />
-          <LightingSetting
-            appearanceName={"dark"}
-            active={theme.mode === "dark" && !theme.system}
-          />
-          <LightingSetting appearanceName={"system"} active={theme.system} />
-          {/* need to implement the system theme... */}
+      <View
+        style={[styles.pullTab, { backgroundColor: activeColors.textColor }]}
+      ></View>
+      <View style={[styles.body, { backgroundColor: activeColors.background }]}>
+        <Text
+          style={{
+            fontSize: 30,
+            color: activeColors.textColor,
+            marginBottom: 10,
+          }}
+        >
+          Appearance
+        </Text>
+        <View style={styles.boxCont}>
+          <View style={styles.boxList}>
+            <LightingSetting
+              appearanceName={"light"}
+              active={theme.mode === "light" && !theme.system}
+            />
+            <LightingSetting
+              appearanceName={"dark"}
+              active={theme.mode === "dark" && !theme.system}
+            />
+            <LightingSetting appearanceName={"system"} active={theme.system} />
+            {/* need to implement the system theme... */}
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -85,6 +84,11 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
   boxCont: {
     width: "85%",
     alignItems: "center",
@@ -97,11 +101,16 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
   },
   lowerOption: {
     flexDirection: "row",
+  },
+  pullTab: {
+    height: 5,
+    width: 40,
+    borderRadius: 10,
+    margin: 10,
   },
   toggleBox: {
     marginHorizontal: 5,
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
   selectionImg: {
     height: 87,
     width: 110,
-    borderWidth: 5,
+    borderWidth: 3,
     borderRadius: 20,
   },
 });
