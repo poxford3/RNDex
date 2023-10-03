@@ -14,6 +14,7 @@ import TestView from "./TestView";
 import APITest from "./APITest";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
+import Settings from "./Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,25 +41,19 @@ export default function MyStack() {
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
           options={({ route }) => ({
+            // title: route.params.pokeName,
             headerTitle: (props) => <HeaderImage route={route} />,
           })}
         />
-        <Stack.Screen
-          name="Test"
-          component={TestView}
-          // options={{
-          //   headerStyle: { backgroundColor: activeColors.background },
-          // }}
-        />
+        <Stack.Screen name="Test" component={TestView} />
         <Stack.Screen name="APITest" component={APITest} />
-        <Stack.Screen
-          name="Information"
-          component={Info}
-          // options={{
-          //   headerStyle: { backgroundColor: activeColors.background },
-          // }}
-        />
+        <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
+        <Stack.Group
+          screenOptions={{ presentation: "modal", headerShown: false }}
+        >
+          <Stack.Screen name="Settings" component={Settings} />
+        </Stack.Group>
       </Stack.Navigator>
       <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />
     </NavigationContainer>
@@ -78,71 +73,43 @@ export function PokemonBottomTabNav({ route }) {
   let info = route.params;
   const mode = useContext(ThemeContext);
   let activeColors = theme[mode.theme];
-  // console.log("in tab", route.params);
+  console.log("in tab", route.params);
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-      }}
-      // activeColor={activeColors.textColor}
+        tabBarIcon: ({ color, size }) => {
+          const icons = {
+            Pokemon: "information",
+            Evol: "duck",
+            Locations: "map",
+            Moves: "abacus",
+          };
+
+          return (
+            <MaterialCommunityIcons
+              name={icons[route.name]}
+              color={color}
+              size={26}
+            />
+          );
+        },
+      })}
       barStyle={{
         backgroundColor: activeColors.background,
         borderTopColor: activeColors.grey,
         borderTopWidth: 0.4,
+        // tabBarActiveTintColor: activeColors.textColor,
+        // tabBarInactiveTintColor: "gray",
       }}
       initialRouteName="Pokemon"
-      initialParams={info}
+      // initialParams={info}
     >
-      <Tab.Screen
-        name="Pokemon"
-        component={Pokemon}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Info",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="information"
-              // color={activeColors.textColor}
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Evol"
-        component={Evolutions}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Evolutions",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="duck" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Locs"
-        component={Locations}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Locations",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="map" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Moves"
-        component={Moves}
-        initialParams={info}
-        options={{
-          tabBarLabel: "Moves",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="abacus" color={color} size={26} />
-          ),
-        }}
-      />
+      <Tab.Screen name="Pokemon" component={Pokemon} initialParams={info} />
+      <Tab.Screen name="Evol" component={Evolutions} initialParams={info} />
+      <Tab.Screen name="Locations" component={Locations} initialParams={info} />
+      <Tab.Screen name="Moves" component={Moves} initialParams={info} />
     </Tab.Navigator>
   );
 }

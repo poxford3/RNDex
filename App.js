@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import Navigation from "./src/screens/Navigation";
-import { theme as theme_obj } from "./src/styles/theme";
 import { ThemeContext } from "./src/contexts/ThemeContext";
 
 export default function App() {
@@ -13,7 +12,7 @@ export default function App() {
       mode = theme === "dark" ? "light" : "dark";
       newTheme = mode;
     }
-    console.log("theme:", mode);
+    // console.log("theme:", mode);
     setTheme(mode);
   };
 

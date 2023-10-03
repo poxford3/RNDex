@@ -1,11 +1,22 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
+import theme from "../styles/theme";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function LoadingView() {
+  const mode = useContext(ThemeContext);
+  let activeColors = theme[mode.theme];
+
   return (
     <View style={styles.loading}>
-      <ActivityIndicator size="large" />
-      <Text>Loading...</Text>
+      <ActivityIndicator
+        size="large"
+        animating={true}
+        style={{ padding: 10 }}
+        color={activeColors.accent}
+      />
+      <Text style={{ color: activeColors.textColor }}>Loading...</Text>
     </View>
   );
 }

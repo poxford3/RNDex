@@ -27,7 +27,6 @@ export default function Pokedex({ navigation }) {
 
   const mode = useContext(ThemeContext);
   let activeColors = theme[mode.theme];
-  console.log(mode);
 
   // functions
 
@@ -161,7 +160,18 @@ export default function Pokedex({ navigation }) {
     >
       <View style={styles.header}>
         <View style={styles.topBox}>
-          <View style={{ width: 40 }}></View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Settings");
+            }}
+            style={{ width: 40 }}
+          >
+            <Ionicons
+              name="settings-outline"
+              size={30}
+              color={activeColors.textColor}
+            />
+          </TouchableOpacity>
           <Text
             style={{
               fontSize: 40,
@@ -176,10 +186,11 @@ export default function Pokedex({ navigation }) {
             onPress={() => {
               navigation.navigate("Information");
             }}
+            style={{ width: 40 }}
           >
             <Ionicons
               name="information-circle-outline"
-              size={40}
+              size={32}
               color={activeColors.textColor}
             />
           </TouchableOpacity>

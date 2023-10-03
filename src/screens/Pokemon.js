@@ -215,16 +215,15 @@ export default function Pokemon({ route }) {
                   <VictoryBar
                     data={stats}
                     // domain={{ y: [0, 255] }}
-                    // animate={{
-                    //   duration: 2000,
-                    //   onLoad: { duration: 1000 },
-                    // }}
                     horizontal={true}
                     labels={({ datum }) => datum.y}
                     alignment="middle"
                     style={{
                       data: {
                         fill: "blue",
+                      },
+                      labels: {
+                        fill: activeColors.textColor,
                       },
                     }}
                   />

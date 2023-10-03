@@ -147,11 +147,9 @@ export default function Evolutions({ navigation, route }) {
         >
           <TouchableOpacity
             onPress={() => {
-              // navigation.setOptions({
-              //   id: pokemon1.id,
-              // });
-              navigation.setParams({
-                id: pokemon1.id,
+              navigation.setOptions({
+                // id: pokemon1.id,
+                pokeName: pokemon1.evol,
               });
               navigation.navigate("Pokemon", {
                 sprite: img1,
