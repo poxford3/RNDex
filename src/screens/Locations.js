@@ -11,8 +11,8 @@ export default function Locations({ route }) {
   const [locations, setLocations] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const getLocations = async (id) => {
     setLoaded(false);

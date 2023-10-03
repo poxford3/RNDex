@@ -3,8 +3,8 @@ import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function MissingInfo({ id, str }) {
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   return (
     <View

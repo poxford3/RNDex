@@ -13,7 +13,7 @@ import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
 import LoadingView from "../utils/LoadingView";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Pokedex({ navigation }) {
@@ -25,8 +25,8 @@ export default function Pokedex({ navigation }) {
 
   const [genSelected, setGenSelected] = useState(1);
 
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   // functions
 

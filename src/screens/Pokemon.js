@@ -14,7 +14,7 @@ import LoadingView from "../utils/LoadingView";
 import capitalizeString from "../functions/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../functions/API_CALL";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
@@ -35,9 +35,8 @@ export default function Pokemon({ route }) {
   });
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
-
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   // API calls
 

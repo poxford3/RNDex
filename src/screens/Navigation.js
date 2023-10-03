@@ -6,7 +6,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
 import { StatusBar } from "react-native";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 import Pokedex from "./Pokedex";
@@ -19,8 +19,8 @@ import Settings from "./Settings";
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   return (
     <NavigationContainer>
@@ -71,9 +71,8 @@ const Tab = createMaterialBottomTabNavigator();
 
 export function PokemonBottomTabNav({ route }) {
   let info = route.params;
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
-  console.log("in tab", route.params);
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   return (
     <Tab.Navigator

@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text, Divider } from "react-native-paper";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Info({ navigation }) {
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
   // https://pokeapi.co/
   return (
     <SafeAreaView

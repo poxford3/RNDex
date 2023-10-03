@@ -1,4 +1,4 @@
-export default theme = {
+export default themeColors = {
   light: {
     textColor: "black",
     background: "white",

@@ -10,7 +10,7 @@ import {
 import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import images from "../../assets/types";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import capitalizeString from "../functions/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
@@ -20,9 +20,8 @@ export default function Moves({ route }) {
   const [methSelect, setMethSelect] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
   const [loaded, setLoaded] = useState(false);
-
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const getMoves = async (id) => {
     let tempMoveList = [];

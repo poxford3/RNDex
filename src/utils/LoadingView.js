@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function LoadingView() {
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   return (
     <View style={styles.loading}>

@@ -11,7 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "../functions/capitalizeString";
 import handleEvolutions from "../functions/handleEvolutions";
 import MissingInfo from "../utils/MissingInfo";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Evolutions({ navigation, route }) {
@@ -36,8 +36,8 @@ export default function Evolutions({ navigation, route }) {
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
 
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const getEvolutions = async (name) => {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${name}`;

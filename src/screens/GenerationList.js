@@ -6,14 +6,14 @@ import capitalizeString, {
   capitalizeGens,
 } from "../functions/capitalizeString";
 import LoadingView from "../utils/LoadingView";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function GenerationList() {
   const [gens, setGens] = useState([]);
 
-  const mode = useContext(ThemeContext);
-  let activeColors = theme[mode.theme];
+  const { theme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const getGens = async () => {
     const url = `https://pokeapi.co/api/v2/generation/`;

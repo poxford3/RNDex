@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -8,21 +8,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Checkbox } from "react-native-paper";
-import theme from "../styles/theme";
+import themeColors from "../styles/themeColors";
 import appearance from "../styles/appearance";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Settings() {
-  const mode = useContext(ThemeContext);
-  const updateTheme = useContext(ThemeContext).updateTheme;
-  let activeColors = theme[mode.theme];
+  const { theme, updateTheme } = useContext(ThemeContext);
+  let activeColors = themeColors[theme.mode];
 
   const LightingSetting = ({ appearanceName, active }) => {
     const imgBkg = active ? "blue" : activeColors.oppositeBkg;
+
     return (
       <TouchableOpacity
         onPress={() => {
-          updateTheme(appearanceName);
+          if (appearanceName == "system") {
+            updateTheme({ system: true });
+          } else {
+            updateTheme({ mode: appearanceName });
+          }
         }}
         style={styles.toggleBox}
       >
@@ -66,13 +70,14 @@ export default function Settings() {
         <View style={styles.boxList}>
           <LightingSetting
             appearanceName={"light"}
-            active={mode.theme === "light"}
+            active={theme.mode === "light" && !theme.system}
           />
           <LightingSetting
             appearanceName={"dark"}
-            active={mode.theme === "dark"}
+            active={theme.mode === "dark" && !theme.system}
           />
-          <LightingSetting appearanceName={"system"} />
+          <LightingSetting appearanceName={"system"} active={theme.system} />
+          {/* need to implement the system theme... */}
         </View>
       </View>
     </SafeAreaView>
@@ -81,6 +86,7 @@ export default function Settings() {
 
 const styles = StyleSheet.create({
   boxCont: {
+    width: "85%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -88,7 +94,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "85%",
   },
   container: {
     flex: 1,
