@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import capitalizeString from "../functions/capitalizeString";
-import handleEvolutions from "../functions/handleEvolutions";
+import capitalizeString from "../hooks/capitalizeString";
+import handleEvolutions from "../hooks/handleEvolutions";
 import MissingInfo from "../utils/MissingInfo";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
