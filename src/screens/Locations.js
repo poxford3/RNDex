@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import API_CALL from "../functions/API_CALL";
-import capitalizeString from "../functions/capitalizeString";
+import API_CALL from "../hooks/API_CALL";
+import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
