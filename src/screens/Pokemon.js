@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native";
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
-import { NavigationContext } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
 import capitalizeString from "../hooks/capitalizeString";
@@ -16,13 +15,12 @@ import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
-  const navigation = useContext(NavigationContext);
-  // console.log("in pokemon", route);
-  const pokemonInfo = route.params;
-  // console.log("in pokemon", pokemonInfo);
+  // const pokemonInfo = route.params;
+  const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
@@ -36,6 +34,7 @@ export default function Pokemon({ route }) {
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
   const { theme } = useContext(ThemeContext);
+
   let activeColors = themeColors[theme.mode];
 
   // API calls
@@ -98,21 +97,8 @@ export default function Pokemon({ route }) {
 
   useEffect(() => {
     getPokeStats();
-    // console.log(pokemonInfo.pokeName, pokemonInfo.id);
-    navigation?.setOptions({
-      route: {
-        pokeName: pokemonInfo.pokeName,
-        id: pokemonInfo.id,
-      },
-    });
-  }, [route]);
+  }, [pokemonInfo]);
 
-  // route: {
-  //   pokeName: pokemonInfo.pokeName,
-  //   id: pokemonInfo.id,
-  // },
-
-  // console.log(pokemonInfo);
   // will be view of once pokemon is clicked
   return (
     <SafeAreaView

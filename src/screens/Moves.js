@@ -14,9 +14,11 @@ import themeColors from "../styles/themeColors";
 import capitalizeString from "../hooks/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function Moves({ route }) {
-  const pokemonInfo = route.params;
+  // const pokemonInfo = route.params;
+  const pokemonInfo = useContext(PokemonContext).pokemon;
   const [methSelect, setMethSelect] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -58,8 +60,6 @@ export default function Moves({ route }) {
     await Promise.all(tasks);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
     setLoaded(true);
-    // console.log(moveList[0]);
-    // console.log(tempMoveList);
   };
 
   const getMoveDetails = async (url) => {
@@ -83,9 +83,6 @@ export default function Moves({ route }) {
   };
 
   const getTMName = async (url) => {
-    // const machine_url = json.machines[0]?.machine.url;
-
-    // console.log(json.machines[0].machine.url);
     const mach_response = await fetch(url);
     const mach_json = await mach_response.json();
     const mach_name = mach_json.item.name;
@@ -160,7 +157,7 @@ export default function Moves({ route }) {
   // on load
   useEffect(() => {
     getMoves(pokemonInfo.id);
-  }, []);
+  }, [pokemonInfo]);
 
   return (
     <SafeAreaView

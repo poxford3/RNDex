@@ -8,6 +8,7 @@ import HeaderImage from "../utils/HeaderImage";
 import { StatusBar } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
@@ -21,6 +22,8 @@ const Stack = createNativeStackNavigator();
 export default function MyStack() {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const pokemonInfo = useContext(PokemonContext).pokemon;
 
   return (
     <NavigationContainer>
@@ -42,7 +45,7 @@ export default function MyStack() {
           component={PokemonBottomTabNav}
           options={({ route }) => ({
             // title: route.params.pokeName,
-            headerTitle: (props) => <HeaderImage route={route} />,
+            headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
           })}
         />
         <Stack.Screen name="Test" component={TestView} />
@@ -73,6 +76,8 @@ export function PokemonBottomTabNav({ route }) {
   let info = route.params;
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const { pokemonInfo } = useContext(PokemonContext);
 
   return (
     <Tab.Navigator
@@ -105,14 +110,22 @@ export function PokemonBottomTabNav({ route }) {
       initialRouteName="Pokemon"
       // initialParams={info}
     >
-      <Tab.Screen name="Pokemon" component={Pokemon} initialParams={info} />
+      <Tab.Screen
+        name="Pokemon"
+        component={Pokemon}
+        initialParams={pokemonInfo}
+      />
       <Tab.Screen
         name="Evolutions"
         component={Evolutions}
-        initialParams={info}
+        initialParams={pokemonInfo}
       />
-      <Tab.Screen name="Locations" component={Locations} initialParams={info} />
-      <Tab.Screen name="Moves" component={Moves} initialParams={info} />
+      <Tab.Screen
+        name="Locations"
+        component={Locations}
+        initialParams={pokemonInfo}
+      />
+      <Tab.Screen name="Moves" component={Moves} initialParams={pokemonInfo} />
     </Tab.Navigator>
   );
 }

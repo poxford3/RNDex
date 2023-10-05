@@ -1,11 +1,12 @@
 import React from "react";
 import { Image } from "react-native";
 
-export default function HeaderImage({ route }) {
+// export default function HeaderImage({ route }) {
+export default function HeaderImage({ id }) {
   // console.log("in nav", route.params.sprite);
   // const pic = route.params.sprite;
   // console.log("header id", route.params.id);
-  const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${route.params.id}.png`;
+  const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
   return (
     <Image
