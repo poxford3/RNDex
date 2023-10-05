@@ -14,18 +14,12 @@ import handleEvolutions from "../hooks/handleEvolutions";
 import MissingInfo from "../utils/MissingInfo";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function Evolutions({ navigation, route }) {
-  const pokemonInfo = route.params;
-  // const [evolutions, setEvolutions] = useState([
-  //   {
-  //     base: null,
-  //     base_id: null,
-  //     evolves_to: null,
-  //     evo_id: null,
-  //     method: null,
-  //   },
-  // ]);
+  // const pokemonInfo = route.params;
+  const pokemonInfo = useContext(PokemonContext).pokemon;
+  const updatePokemon = useContext(PokemonContext).updatePokemon;
   const [evolutions, setEvolutions] = useState([]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
@@ -39,13 +33,11 @@ export default function Evolutions({ navigation, route }) {
     const json = await response.json();
     let formType = "";
 
-    // console.log("var length", json.varieties.length);
     if (json.varieties.length > 1) {
       json.varieties.forEach((e) => {
         if (e.is_default == false) {
-          // console.log(e.pokemon.name, e.pokemon.url.split("/")[6]);
           let temp_id = e.pokemon.url.split("/")[6];
-          console.log(e.pokemon.url);
+          // console.log(e.pokemon.url);
 
           e.pokemon.name.includes("mega")
             ? (formType = "Mega")
@@ -69,7 +61,6 @@ export default function Evolutions({ navigation, route }) {
     }
 
     let chain_url = json.evolution_chain.url;
-    console.log(chain_url);
     const chain_resp = await fetch(chain_url);
     const chain_json = await chain_resp.json();
 
@@ -139,15 +130,11 @@ export default function Evolutions({ navigation, route }) {
         >
           <TouchableOpacity
             onPress={() => {
-              navigation.setOptions({
-                // id: poke_pair.baes_id,
-                pokeName: poke_pair.base,
-              });
-              navigation.navigate("Pokemon", {
-                sprite: img1,
-                pokeName: poke_pair.base,
+              updatePokemon({
                 id: poke_pair.base_id,
+                pokeName: poke_pair.base,
               });
+              navigation.navigate("Pokemon");
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img1 }} />
@@ -156,8 +143,9 @@ export default function Evolutions({ navigation, route }) {
           <Ionicons name="arrow-forward-outline" size={40} />
           <TouchableOpacity
             onPress={() => {
-              navigation.setOptions({
+              updatePokemon({
                 id: poke_pair.evo_id,
+                pokeName: poke_pair.evolves_to,
               });
               navigation.navigate("Pokemon", {
                 sprite: img2,
@@ -179,14 +167,11 @@ export default function Evolutions({ navigation, route }) {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.setOptions({
+          updatePokemon({
             id: pokemon.id,
-          });
-          navigation.navigate("Pokemon", {
-            sprite: img,
             pokeName: pokemon.pokeNameForm,
-            id: pokemon.id,
           });
+          navigation.navigate("Pokemon");
         }}
       >
         <Image style={styles.pokemonImg} source={{ uri: img }} />
@@ -196,8 +181,10 @@ export default function Evolutions({ navigation, route }) {
   };
 
   useEffect(() => {
+    setEvolutions([]);
+    setVariety([]);
     getEvolutions(pokemonInfo.pokeName);
-  }, []);
+  }, [pokemonInfo]);
 
   return (
     <ScrollView

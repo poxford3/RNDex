@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Appearance } from "react-native";
-import Navigation from "./src/screens/Navigation";
-import { ThemeContext } from "./src/contexts/ThemeContext";
-import { storeData, getData } from "./src/config/asyncStorage";
+import Navigation from "../screens/Navigation";
+import { ThemeContext } from "./ThemeContext";
+import { storeData, getData } from "../config/asyncStorage";
 import * as SplashScreen from "expo-splash-screen";
-import { PokemonContext } from "./src/contexts/PokemonContext";
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();
 
-export default function App() {
+export default function ContextContainer() {
   const [theme, setTheme] = useState({ mode: "light" });
 
   const updateTheme = (newTheme) => {
@@ -37,36 +36,9 @@ export default function App() {
     });
   }
 
-  const fetchStoredTheme = async () => {
-    try {
-      const themeData = await getData("main_theme");
-
-      if (themeData) {
-        updateTheme(themeData);
-      }
-    } catch ({ message }) {
-      console.log("fetchStore error", message);
-    } finally {
-      setTimeout(() => SplashScreen.hideAsync(), 1000);
-    }
-  };
-
-  useEffect(() => {
-    fetchStoredTheme();
-  }, []);
-
-  // pokemon data
-  const [pokemon, setPokemon] = useState({ id: 1, pokeName: "bulbasaur" });
-
-  const updatePokemon = (newPoke) => {
-    setPokemon({ id: newPoke.id, pokeName: newPoke.pokeName });
-  };
-
   return (
     <ThemeContext.Provider value={{ theme, updateTheme }}>
-      <PokemonContext.Provider value={{ pokemon, updatePokemon }}>
-        <Navigation />
-      </PokemonContext.Provider>
+      <Navigation />
     </ThemeContext.Provider>
   );
 }

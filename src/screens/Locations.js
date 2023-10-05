@@ -5,9 +5,11 @@ import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function Locations({ route }) {
-  const pokemonInfo = route.params;
+  // const pokemonInfo = route.params;
+  const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -94,6 +96,10 @@ export default function Locations({ route }) {
       return <LoadingView />;
     }
   };
+
+  useEffect(() => {
+    getLocations(pokemonInfo.id);
+  }, [pokemonInfo]);
 
   return (
     <View

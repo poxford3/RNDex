@@ -15,6 +15,7 @@ import genList from "../../assets/generations";
 import LoadingView from "../utils/LoadingView";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -27,6 +28,8 @@ export default function Pokedex({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
 
   // functions
 
@@ -98,10 +101,14 @@ export default function Pokedex({ navigation }) {
         <TouchableOpacity
           style={[styles.innerBox, { borderColor: activeColors.border }]}
           onPress={() => {
-            navigation.navigate("PokemonTabNav", {
-              pokeName: pokeName,
-              id: id,
-            });
+            updatePokemon({ id: id, pokeName: pokeName });
+            navigation.navigate(
+              "PokemonTabNav"
+              // ,{
+              //   pokeName: pokeName,
+              //   id: id,
+              // }
+            );
           }}
         >
           <Image source={{ uri: poke_sprite }} style={styles.images} />
