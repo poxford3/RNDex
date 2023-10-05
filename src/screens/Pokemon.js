@@ -11,9 +11,9 @@ import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import { NavigationContext } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
-import capitalizeString from "../functions/capitalizeString";
+import capitalizeString from "../hooks/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
-import API_CALL from "../functions/API_CALL";
+import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation

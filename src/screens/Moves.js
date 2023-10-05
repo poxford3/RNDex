@@ -11,7 +11,7 @@ import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import images from "../../assets/types";
 import themeColors from "../styles/themeColors";
-import capitalizeString from "../functions/capitalizeString.js";
+import capitalizeString from "../hooks/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
 

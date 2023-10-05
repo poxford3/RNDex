@@ -6,33 +6,27 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import capitalizeString from "../functions/capitalizeString";
-import handleEvolutions from "../functions/handleEvolutions";
+import capitalizeString from "../hooks/capitalizeString";
+import handleEvolutions from "../hooks/handleEvolutions";
 import MissingInfo from "../utils/MissingInfo";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function Evolutions({ navigation, route }) {
   const pokemonInfo = route.params;
-  const [evolutions, setEvolutions] = useState([
-    {
-      evol: null,
-      level: null,
-      id: null,
-    },
-    {
-      evol: null,
-      level: null,
-      id: null,
-    },
-    {
-      evol: null,
-      level: null,
-      id: null,
-    },
-  ]);
+  // const [evolutions, setEvolutions] = useState([
+  //   {
+  //     base: null,
+  //     base_id: null,
+  //     evolves_to: null,
+  //     evo_id: null,
+  //     method: null,
+  //   },
+  // ]);
+  const [evolutions, setEvolutions] = useState([]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
 
@@ -75,15 +69,14 @@ export default function Evolutions({ navigation, route }) {
     }
 
     let chain_url = json.evolution_chain.url;
+    console.log(chain_url);
     const chain_resp = await fetch(chain_url);
     const chain_json = await chain_resp.json();
 
     let evols = [];
-    if (chain_json.chain.evolves_to.length > 0) {
-      evols = handleEvolutions(chain_json);
-      setEvolutions(evols);
-      // console.log("post set", evolutions);
-    }
+    evols = handleEvolutions(chain_json.chain);
+    setEvolutions(evols);
+    // console.log("post set", evolutions);
 
     // console.log("ahhhhh", evols.length, variety.length == 0);
     if (evols.length == 0 && variety.length == 0) {
@@ -98,23 +91,23 @@ export default function Evolutions({ navigation, route }) {
 
   // functional components
 
-  const EvolChain = ({ pokemon1, pokemon2 }) => {
-    const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon1.id}.png`;
-    const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon2.id}.png`;
+  const EvolChain = ({ poke_pair }) => {
+    const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.base_id}.png`;
+    const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.evo_id}.png`;
     let method_level;
     // determine what to display to show how to evolve
     switch (true) {
-      case pokemon2.level != null && pokemon2.time == "":
-        method_level = `Level ${pokemon2.level}`;
+      case poke_pair.level != null && poke_pair.time == undefined:
+        method_level = `Level ${poke_pair.level}`;
         break;
-      case pokemon2.level != null && pokemon2.time != "":
-        method_level = `Level up (${pokemon2.level}) during the ${pokemon2.time}`;
+      case poke_pair.level != null && poke_pair.time != undefined:
+        method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
         break;
-      case pokemon2.level == null && pokemon2.happy > 0:
+      case poke_pair.level == null && poke_pair.happy > 0:
         method_level = `Level up with high happiness`;
         break;
-      case pokemon2.level == null && pokemon2.move != null:
-        method_level = `Level up knowing ${pokemon2.move}`;
+      case poke_pair.level == null && poke_pair.move != null:
+        method_level = `Level up knowing ${poke_pair.move}`;
         break;
       default:
         method_level = null;
@@ -122,12 +115,11 @@ export default function Evolutions({ navigation, route }) {
     }
     const method = method_level
       ? method_level
-      : pokemon2.method == "trade"
+      : poke_pair.method == "trade"
       ? `Trade`
-      : pokemon2.method == "use-item"
-      ? `${pokemon2.item}`
+      : poke_pair.method == "use-item"
+      ? `Use ${poke_pair.item}`
       : `Other`;
-    // console.log(pokemon2.id);
 
     return (
       <View style={styles.evolContainer}>
@@ -148,34 +140,34 @@ export default function Evolutions({ navigation, route }) {
           <TouchableOpacity
             onPress={() => {
               navigation.setOptions({
-                // id: pokemon1.id,
-                pokeName: pokemon1.evol,
+                // id: poke_pair.baes_id,
+                pokeName: poke_pair.base,
               });
               navigation.navigate("Pokemon", {
                 sprite: img1,
-                pokeName: pokemon1.evol,
-                id: pokemon1.id,
+                pokeName: poke_pair.base,
+                id: poke_pair.base_id,
               });
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img1 }} />
-            <Text style={styles.pokeName}>{pokemon1.evol}</Text>
+            <Text style={styles.pokeName}>{poke_pair.base}</Text>
           </TouchableOpacity>
           <Ionicons name="arrow-forward-outline" size={40} />
           <TouchableOpacity
             onPress={() => {
               navigation.setOptions({
-                id: pokemon2.id,
+                id: poke_pair.evo_id,
               });
               navigation.navigate("Pokemon", {
                 sprite: img2,
-                pokeName: pokemon2.evol,
-                id: pokemon2.id,
+                pokeName: poke_pair.evolves_to,
+                id: poke_pair.evo_id,
               });
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img2 }} />
-            <Text style={styles.pokeName}>{pokemon2.evol}</Text>
+            <Text style={styles.pokeName}>{poke_pair.evolves_to}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -214,21 +206,17 @@ export default function Evolutions({ navigation, route }) {
     >
       {scrollOn ? (
         <>
-          {evolutions[1].evol ? (
+          {evolutions.length > 0 ? (
             <>
               <Text
                 style={[styles.headerText, { color: activeColors.textColor }]}
               >
                 Evolutions
               </Text>
-              <EvolChain pokemon1={evolutions[0]} pokemon2={evolutions[1]} />
+              {evolutions.map((evo, idx) => {
+                return <EvolChain poke_pair={evo} key={idx} />;
+              })}
             </>
-          ) : (
-            <></>
-          )}
-
-          {evolutions[2].evol ? (
-            <EvolChain pokemon1={evolutions[1]} pokemon2={evolutions[2]} />
           ) : (
             <></>
           )}

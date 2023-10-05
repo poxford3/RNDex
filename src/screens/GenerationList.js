@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Divider } from "react-native-paper";
-import API_CALL from "../functions/API_CALL";
-import capitalizeString, {
-  capitalizeGens,
-} from "../functions/capitalizeString";
+import API_CALL from "../hooks/API_CALL";
+import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";

@@ -81,7 +81,7 @@ export function PokemonBottomTabNav({ route }) {
         tabBarIcon: ({ color, size }) => {
           const icons = {
             Pokemon: "information",
-            Evol: "duck",
+            Evolutions: "duck",
             Locations: "map",
             Moves: "abacus",
           };
@@ -106,7 +106,11 @@ export function PokemonBottomTabNav({ route }) {
       // initialParams={info}
     >
       <Tab.Screen name="Pokemon" component={Pokemon} initialParams={info} />
-      <Tab.Screen name="Evol" component={Evolutions} initialParams={info} />
+      <Tab.Screen
+        name="Evolutions"
+        component={Evolutions}
+        initialParams={info}
+      />
       <Tab.Screen name="Locations" component={Locations} initialParams={info} />
       <Tab.Screen name="Moves" component={Moves} initialParams={info} />
     </Tab.Navigator>
