@@ -31,6 +31,7 @@ export default function Pokemon({ route }) {
     type1: null,
     type2: null,
   });
+  const [fullData, setFullData] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
   const { theme } = useContext(ThemeContext);
@@ -48,7 +49,8 @@ export default function Pokemon({ route }) {
     // height it 1/10th of a meter
     // weight is 1/10th of a kg
 
-    getDesc(json.id);
+    let json_id = getDesc(json.id);
+    setFullData[(json, json_id)];
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
@@ -86,6 +88,8 @@ export default function Pokemon({ route }) {
 
     description = arr.pop();
     setDesc(description.flavor_text.replace("\n", " "));
+
+    return json_id;
   };
 
   // functional components
