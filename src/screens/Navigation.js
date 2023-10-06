@@ -29,11 +29,11 @@ export default function MyStack() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Pokedex"
+        // initialRouteName="Test"
         screenOptions={{
           headerTintColor: activeColors.textColor,
           headerStyle: { backgroundColor: activeColors.background },
         }}
-        // initialRouteName="Test"
       >
         <Stack.Screen
           name="Pokedex"

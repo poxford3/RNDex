@@ -10,6 +10,7 @@ export default themeColors = {
     grey: "grey",
     selectorActive: "white",
     selectorInactive: "black",
+    themeType: "LIGHT",
   },
   dark: {
     textColor: "white",
@@ -22,5 +23,8 @@ export default themeColors = {
     grey: "grey",
     selectorActive: "white",
     selectorInactive: "white",
+    themeType: "DARK",
   },
 };
+
+// https://www.color-hex.com/color-palette/99156

@@ -113,9 +113,11 @@ export default function Locations() {
     <View
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <Text style={[styles.headerText, { color: activeColors.textColor }]}>
-        Locations
-      </Text>
+      <View>
+        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
+          Locations
+        </Text>
+      </View>
       <View style={styles.list}>
         <Body />
       </View>
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
   },
   list: {
     // height: "100%",
+    flex: 1,
   },
   locationBox: {
     height: 150,
