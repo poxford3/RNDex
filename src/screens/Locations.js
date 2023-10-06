@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import box_art from "../../assets/box_art";
 
-export default function Locations({ route }) {
+export default function Locations() {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
@@ -19,6 +20,7 @@ export default function Locations({ route }) {
   const getLocations = async (id) => {
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/encounters`;
+    console.log(url);
     const json = await API_CALL(url);
     let tempLocationList = [];
 
@@ -47,7 +49,8 @@ export default function Locations({ route }) {
   }, []);
 
   const Location = ({ loc }) => {
-    // console.log(loc);
+    // console.log(loc.game.toLowerCase().replace(" ", ""));
+    const box_art_pic = box_art[loc.game.toLowerCase().replace(" ", "")];
     const level_disp =
       loc.min_level == loc.max_level
         ? `Lv ${loc.min_level}`
@@ -56,15 +59,20 @@ export default function Locations({ route }) {
       <View
         style={[styles.locationBox, { borderBottomColor: activeColors.accent }]}
       >
-        <Text style={[styles.locText, { color: activeColors.textColor }]}>
-          {loc.location_name}
-        </Text>
-        <Text style={styles.miniLocText}>
-          {loc.chance}% - {level_disp}
-        </Text>
-        <Text style={{ color: activeColors.textColor }}>
-          Game found: {loc.game}
-        </Text>
+        <View style={styles.locLeft}>
+          <Text style={[styles.locText, { color: activeColors.textColor }]}>
+            {loc.location_name}
+          </Text>
+          <Text style={styles.miniLocText}>
+            {loc.chance}% - {level_disp}
+          </Text>
+        </View>
+        <View style={styles.locRight}>
+          <Image source={box_art_pic} style={{ height: 100, width: 100 }} />
+          {/* <Text style={{ color: activeColors.textColor, padding: 3 }}>
+            {loc.game}
+          </Text> */}
+        </View>
       </View>
     );
   };
@@ -105,9 +113,11 @@ export default function Locations({ route }) {
     <View
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <Text style={[styles.headerText, { color: activeColors.textColor }]}>
-        Locations
-      </Text>
+      <View>
+        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
+          Locations
+        </Text>
+      </View>
       <View style={styles.list}>
         <Body />
       </View>
@@ -125,13 +135,25 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   list: {
-    height: "100%",
+    // height: "100%",
+    flex: 1,
   },
   locationBox: {
     height: 150,
     padding: 10,
     // borderBottomColor: "black",
     borderBottomWidth: 1,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  locLeft: {
+    width: "50%",
+  },
+  locRight: {
+    width: "50%",
+    paddingLeft: 10,
+    // alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "center",
   },
   locText: {
