@@ -10,6 +10,7 @@ import {
 import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
+import PokeBonusInfo from "../utils/PokeBonusInfo";
 import capitalizeString from "../hooks/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../hooks/API_CALL";
@@ -46,11 +47,9 @@ export default function Pokemon({ route }) {
 
     const json = await API_CALL(url);
 
-    // height it 1/10th of a meter
-    // weight is 1/10th of a kg
+    let json_id = await getDesc(json.id);
 
-    let json_id = getDesc(json.id);
-    setFullData[(json, json_id)];
+    setFullData({ ...json, ...json_id });
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
@@ -218,6 +217,7 @@ export default function Pokemon({ route }) {
                   />
                 </VictoryGroup>
               </VictoryChart>
+              <PokeBonusInfo fullData={fullData} />
               <Text
                 style={{
                   textAlign: "center",
