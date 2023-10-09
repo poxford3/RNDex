@@ -7,16 +7,18 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
+
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
-import PokeBonusInfo from "../utils/PokeBonusInfo";
+import PokeBonusInfo from "../utils/PokemonComponents/PokeBonusInfo";
 import capitalizeString from "../hooks/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import PokeStats from "../utils/PokemonComponents/PokeStats";
+import CustomDivider from "../utils/CustomDivider";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
@@ -154,13 +156,7 @@ export default function Pokemon({ route }) {
                 {types.type1} {types.type2 ? `/ ${types.type2}` : ""}
               </Text>
             </View>
-            <View
-              style={{
-                height: "100%",
-                width: 1,
-                backgroundColor: "#909090",
-              }}
-            ></View>
+            <CustomDivider direction={"vertical"} />
             <View style={styles.headerRight}>
               <Text
                 style={{
@@ -190,34 +186,9 @@ export default function Pokemon({ route }) {
               >
                 Stats
               </Text>
-              <View
-                style={{
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#909090",
-                  marginTop: 10,
-                }}
-              ></View>
-              <VictoryChart domainPadding={10}>
-                <VictoryGroup offset={20}>
-                  <VictoryBar
-                    data={stats}
-                    // domain={{ y: [0, 255] }}
-                    horizontal={true}
-                    labels={({ datum }) => datum.y}
-                    alignment="middle"
-                    style={{
-                      data: {
-                        fill: "blue",
-                      },
-                      labels: {
-                        fill: activeColors.textColor,
-                      },
-                    }}
-                  />
-                </VictoryGroup>
-              </VictoryChart>
-              <PokeBonusInfo fullData={fullData} />
+              <CustomDivider direction={"horizontal"} />
+              <PokeStats stats={stats} />
+              <PokeBonusInfo fullData={fullData} typeColor={mainColor} />
               <Text
                 style={{
                   textAlign: "center",
@@ -243,8 +214,6 @@ const styles = StyleSheet.create({
   body: {
     height: "100%",
     width: "100%",
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   container: {
     flex: 1,

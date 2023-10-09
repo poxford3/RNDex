@@ -15,10 +15,15 @@ import {
   VictoryGroup,
   VictoryBar,
   VictoryPolarAxis,
+  VictoryPie,
+  VictoryLabel,
 } from "victory-native";
+import { Svg, Circle } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { List } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
+// react-native-charts-wrapper
+// import { PieChart } from "react-native-charts-wrapper";
 
 export default function TestView({ navigation }) {
   const [open, setOpen] = useState(false);
@@ -63,6 +68,11 @@ export default function TestView({ navigation }) {
     { x: "sp atk", y: 65 },
     { x: "sp def", y: 65 },
     { x: "speed", y: 45 },
+  ];
+
+  const genders = [
+    { x: "male", y: 35 },
+    { x: "female", y: 65 },
   ];
 
   const [expanded, setExpanded] = useState(false);
@@ -212,24 +222,48 @@ export default function TestView({ navigation }) {
     );
   };
 
-  useEffect(() => {
-    // console.log(value);
-    console.log("filter", pokemonTestFilter);
-    // console.log("dropdownvalues", dropdownValues);
-  }, [value]);
+  // useEffect(() => {
+  //   // console.log(value);
+  //   console.log("filter", pokemonTestFilter);
+  //   // console.log("dropdownvalues", dropdownValues);
+  // }, [value]);
 
-  // doesn't work...
-  // const filteredData = items.filter((x) => value.includes(x.value));
-  // const filteredData = items.filter((x) => console.log(x.parent));
-  // console.log("filtered", filteredData);
+  const PieChartTest = () => {
+    const dispText = `Gender Rates\nFemale: 65%\nMale: 35%`;
+    const dispText1 = `Female: 65%\nMale 35%`;
+    return (
+      <View>
+        {/* <VictoryPie data={data} /> */}
+        {/* <Text style={{ textAlign: "center" }}>Gender Rates</Text> */}
+        <Svg width={300} height={300}>
+          <VictoryPie
+            standalone={false}
+            data={genders}
+            width={300}
+            height={300}
+            innerRadius={60}
+            colorScale={["blue", "pink"]}
+            labels={({}) => null}
+          />
+          <VictoryLabel
+            text={dispText}
+            textAnchor={"middle"}
+            style={{ fontSize: 16 }}
+            x={150}
+            y={150}
+          />
+        </Svg>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>test page (Bulbasaur):</Text>
+      {/* <Text>test page (Bulbasaur):</Text> */}
       {/* {gens.map((e, idx) => {
         return <ListTest game={e.name} games={e.games} key={idx} />;
       })} */}
-      <DropdownTest />
+      <PieChartTest />
     </SafeAreaView>
   );
 }

@@ -204,9 +204,7 @@ export default function Evolutions({ navigation, route }) {
                 return <EvolChain poke_pair={evo} key={idx} />;
               })}
             </>
-          ) : (
-            <></>
-          )}
+          ) : null}
           {variety.length > 0 ? (
             <View>
               <Text
@@ -238,9 +236,7 @@ export default function Evolutions({ navigation, route }) {
                 </View>
               </View>
             </View>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </>
       ) : (
         <MissingInfo
