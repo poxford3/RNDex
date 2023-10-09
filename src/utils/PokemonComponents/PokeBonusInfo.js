@@ -35,6 +35,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             {fullData.abilities.map((ab, idx) => {
+              const border_status =
+                idx != fullData.abilities.length - 1 ? true : false;
+
               return (
                 <View
                   style={{
@@ -97,6 +100,22 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
         <Text style={[styles.infoText, { color: activeColors.textColor }]}>
           Growth Rate: {capitalizeString(fullData.growth_rate.name)}
         </Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={[styles.infoText, { color: activeColors.textColor }]}>
+            Egg Group(s):{" "}
+          </Text>
+          {fullData.egg_groups.map((egg, idx) => {
+            return (
+              <Text
+                key={idx}
+                style={[styles.infoText, { color: activeColors.textColor }]}
+              >
+                {capitalizeString(egg.name)}{" "}
+                {idx != fullData.egg_groups.length - 1 ? "/ " : null}
+              </Text>
+            );
+          })}
+        </View>
       </View>
     );
   };
@@ -131,26 +150,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 </View>
               );
             })}
-          {/* <Text>Weak Against</Text>
-          {typeEffectObj
-            .filter((e) => e.effectiveness > 1)
-            .map((t, idx) => {
-              return (
-                <Text key={idx}>
-                  {t.typeName}: {t.effectiveness}x
-                </Text>
-              );
-            })}
-          <Text>Immune To</Text>
-          {typeEffectObj
-            .filter((e) => e.effectiveness == 0)
-            .map((t, idx) => {
-              return (
-                <Text key={idx}>
-                  {t.typeName}: {t.effectiveness}x
-                </Text>
-              );
-            })} */}
         </View>
       );
     } else {

@@ -7,6 +7,7 @@
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/poxford3/rndex">
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/poxford3/rndex">
   <img alt="Repository Size" src="https://img.shields.io/github/repo-size/poxford3/rndex">
+  <img alt="maintained" src="https://github.com/poxford3/rndex/graphs/commit-activity">
 </p>
 
 a pokedex using React Native, click around to see your favorite pokemon throughout the generations!

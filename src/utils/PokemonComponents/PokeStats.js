@@ -30,21 +30,10 @@ export default function PokeStats({ stats, typeColor }) {
         Stats
       </Text>
       <CustomDivider direction={"horizontal"} />
-      <VictoryChart domainPadding={10} padding={50}>
-        <VictoryGroup
-          offset={20}
-          theme={{
-            axis: {
-              axisLabel: {
-                fill: "white",
-              },
-            },
-          }}
-        >
-          <VictoryBar
-            data={stats}
-            domain={{ y: [0, 255] }}
-            horizontal={true}
+      <View>
+        <VictoryChart domainPadding={10}>
+          <VictoryGroup
+            offset={20}
             theme={{
               axis: {
                 axisLabel: {
@@ -52,20 +41,33 @@ export default function PokeStats({ stats, typeColor }) {
                 },
               },
             }}
-            labels={({ datum }) => datum.y}
-            alignment="middle"
-            style={{
-              data: {
-                fill: typeColor,
-              },
-              labels: {
-                fill: activeColors.textColor,
-                width: 50,
-              },
-            }}
-          />
-        </VictoryGroup>
-      </VictoryChart>
+          >
+            <VictoryBar
+              data={stats}
+              domain={{ y: [0, 255] }}
+              horizontal={true}
+              theme={{
+                axis: {
+                  axisLabel: {
+                    fill: "white",
+                  },
+                },
+              }}
+              labels={({ datum }) => datum.y}
+              alignment="middle"
+              style={{
+                data: {
+                  fill: typeColor,
+                },
+                labels: {
+                  fill: activeColors.textColor,
+                  width: 50,
+                },
+              }}
+            />
+          </VictoryGroup>
+        </VictoryChart>
+      </View>
     </View>
   );
 }

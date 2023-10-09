@@ -19,7 +19,8 @@ export default function CustomDivider({ direction }) {
           width: "100%",
           borderWidth: 1,
           borderColor: "#909090",
-          marginTop: 10,
+          marginVertical: 5,
+          // marginBottom: 1,
         }}
       ></View>
     );

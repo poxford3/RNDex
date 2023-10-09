@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   sectional: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "grey",
+    backgroundColor: "#999999",
     padding: 10,
     borderRadius: 20,
     margin: 5,
