@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
-import { StatusBar } from "react-native";
+import { StatusBar, Text } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
@@ -73,7 +73,7 @@ const Tab = createMaterialBottomTabNavigator();
 // will need the above shortly
 
 export function PokemonBottomTabNav({ route }) {
-  let info = route.params;
+  // let info = route.params;
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -81,16 +81,29 @@ export function PokemonBottomTabNav({ route }) {
 
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      tabBarOptions={{
+        activeTintColor: "red",
+        inactiveTintColor: "green",
+      }}
+      screenOptions={({ route, navigation }) => ({
         headerShown: false,
-        tabBarIcon: ({ color, size }) => {
+        tabBarLabel: (
+          <Text
+            style={{
+              color: navigation.isFocused() ? activeColors.textColor : "grey",
+            }}
+          >
+            {route.name}
+          </Text>
+        ),
+        tabBarIcon: ({ color, size, focused }) => {
+          // console.log(color);
           const icons = {
             Pokemon: "information",
             Evolutions: "duck",
             Locations: "map",
             Moves: "abacus",
           };
-
           return (
             <MaterialCommunityIcons
               name={icons[route.name]}
@@ -104,11 +117,8 @@ export function PokemonBottomTabNav({ route }) {
         backgroundColor: activeColors.background,
         borderTopColor: activeColors.grey,
         borderTopWidth: 0.4,
-        // tabBarActiveTintColor: activeColors.textColor,
-        // tabBarInactiveTintColor: "gray",
       }}
       initialRouteName="Pokemon"
-      // initialParams={info}
     >
       <Tab.Screen
         name="Pokemon"

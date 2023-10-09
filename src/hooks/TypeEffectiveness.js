@@ -91,9 +91,6 @@ export default function TypeEffectiveness(typesInp, abilityInp) {
 
   if (type1 != type2) {
     for (i = 0; i <= 18; i++) {
-      // types.map((i) => {
-      //   console.log(i);
-      // });
       result[i] =
         types[i][type1] *
         types[i][type2] *
@@ -115,7 +112,7 @@ export default function TypeEffectiveness(typesInp, abilityInp) {
         color[i] = "#b9b9ed";
       }
       if (result[i] == 0) {
-        color[i] = "#aaaaaa";
+        color[i] = "#000000";
       }
       if (result[i] > 1) {
         color[i] = "#eddab9";

@@ -13,8 +13,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const [loading, setLoading] = useState(true);
-
   // info:
   // height it 1/10th of a meter
   // weight is 1/10th of a kg
@@ -110,8 +108,8 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 key={idx}
                 style={[styles.infoText, { color: activeColors.textColor }]}
               >
-                {capitalizeString(egg.name)}{" "}
-                {idx != fullData.egg_groups.length - 1 ? "/ " : null}
+                {capitalizeString(egg.name)}
+                {idx != fullData.egg_groups.length - 1 ? " / " : null}
               </Text>
             );
           })}
@@ -138,7 +136,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             .filter((e) => e.effectiveness != 1)
             .map((t, idx) => {
               return (
-                <View style={{ flexDirection: "row" }} key={idx}>
+                <View style={{ flexDirection: "row", margin: 3 }} key={idx}>
                   <Image
                     style={{ height: 20, width: 60 }}
                     source={images[t.typeName.toLowerCase()]}
@@ -198,6 +196,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 20,
+    paddingHorizontal: 5,
     // textTransform: "capitalize",
   },
   sectional: {
