@@ -9,6 +9,7 @@
   <img alt="Repository Size" src="https://img.shields.io/github/repo-size/poxford3/rndex">
   <img alt="maintained" src="https://github.com/poxford3/rndex/graphs/commit-activity">
 </p>
+[![Maintenance](https://img.shields.io/maintenance/yes/2023.svg)](https://github.com/poxford3/rndex/graphs/commit-activity)
 
 a pokedex using React Native, click around to see your favorite pokemon throughout the generations!
 
