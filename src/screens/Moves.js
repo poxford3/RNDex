@@ -13,6 +13,7 @@ import images from "../../assets/types";
 import themeColors from "../styles/themeColors";
 import capitalizeString from "../hooks/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
+import type_colors from "../../assets/types/type_colors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 
@@ -21,6 +22,7 @@ export default function Moves({ route }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [methSelect, setMethSelect] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
+  const [mainColor, setMainColor] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
@@ -32,6 +34,8 @@ export default function Moves({ route }) {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
     const response = await fetch(url);
     const json = await response.json();
+
+    setMainColor(type_colors[json.types[0].type.name]);
 
     // console.log(json.moves);
 
@@ -176,7 +180,9 @@ export default function Moves({ route }) {
               uncheckedColor: activeColors.selectorInactive,
               style: {
                 backgroundColor:
-                  methSelect == "level-up" ? "blue" : activeColors.background,
+                  methSelect == "level-up"
+                    ? mainColor
+                    : activeColors.background,
               },
             },
             {
@@ -186,7 +192,7 @@ export default function Moves({ route }) {
               uncheckedColor: activeColors.selectorInactive,
               style: {
                 backgroundColor:
-                  methSelect == "tutor" ? "blue" : activeColors.background,
+                  methSelect == "tutor" ? mainColor : activeColors.background,
               },
             },
             {
@@ -196,7 +202,7 @@ export default function Moves({ route }) {
               uncheckedColor: activeColors.selectorInactive,
               style: {
                 backgroundColor:
-                  methSelect == "machine" ? "blue" : activeColors.background,
+                  methSelect == "machine" ? mainColor : activeColors.background,
               },
             },
           ]}

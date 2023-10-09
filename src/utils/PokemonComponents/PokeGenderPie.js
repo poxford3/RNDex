@@ -40,8 +40,9 @@ export default function PokeGenderPie({ genders, typeColor }) {
     genderChance();
   }, []);
 
-  const SIZE = 250;
+  const SIZE = 200;
   const CENTER = SIZE / 2;
+  const INNER_RADIUS = 60;
   const dispText = `Female: ${genderObj[1].y}%\nMale ${genderObj[0].y}%`;
 
   return genderless ? (
@@ -55,7 +56,7 @@ export default function PokeGenderPie({ genders, typeColor }) {
           data={[{ x: 1, y: 1 }]}
           width={SIZE}
           height={SIZE}
-          innerRadius={50}
+          innerRadius={INNER_RADIUS}
           colorScale={["lightgrey"]}
           labels={({}) => null}
         />
@@ -79,7 +80,7 @@ export default function PokeGenderPie({ genders, typeColor }) {
           data={genderObj}
           width={SIZE}
           height={SIZE}
-          innerRadius={60}
+          innerRadius={INNER_RADIUS}
           colorScale={["blue", "pink"]}
           labels={({}) => null}
         />
