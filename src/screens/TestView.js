@@ -17,6 +17,7 @@ import {
   VictoryPolarAxis,
   VictoryPie,
   VictoryLabel,
+  VictoryAxis,
 } from "victory-native";
 import { Svg, Circle } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
@@ -108,17 +109,81 @@ export default function TestView({ navigation }) {
 
   const ChartTest = () => {
     return (
-      <VictoryChart polar>
-        <VictoryPolarAxis
-          style={{ axis: { stroke: "none" } }}
-        ></VictoryPolarAxis>
+      <VictoryChart>
+        <VictoryGroup>
+          <VictoryBar
+            data={data}
+            style={{
+              data: { fill: "blue", stroke: "black", strokeWidth: 2 },
+              labels: { fill: "white" },
+            }}
+          />
+        </VictoryGroup>
+      </VictoryChart>
+    );
+  };
+
+  const ChartTest2 = () => {
+    return (
+      <VictoryChart
+        domainPadding={10}
+        padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
+      >
+        <VictoryLabel
+          labelPlacement="parallel"
+          label="Center me"
+          style={{
+            fill: "white",
+          }}
+        />
+        <VictoryAxis
+          dependentAxis
+          label={"(Max 255)"}
+          orientation={"bottom"}
+          domain={[0, 255]}
+          style={{
+            axisLabel: {
+              fill: "white",
+            },
+            tickLabels: {
+              fill: "white",
+            },
+            axisLabel: {
+              marginTop: 5,
+            },
+          }}
+        />
+        <VictoryAxis
+          independentAxis
+          orientation={"left"}
+          style={{
+            tickLabels: {
+              fill: "white",
+            },
+          }}
+        />
         <VictoryBar
           data={data}
+          // domain={{ y: [0, 255] }}
+          horizontal={true}
+          // width={{}} // use this !!
+          labels={({ datum }) => datum.y}
+          alignment="middle"
           style={{
-            data: { fill: "blue", stroke: "black", strokeWidth: 2 },
+            data: {
+              fill: "blue",
+            },
           }}
         />
       </VictoryChart>
+    );
+  };
+
+  const ChartTitle = () => {
+    return (
+      <View>
+        <Text>title ?*</Text>
+      </View>
     );
   };
 
@@ -263,7 +328,7 @@ export default function TestView({ navigation }) {
       {/* {gens.map((e, idx) => {
         return <ListTest game={e.name} games={e.games} key={idx} />;
       })} */}
-      <PieChartTest />
+      <ChartTest2 />
     </SafeAreaView>
   );
 }
@@ -284,6 +349,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#15202b",
   },
   gradient: {
     width: "100%",

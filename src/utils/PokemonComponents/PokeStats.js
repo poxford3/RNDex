@@ -5,6 +5,8 @@ import {
   VictoryGroup,
   VictoryBar,
   VictoryTheme,
+  VictoryAxis,
+  VictoryLabel,
 } from "victory-native";
 import themeColors from "../../styles/themeColors";
 import CustomDivider from "../CustomDivider";
@@ -31,41 +33,65 @@ export default function PokeStats({ stats, typeColor }) {
       </Text>
       <CustomDivider direction={"horizontal"} />
       <View>
-        <VictoryChart domainPadding={10}>
-          <VictoryGroup
-            offset={20}
-            theme={{
+        <VictoryChart
+          domainPadding={10}
+          padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
+        >
+          <VictoryAxis
+            dependentAxis
+            label={"(Max 255)"}
+            orientation={"bottom"}
+            domain={[0, 255]}
+            style={{
               axis: {
-                axisLabel: {
-                  fill: "white",
-                },
+                stroke: activeColors.textColor,
+              },
+              axisLabel: {
+                fill: activeColors.textColor,
+              },
+              tickLabels: {
+                fill: activeColors.textColor,
+              },
+              axisLabel: {
+                marginTop: 5,
               },
             }}
-          >
-            <VictoryBar
-              data={stats}
-              domain={{ y: [0, 255] }}
-              horizontal={true}
-              theme={{
-                axis: {
-                  axisLabel: {
-                    fill: "white",
-                  },
-                },
-              }}
-              labels={({ datum }) => datum.y}
-              alignment="middle"
-              style={{
-                data: {
-                  fill: typeColor,
-                },
-                labels: {
-                  fill: activeColors.textColor,
-                  width: 50,
-                },
-              }}
-            />
-          </VictoryGroup>
+          />
+          <VictoryAxis
+            independentAxis
+            orientation={"left"}
+            style={{
+              axis: {
+                stroke: activeColors.textColor,
+              },
+              tickLabels: {
+                fill: activeColors.textColor,
+              },
+            }}
+          />
+          <VictoryBar
+            data={stats}
+            // domain={{ y: [0, 255] }}
+            horizontal={true}
+            labels={({ datum }) => datum.y}
+            alignment="middle"
+            style={{
+              data: {
+                fill: typeColor,
+              },
+              labels: {
+                fill: activeColors.textColor,
+                width: 50,
+              },
+            }}
+          />
+          {/* <VictoryLabel
+            text={"Max 255"}
+            textAnchor={"middle"}
+            style={{
+              fill: "white",
+            }}
+          /> */}
         </VictoryChart>
       </View>
     </View>

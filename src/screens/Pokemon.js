@@ -56,12 +56,12 @@ export default function Pokemon({ route }) {
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
-      let x_ = e.stat.name.replace("-", "\n");
+      let x_ = e.stat.name.replace("-", " ");
 
       stat_list = [
         ...stat_list,
         {
-          x: capitalizeString(x_),
+          x: capitalizeString(x_).replace(" ", "\n"),
           y: e.base_stat,
           // EV: e.effort,
         },
