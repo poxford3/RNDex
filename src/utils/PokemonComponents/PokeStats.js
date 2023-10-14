@@ -1,13 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text } from "react-native";
-import {
-  VictoryChart,
-  VictoryGroup,
-  VictoryBar,
-  VictoryTheme,
-  VictoryAxis,
-  VictoryLabel,
-} from "victory-native";
+import { VictoryChart, VictoryBar, VictoryAxis } from "victory-native";
 import themeColors from "../../styles/themeColors";
 import CustomDivider from "../CustomDivider";
 import { ThemeContext } from "../../contexts/ThemeContext";
@@ -17,10 +10,7 @@ export default function PokeStats({ stats, typeColor }) {
   let activeColors = themeColors[theme.mode];
 
   return (
-    <View
-    // style={{ width: "80%", alignItems: "center", justifyContent: "center" }}
-    // style={{ width: "80%" }}
-    >
+    <View>
       <Text
         style={{
           fontSize: 32,
@@ -48,12 +38,13 @@ export default function PokeStats({ stats, typeColor }) {
               },
               axisLabel: {
                 fill: activeColors.textColor,
+                marginTop: 5,
+              },
+              label: {
+                fill: activeColors.textColor,
               },
               tickLabels: {
                 fill: activeColors.textColor,
-              },
-              axisLabel: {
-                marginTop: 5,
               },
             }}
           />
@@ -85,13 +76,6 @@ export default function PokeStats({ stats, typeColor }) {
               },
             }}
           />
-          {/* <VictoryLabel
-            text={"Max 255"}
-            textAnchor={"middle"}
-            style={{
-              fill: "white",
-            }}
-          /> */}
         </VictoryChart>
       </View>
     </View>
