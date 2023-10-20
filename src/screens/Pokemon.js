@@ -65,7 +65,7 @@ export default function Pokemon({ route }) {
         {
           x: capitalizeString(x_).replace(" ", "\n"),
           y: e.base_stat,
-          // EV: e.effort,
+          // EV: e.effort, // EVs gained from killing
         },
       ];
     });

@@ -32,102 +32,45 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   // console.log(fullData.weight);
 
   const AbilityDisplay = () => {
-    const ability_length = fullData.abilities.length;
-    if (ability_length > 1) {
-      return (
-        <View style={{ flexDirection: "column" }}>
-          <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
-            Abilities
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            {fullData.abilities.map((ab, idx) => {
-              const border_status =
-                idx != fullData.abilities.length - 1 ? true : false;
-
-              return (
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginVertical: 5,
-                  }}
-                  key={idx}
-                >
-                  <Text
-                    style={[styles.info, { color: activeColors.textColor }]}
-                  >
-                    {capitalizeString(ab.ability.name)}
-                    {border_status ? ", " : null}
-                  </Text>
-                  {ab.is_hidden ? (
-                    <>
-                      <Text> </Text>
-                      <Ionicons
-                        name="eye-off-outline"
-                        color={typeColor}
-                        size={20}
-                      />
-                    </>
-                  ) : null}
-                </View>
-              );
-            })}
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.sectional}>
-          <Text style={[styles.headerText, { color: typeColor }]}>Ability</Text>
-          <Text style={[styles.infoText, { color: activeColors.textColor }]}>
-            {capitalizeString(fullData.abilities[0].ability.name)}
-          </Text>
-        </View>
-      );
-    }
-  };
-
-  const QuickInfo = () => {
     return (
-      <View style={styles.sectional}>
-        <Text style={[styles.headerText, { color: typeColor }]}>IDK :/</Text>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <MaterialCommunityIcons name="ruler" size={20} color={typeColor} />
-          <Text style={[styles.infoText, { color: activeColors.textColor }]}>
-            {fullData.height / 10} m
-          </Text>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <MaterialCommunityIcons
-            name="scale-bathroom"
-            size={20}
-            color={typeColor}
-          />
-          <Text style={[styles.infoText, { color: activeColors.textColor }]}>
-            {fullData.weight / 10} kg
-          </Text>
-        </View>
-        <Text style={[styles.infoText, { color: activeColors.textColor }]}>
-          Growth Rate: {capitalizeString(fullData.growth_rate.name)}
+      <View style={{ flexDirection: "column" }}>
+        <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
+          Abilities
         </Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={[styles.infoText, { color: activeColors.textColor }]}>
-            Egg Group(s):{" "}
-          </Text>
-          {fullData.egg_groups.map((egg, idx) => {
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          {fullData.abilities.map((ab, idx) => {
+            const border_status =
+              idx != fullData.abilities.length - 1 ? true : false;
+
             return (
-              <Text
+              <View
+                style={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginVertical: 5,
+                }}
                 key={idx}
-                style={[styles.infoText, { color: activeColors.textColor }]}
               >
-                {capitalizeString(egg.name)}
-                {idx != fullData.egg_groups.length - 1 ? " / " : null}
-              </Text>
+                <Text style={[styles.info, { color: activeColors.textColor }]}>
+                  {capitalizeString(ab.ability.name)}
+                  {border_status ? ", " : null}
+                </Text>
+                {ab.is_hidden ? (
+                  <>
+                    <Text> </Text>
+                    <Ionicons
+                      name="eye-off-outline"
+                      color={typeColor}
+                      size={20}
+                    />
+                  </>
+                ) : null}
+              </View>
             );
           })}
         </View>
@@ -170,8 +113,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   };
 
   const TypeItem = ({ t }) => {
-    // console.log(t);
-    // alert(t);
     let pic_source = t.typeName ? t.typeName.toLowerCase() : "dragon";
     return (
       <View
@@ -188,8 +129,17 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     );
   };
 
-  const NewInfoBody = () => {
-    const ability_length = fullData.abilities.length;
+  const InfoBody = () => {
+    let egg_list = [];
+    // console.log(fullData.egg_groups);
+    fullData.egg_groups.map((egg, idx) => {
+      egg_list.push(
+        capitalizeString(egg.name).concat(
+          idx != fullData.egg_groups.length - 1 ? " /" : ""
+        )
+      );
+    });
+    const egg_text = egg_list.join(" ");
     return (
       <View
         style={[
@@ -214,55 +164,34 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
         </View>
         <View style={styles.infoSection}>
           <View style={styles.row}>
-            <View style={styles.infoItem}>
-              <MaterialCommunityIcons
-                name="scale-bathroom"
-                size={20}
-                color={typeColor}
-              />
-              <Text style={[styles.info, { color: activeColors.textColor }]}>
-                {fullData.weight / 10} kg
-              </Text>
-            </View>
-            {/* <PokeGenderPieChart typeColor={"green"} genders={genders} /> */}
-            <View style={styles.infoItem}>
-              <Text style={[styles.info, { color: activeColors.textColor }]}>
-                {fullData.height / 10} m
-              </Text>
-              <MaterialCommunityIcons
-                name="ruler"
-                size={20}
-                color={typeColor}
-              />
-            </View>
+            <InfoTopic
+              title={"Height"}
+              textValue={`${fullData.height / 10} m`}
+              icon={"ruler"}
+              side="left"
+            />
+
+            <InfoTopic
+              title={"Growth Rate"}
+              textValue={`${capitalizeString(fullData.growth_rate.name)}`}
+              icon={"chart-line"}
+              side="right"
+            />
           </View>
+          {/* <View style={styles.row}></View> */}
           <View style={styles.row}>
-            <View style={styles.infoItem}>
-              <MaterialCommunityIcons
-                name="chart-line"
-                size={20}
-                color={typeColor}
-              />
-              <Text style={[styles.info, { color: activeColors.textColor }]}>
-                {capitalizeString(fullData.growth_rate.name)}
-              </Text>
-            </View>
-            <View style={styles.infoItem}>
-              <Text style={[styles.info, { color: activeColors.textColor }]}>
-                {fullData.egg_groups.map((egg, idx) => {
-                  return (
-                    <Text
-                      key={idx}
-                      style={[styles.info, { color: activeColors.textColor }]}
-                    >
-                      {capitalizeString(egg.name)}
-                      {idx != fullData.egg_groups.length - 1 ? " / " : null}
-                    </Text>
-                  );
-                })}
-              </Text>
-              <MaterialCommunityIcons name="egg" size={20} color={typeColor} />
-            </View>
+            <InfoTopic
+              title={"Weight"}
+              textValue={`${fullData.weight / 10} kg`}
+              icon={"scale-bathroom"}
+              side="left"
+            />
+            <InfoTopic
+              title={"Egg Group"}
+              textValue={`${egg_text}`}
+              icon={"egg"}
+              side="right"
+            />
           </View>
           <View style={styles.row}>
             <AbilityDisplay />
@@ -272,13 +201,51 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     );
   };
 
+  const InfoTopic = ({ title, textValue, icon, side }) => {
+    return (
+      <View>
+        {side == "left" ? (
+          <>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
+                {title}{" "}
+              </Text>
+              <MaterialCommunityIcons name={icon} size={20} color={typeColor} />
+            </View>
+            <Text style={[styles.info, { color: activeColors.textColor }]}>
+              {textValue}
+            </Text>
+          </>
+        ) : (
+          <>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialCommunityIcons name={icon} size={20} color={typeColor} />
+              <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
+                {" "}
+                {title}
+              </Text>
+            </View>
+            <Text
+              style={[
+                styles.info,
+                { color: activeColors.textColor, textAlign: "right" },
+              ]}
+            >
+              {textValue}
+            </Text>
+          </>
+        )}
+      </View>
+    );
+  };
+
   const StyledBody = () => {
     return (
       <View style={styles.styleBody}>
         <View style={styles.firstSection}>
-          <NewInfoBody />
-          <PokeGenderPie genders={fullData.gender_rate} typeColor={typeColor} />
-          <TypeEffectiveBody />
+          <InfoBody />
+          {/* <PokeGenderPie genders={fullData.gender_rate} typeColor={typeColor} />
+          <TypeEffectiveBody /> */}
         </View>
       </View>
     );
@@ -355,5 +322,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     padding: 10,
+    marginVertical: 10,
   },
 });
