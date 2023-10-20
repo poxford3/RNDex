@@ -6,6 +6,7 @@ import { storeData, getData } from "../config/asyncStorage";
 import * as SplashScreen from "expo-splash-screen";
 
 // keep splash on screen while app loads
+// didn't work
 SplashScreen.preventAutoHideAsync();
 
 export default function ContextContainer() {

@@ -42,7 +42,7 @@ export default function PokeGenderPie({ genders, typeColor }) {
 
   const SIZE = 200;
   const CENTER = SIZE / 2;
-  const INNER_RADIUS = 60;
+  const INNER_RADIUS = SIZE * 0.3;
   const dispText = `Female: ${genderObj[1].y}%\nMale ${genderObj[0].y}%`;
 
   return genderless ? (

@@ -1,5 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
+
+const { height, width } = Dimensions.get("screen");
 
 export default function CustomDivider({ direction }) {
   if (direction == "vertical") {
@@ -16,11 +18,12 @@ export default function CustomDivider({ direction }) {
     return (
       <View
         style={{
+          // width: width,
           width: "100%",
+          // width: 100,
           borderWidth: 1,
           borderColor: "#909090",
           marginVertical: 5,
-          // marginBottom: 1,
         }}
       ></View>
     );

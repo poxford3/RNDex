@@ -1,6 +1,5 @@
 import capitalizeString from "./capitalizeString";
 
-// let evos = [];
 // DEPRECATED
 // export default function handleEvolutions(chain_json) {
 //   evos = [];

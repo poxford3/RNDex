@@ -21,7 +21,17 @@ export default function PokeStats({ stats, typeColor }) {
       >
         Stats
       </Text>
-      <CustomDivider direction={"horizontal"} />
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          textAlign: "center",
+          color: activeColors.textColor,
+        }}
+      >
+        (Total: {stats[0]["y"]})
+      </Text>
+      {/* <CustomDivider direction={"horizontal"} /> */}
       <View>
         <VictoryChart
           domainPadding={10}
@@ -29,7 +39,7 @@ export default function PokeStats({ stats, typeColor }) {
         >
           <VictoryAxis
             dependentAxis
-            label={"(Max 255)"}
+            label={"(Single Value Max: 255)"}
             orientation={"bottom"}
             domain={[0, 255]}
             style={{
@@ -61,7 +71,7 @@ export default function PokeStats({ stats, typeColor }) {
             }}
           />
           <VictoryBar
-            data={stats}
+            data={stats.filter((e) => e.x != "Total")}
             // domain={{ y: [0, 255] }}
             horizontal={true}
             labels={({ datum }) => datum.y}

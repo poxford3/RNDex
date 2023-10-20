@@ -19,12 +19,14 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
+import FavoritePokemon from "../utils/FavoritePokemon";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  // const sprite_to_use = `https://archives.bulbagarden.net/media/upload/8/80/${pokemonInfo.id}${pokemonInfo.pokeName}_Smile.png`; // would be funny to get working
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
@@ -68,13 +70,18 @@ export default function Pokemon({ route }) {
       ];
     });
 
+    stat_list.push({
+      x: "Total",
+      y: stat_list.reduce((n, { y }) => n + y, 0), // sums up all the stats
+    });
+
     let type_obj = {
       type1: json.types[0].type.name,
       type2: json.types[1]?.type?.name,
     };
 
     setMainColor(type_colors[json.types[0].type.name]);
-    setStats(stat_list);
+    setStats(stat_list.reverse());
     setTypes(type_obj);
     setLoaded(true);
   };
@@ -93,8 +100,6 @@ export default function Pokemon({ route }) {
 
     return json_id;
   };
-
-  // functional components
 
   // on start up
   useEffect(() => {
@@ -200,6 +205,7 @@ export default function Pokemon({ route }) {
           <LoadingView />
         )}
       </ScrollView>
+      {/* <FavoritePokemon /> */}
     </SafeAreaView>
   );
 }

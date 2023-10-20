@@ -3,10 +3,11 @@ import {
   View,
   Text,
   SafeAreaView,
-  FlatList,
   StyleSheet,
-  TouchableOpacity,
   Image,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
 } from "react-native";
 // import genList from ".../assets/generations.js";
 // import { genList } from ".../assets/generations.js";
@@ -14,21 +15,29 @@ import {
   VictoryChart,
   VictoryGroup,
   VictoryBar,
-  VictoryPolarAxis,
   VictoryPie,
   VictoryLabel,
   VictoryAxis,
 } from "victory-native";
-import { Svg, Circle } from "react-native-svg";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// mat com icons file:
+// app_glyphmaps_materialcommunityicons.json
+import { Svg } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { List } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
+import PokeGenderPieChart from "../utils/PokemonComponents/PokeGenderPieChart";
+import themeColors from "../styles/themeColors";
 // react-native-charts-wrapper
 // import { PieChart } from "react-native-charts-wrapper";
 
-export default function TestView({ navigation }) {
+export default function TestView() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [heartToggle, setHeartToggle] = useState(false);
+  const themeChoose = "dark";
+  const typeColor = "#F8D030";
+  const activeColors = themeColors[themeChoose];
   // const [items, setItems] = useState([
   //   { label: "Fruit", value: "fruit" },
   //   { label: "Apple", value: "apple", parent: "fruit" },
@@ -69,6 +78,7 @@ export default function TestView({ navigation }) {
     { x: "sp atk", y: 65 },
     { x: "sp def", y: 65 },
     { x: "speed", y: 45 },
+    { x: "extra", y: 50 },
   ];
 
   const genders = [
@@ -176,14 +186,6 @@ export default function TestView({ navigation }) {
           }}
         />
       </VictoryChart>
-    );
-  };
-
-  const ChartTitle = () => {
-    return (
-      <View>
-        <Text>title ?*</Text>
-      </View>
     );
   };
 
@@ -322,13 +324,138 @@ export default function TestView({ navigation }) {
     );
   };
 
+  const DataViewTest = () => {
+    return (
+      <View
+        style={[
+          infoStyle.section,
+          { backgroundColor: activeColors.background, borderColor: typeColor },
+        ]}
+      >
+        <View style={{ alignItems: "center" }}>
+          <View
+            style={[
+              infoStyle.header,
+              { backgroundColor: activeColors.accent, borderColor: typeColor },
+            ]}
+          >
+            <Text style={[infoStyle.headerText, { color: typeColor }]}>
+              INfo :)
+            </Text>
+          </View>
+        </View>
+        <View style={infoStyle.infoSection}>
+          <View style={infoStyle.row}>
+            <View style={infoStyle.infoItem}>
+              <MaterialCommunityIcons
+                name="scale-bathroom"
+                size={20}
+                color={typeColor}
+              />
+              <Text style={[infoStyle.info, { color: activeColors.textColor }]}>
+                1000 kg
+              </Text>
+            </View>
+            {/* <PokeGenderPieChart typeColor={"green"} genders={genders} /> */}
+            <View style={infoStyle.infoItem}>
+              <Text style={[infoStyle.info, { color: activeColors.textColor }]}>
+                1000 m
+              </Text>
+              <MaterialCommunityIcons
+                name="ruler"
+                size={20}
+                color={typeColor}
+              />
+            </View>
+          </View>
+          <View style={infoStyle.row}>
+            <View style={infoStyle.infoItem}>
+              <MaterialCommunityIcons
+                name="chart-line"
+                size={20}
+                color={typeColor}
+              />
+              <Text style={[infoStyle.info, { color: activeColors.textColor }]}>
+                Growth Rate
+              </Text>
+            </View>
+            <View style={infoStyle.infoItem}>
+              <Text style={[infoStyle.info, { color: activeColors.textColor }]}>
+                Egg Group
+              </Text>
+              <MaterialCommunityIcons
+                name="language-cpp"
+                size={20}
+                color={typeColor}
+              />
+            </View>
+          </View>
+          <View style={infoStyle.row}>
+            <TypeEffecLister />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const TypeEffecLister = () => {
+    return (
+      <View style={{ flexDirection: "row", flexGrow: 1 }}>
+        <FlatList
+          data={data}
+          numColumns={3}
+          scrollEnabled={false}
+          renderItem={({ item }) => {
+            return (
+              <View
+                style={{
+                  width: "33%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: 3,
+                }}
+              >
+                <Image
+                  source={require("../../assets/types/dragon.png")}
+                  style={{ height: 20, width: 60, marginRight: 3 }}
+                />
+                <Text style={{ color: activeColors.textColor }}>{item.x}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
+  };
+
+  const HeartTest = () => {
+    let { nameShow, colorShow } = heartToggle
+      ? { nameShow: "heart", colorShow: "red" }
+      : { nameShow: "heart-outline", colorShow: "grey" };
+    // const colorShow = heartToggle
+    return (
+      <TouchableOpacity
+        style={styles.heart}
+        onPress={() => {
+          nameShow = "heart-broken";
+          setHeartToggle(!heartToggle);
+        }}
+      >
+        <MaterialCommunityIcons name={nameShow} color={colorShow} size={30} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
+      <DataViewTest />
+      <HeartTest />
       {/* <Text>test page (Bulbasaur):</Text> */}
       {/* {gens.map((e, idx) => {
         return <ListTest game={e.name} games={e.games} key={idx} />;
       })} */}
-      <ChartTest2 />
     </SafeAreaView>
   );
 }
@@ -338,7 +465,6 @@ const styles = StyleSheet.create({
     height: 400,
     alignItems: "center",
     justifyContent: "center",
-    // width: 100,
     width: "100%",
     margin: 10,
   },
@@ -349,9 +475,59 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#15202b",
+    // backgroundColor: "#15202b",
+  },
+  heart: {
+    position: "absolute",
+    zIndex: 1000,
+    top: 10,
+    right: 10,
   },
   gradient: {
     width: "100%",
+  },
+});
+
+// const infoBG = "#eee8f5";
+// const infoBG = "#8899ac";
+const infoStyle = StyleSheet.create({
+  header: {
+    height: 50,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 30,
+    borderWidth: 3,
+    position: "absolute",
+    top: -35,
+    // backgroundColor: "#eee",
+  },
+  headerText: {
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  info: {
+    fontSize: 16,
+  },
+  infoSection: {
+    paddingTop: 15,
+    paddingHorizontal: 10,
+    // flexDirection: "row",
+  },
+  infoItem: {
+    flexDirection: "row",
+  },
+  row: {
+    paddingVertical: 10,
+    marginTop: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  section: {
+    width: "85%",
+    borderWidth: 3,
+    // borderColor: "green",
+    borderRadius: 10,
+    padding: 10,
   },
 });
