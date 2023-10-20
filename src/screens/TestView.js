@@ -26,7 +26,6 @@ import { Svg } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { List } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
-import PokeGenderPieChart from "../utils/PokemonComponents/PokeGenderPieChart";
 import themeColors from "../styles/themeColors";
 // react-native-charts-wrapper
 // import { PieChart } from "react-native-charts-wrapper";

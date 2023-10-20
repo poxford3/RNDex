@@ -124,7 +124,10 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
         }}
       >
         <Image style={{ height: 20, width: 60 }} source={images[pic_source]} />
-        <Text style={{ color: t.color }}>{t.effectiveness}x</Text>
+        {/* <Text style={{ color: t.color }}>{t.effectiveness}x</Text> */}
+        <Text style={{ color: activeColors.textColor }}>
+          {t.effectiveness}x
+        </Text>
       </View>
     );
   };
@@ -140,6 +143,18 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       );
     });
     const egg_text = egg_list.join(" ");
+
+    let typeEffectObj, resistances, weaknesses;
+    if (types.type1 != null) {
+      // console.log("made it in");
+      const type2 = types.type2 ? capitalizeString(types.type2) : "None";
+      const ability_name = capitalizeString(fullData.abilities[0].ability.name);
+      const type_array = [capitalizeString(types.type1), type2];
+      typeEffectObj = TypeEffectiveness(type_array, ability_name);
+      resistances = typeEffectObj.filter((e) => e.effectiveness < 1);
+      weaknesses = typeEffectObj.filter((e) => e.effectiveness > 1);
+    }
+
     return (
       <View
         style={[
@@ -168,33 +183,58 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               title={"Height"}
               textValue={`${fullData.height / 10} m`}
               icon={"ruler"}
-              side="left"
+              side={"left"}
             />
 
             <InfoTopic
               title={"Growth Rate"}
               textValue={`${capitalizeString(fullData.growth_rate.name)}`}
               icon={"chart-line"}
-              side="right"
+              side={"right"}
             />
           </View>
-          {/* <View style={styles.row}></View> */}
           <View style={styles.row}>
             <InfoTopic
               title={"Weight"}
               textValue={`${fullData.weight / 10} kg`}
               icon={"scale-bathroom"}
-              side="left"
+              side={"left"}
             />
             <InfoTopic
               title={"Egg Group"}
               textValue={`${egg_text}`}
               icon={"egg"}
-              side="right"
+              side={"right"}
             />
           </View>
           <View style={styles.row}>
             <AbilityDisplay />
+          </View>
+          <View style={styles.row}>
+            <View style={{ flexDirection: "column" }}>
+              <InfoTopic title={"Resistances"} icon={null} side={"left"} />
+              <FlatList
+                data={resistances}
+                numColumns={3}
+                scrollEnabled={false}
+                renderItem={({ item }) => {
+                  return <TypeItem t={item} />;
+                }}
+              />
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={{ flexDirection: "column" }}>
+              <InfoTopic title={"Weaknesses"} icon={null} side={"left"} />
+              <FlatList
+                data={weaknesses}
+                numColumns={3}
+                scrollEnabled={false}
+                renderItem={({ item }) => {
+                  return <TypeItem t={item} />;
+                }}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -210,7 +250,13 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
                 {title}{" "}
               </Text>
-              <MaterialCommunityIcons name={icon} size={20} color={typeColor} />
+              {icon ? (
+                <MaterialCommunityIcons
+                  name={icon}
+                  size={20}
+                  color={typeColor}
+                />
+              ) : null}
             </View>
             <Text style={[styles.info, { color: activeColors.textColor }]}>
               {textValue}
