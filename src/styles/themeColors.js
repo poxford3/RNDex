@@ -11,6 +11,7 @@ export default themeColors = {
     selectorActive: "white",
     selectorInactive: "black",
     themeType: "LIGHT",
+    themeTypeLower: "light",
   },
   dark: {
     textColor: "white",
@@ -24,6 +25,7 @@ export default themeColors = {
     selectorActive: "white",
     selectorInactive: "white",
     themeType: "DARK",
+    themeTypeLower: "dark",
   },
 };
 

@@ -14,8 +14,6 @@ import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import PokeGenderPie from "./PokeGenderPie";
-import LoadingView from "../LoadingView";
 import PokeGenderBar from "./PokeGenderBar";
 
 const { height, width } = Dimensions.get("screen");
@@ -30,7 +28,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   // gender rate is chance of being female in 1/8ths, -1 == genderless
 
   // console.log("bonus", Object.keys(fullData));
-  // console.log(fullData.weight);
 
   const AbilityDisplay = () => {
     return (
@@ -79,40 +76,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     );
   };
 
-  const TypeEffectiveBody = () => {
-    // console.log("types", capitalizeString(types.type1));
-    if (types.type1 != null) {
-      // console.log("made it in");
-      const type2 = types.type2 ? capitalizeString(types.type2) : "None";
-      const ability_name = capitalizeString(fullData.abilities[0].ability.name);
-      const type_array = [capitalizeString(types.type1), type2];
-      const typeEffectObj = TypeEffectiveness(type_array, ability_name);
-      return (
-        <View style={styles.sectional}>
-          <Text style={[styles.headerText, { color: typeColor }]}>
-            Type Matchups
-          </Text>
-          <FlatList
-            data={typeEffectObj.filter((e) => e.effectiveness != 1)}
-            numColumns={3}
-            scrollEnabled={false}
-            renderItem={({ item }) => {
-              return <TypeItem t={item} />;
-            }}
-          />
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.sectional}>
-          <Text style={[styles.headerText, { color: typeColor }]}>
-            Type Matchups L
-          </Text>
-        </View>
-      );
-    }
-  };
-
   const TypeItem = ({ t }) => {
     let pic_source = t.typeName ? t.typeName.toLowerCase() : "dragon";
     return (
@@ -125,10 +88,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
         }}
       >
         <Image style={{ height: 20, width: 60 }} source={images[pic_source]} />
-        {/* <Text style={{ color: t.color }}>{t.effectiveness}x</Text> */}
-        {/* <Text style={{ color: activeColors.textColor }}>
-          {t.effectiveness}x
-        </Text> */}
       </View>
     );
   };
@@ -311,8 +270,8 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               ) : null}
             </View>
           </View>
-          <View style={styles.row}>
-            {immune.length != 0 ? (
+          {immune.length != 0 ? (
+            <View style={styles.row}>
               <View style={{ flexDirection: "column" }}>
                 <InfoTopic title={"Immunities"} icon={null} side={"left"} />
                 <View
@@ -337,8 +296,8 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                   />
                 </View>
               </View>
-            ) : null}
-          </View>
+            </View>
+          ) : null}
         </View>
       </View>
     );
@@ -411,13 +370,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // headerText: {
-  //   fontSize: 32,
-  //   fontWeight: "bold",
-  //   textAlign: "center",
-  // },
   firstSection: {
-    // justifyContent: "space-between",
     justifyContent: "center",
   },
   infoText: {
@@ -443,7 +396,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     position: "absolute",
     top: -35,
-    // backgroundColor: "#eee",
   },
   headerText: {
     fontSize: 22,
