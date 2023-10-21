@@ -145,7 +145,12 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     });
     const egg_text = egg_list.join(" ");
 
-    let typeEffectObj, resistances2, resistances4, weaknesses2, weaknesses4;
+    let typeEffectObj,
+      resistances2,
+      resistances4,
+      weaknesses2,
+      weaknesses4,
+      immune;
     if (types.type1 != null) {
       // console.log("made it in");
       const type2 = types.type2 ? capitalizeString(types.type2) : "None";
@@ -156,7 +161,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       resistances4 = typeEffectObj.filter((e) => e.effectiveness == 0.25);
       weaknesses2 = typeEffectObj.filter((e) => e.effectiveness == 2);
       weaknesses4 = typeEffectObj.filter((e) => e.effectiveness == 4);
-      console.log(weaknesses4.length);
+      immune = typeEffectObj.filter((e) => e.effectiveness == 0);
     }
 
     return (
@@ -305,6 +310,34 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 </View>
               ) : null}
             </View>
+          </View>
+          <View style={styles.row}>
+            {immune.length != 0 ? (
+              <View style={{ flexDirection: "column" }}>
+                <InfoTopic title={"Immunities"} icon={null} side={"left"} />
+                <View
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    marginTop: 10,
+                  }}
+                >
+                  <Text
+                    style={[styles.info, { color: activeColors.textColor }]}
+                  >
+                    0x
+                  </Text>
+                  <FlatList
+                    data={immune}
+                    numColumns={3}
+                    scrollEnabled={false}
+                    renderItem={({ item }) => {
+                      return <TypeItem t={item} />;
+                    }}
+                  />
+                </View>
+              </View>
+            ) : null}
           </View>
         </View>
       </View>
