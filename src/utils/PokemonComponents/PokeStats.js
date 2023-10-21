@@ -4,6 +4,7 @@ import { VictoryChart, VictoryBar, VictoryAxis } from "victory-native";
 import themeColors from "../../styles/themeColors";
 import CustomDivider from "../CustomDivider";
 import { ThemeContext } from "../../contexts/ThemeContext";
+// https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function PokeStats({ stats, typeColor }) {
   const { theme } = useContext(ThemeContext);

@@ -16,6 +16,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import PokeGenderPie from "./PokeGenderPie";
 import LoadingView from "../LoadingView";
+import PokeGenderBar from "./PokeGenderBar";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -125,9 +126,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       >
         <Image style={{ height: 20, width: 60 }} source={images[pic_source]} />
         {/* <Text style={{ color: t.color }}>{t.effectiveness}x</Text> */}
-        <Text style={{ color: activeColors.textColor }}>
+        {/* <Text style={{ color: activeColors.textColor }}>
           {t.effectiveness}x
-        </Text>
+        </Text> */}
       </View>
     );
   };
@@ -144,15 +145,17 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     });
     const egg_text = egg_list.join(" ");
 
-    let typeEffectObj, resistances, weaknesses;
+    let typeEffectObj, resistances2, resistances4, weaknesses2, weaknesses4;
     if (types.type1 != null) {
       // console.log("made it in");
       const type2 = types.type2 ? capitalizeString(types.type2) : "None";
       const ability_name = capitalizeString(fullData.abilities[0].ability.name);
       const type_array = [capitalizeString(types.type1), type2];
       typeEffectObj = TypeEffectiveness(type_array, ability_name);
-      resistances = typeEffectObj.filter((e) => e.effectiveness < 1);
-      weaknesses = typeEffectObj.filter((e) => e.effectiveness > 1);
+      resistances2 = typeEffectObj.filter((e) => e.effectiveness == 0.5);
+      resistances4 = typeEffectObj.filter((e) => e.effectiveness == 0.25);
+      weaknesses2 = typeEffectObj.filter((e) => e.effectiveness == 2);
+      weaknesses4 = typeEffectObj.filter((e) => e.effectiveness == 4);
     }
 
     return (
@@ -212,28 +215,86 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           </View>
           <View style={styles.row}>
             <View style={{ flexDirection: "column" }}>
-              <InfoTopic title={"Resistances"} icon={null} side={"left"} />
-              <FlatList
-                data={resistances}
-                numColumns={3}
-                scrollEnabled={false}
-                renderItem={({ item }) => {
-                  return <TypeItem t={item} />;
-                }}
+              <InfoTopic
+                title={"Genders"}
+                icon={"gender-male-female"}
+                side={"left"}
               />
+              <PokeGenderBar genders={fullData.gender_rate} />
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={{ flexDirection: "column" }}>
+              <InfoTopic title={"Resistances"} icon={null} side={"left"} />
+              <View style={{ alignItems: "center", flexDirection: "row" }}>
+                <Text style={[styles.info, { color: activeColors.textColor }]}>
+                  1/2x
+                </Text>
+                <FlatList
+                  data={resistances2}
+                  numColumns={3}
+                  scrollEnabled={false}
+                  renderItem={({ item }) => {
+                    return <TypeItem t={item} />;
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginTop: 10,
+                }}
+              >
+                <Text style={[styles.info, { color: activeColors.textColor }]}>
+                  1/4x
+                </Text>
+                <FlatList
+                  data={resistances4}
+                  numColumns={3}
+                  scrollEnabled={false}
+                  renderItem={({ item }) => {
+                    return <TypeItem t={item} />;
+                  }}
+                />
+              </View>
             </View>
           </View>
           <View style={styles.row}>
             <View style={{ flexDirection: "column" }}>
               <InfoTopic title={"Weaknesses"} icon={null} side={"left"} />
-              <FlatList
-                data={weaknesses}
-                numColumns={3}
-                scrollEnabled={false}
-                renderItem={({ item }) => {
-                  return <TypeItem t={item} />;
+              <View style={{ alignItems: "center", flexDirection: "row" }}>
+                <Text style={[styles.info, { color: activeColors.textColor }]}>
+                  2x
+                </Text>
+                <FlatList
+                  data={weaknesses2}
+                  numColumns={3}
+                  scrollEnabled={false}
+                  renderItem={({ item }) => {
+                    return <TypeItem t={item} />;
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginTop: 10,
                 }}
-              />
+              >
+                <Text style={[styles.info, { color: activeColors.textColor }]}>
+                  4x
+                </Text>
+                <FlatList
+                  data={weaknesses4}
+                  numColumns={3}
+                  scrollEnabled={false}
+                  renderItem={({ item }) => {
+                    return <TypeItem t={item} />;
+                  }}
+                />
+              </View>
             </View>
           </View>
         </View>

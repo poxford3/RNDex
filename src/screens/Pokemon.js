@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
 import PokeBonusInfo from "../utils/PokemonComponents/PokeBonusInfo";
@@ -20,12 +19,12 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemon from "../utils/FavoritePokemon";
-// https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
 
 export default function Pokemon({ route }) {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/${pokemonInfo.id}.png`;
   // const sprite_to_use = `https://archives.bulbagarden.net/media/upload/8/80/${pokemonInfo.id}${pokemonInfo.pokeName}_Smile.png`; // would be funny to get working
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
