@@ -156,6 +156,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       resistances4 = typeEffectObj.filter((e) => e.effectiveness == 0.25);
       weaknesses2 = typeEffectObj.filter((e) => e.effectiveness == 2);
       weaknesses4 = typeEffectObj.filter((e) => e.effectiveness == 4);
+      console.log(weaknesses4.length);
     }
 
     return (
@@ -239,25 +240,29 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                   }}
                 />
               </View>
-              <View
-                style={{
-                  alignItems: "center",
-                  flexDirection: "row",
-                  marginTop: 10,
-                }}
-              >
-                <Text style={[styles.info, { color: activeColors.textColor }]}>
-                  1/4x
-                </Text>
-                <FlatList
-                  data={resistances4}
-                  numColumns={3}
-                  scrollEnabled={false}
-                  renderItem={({ item }) => {
-                    return <TypeItem t={item} />;
+              {resistances4.length != 0 ? (
+                <View
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    marginTop: 10,
                   }}
-                />
-              </View>
+                >
+                  <Text
+                    style={[styles.info, { color: activeColors.textColor }]}
+                  >
+                    1/4x
+                  </Text>
+                  <FlatList
+                    data={resistances4}
+                    numColumns={3}
+                    scrollEnabled={false}
+                    renderItem={({ item }) => {
+                      return <TypeItem t={item} />;
+                    }}
+                  />
+                </View>
+              ) : null}
             </View>
           </View>
           <View style={styles.row}>
@@ -276,25 +281,29 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                   }}
                 />
               </View>
-              <View
-                style={{
-                  alignItems: "center",
-                  flexDirection: "row",
-                  marginTop: 10,
-                }}
-              >
-                <Text style={[styles.info, { color: activeColors.textColor }]}>
-                  4x
-                </Text>
-                <FlatList
-                  data={weaknesses4}
-                  numColumns={3}
-                  scrollEnabled={false}
-                  renderItem={({ item }) => {
-                    return <TypeItem t={item} />;
+              {weaknesses4.length != 0 ? (
+                <View
+                  style={{
+                    alignItems: "center",
+                    flexDirection: "row",
+                    marginTop: 10,
                   }}
-                />
-              </View>
+                >
+                  <Text
+                    style={[styles.info, { color: activeColors.textColor }]}
+                  >
+                    4x
+                  </Text>
+                  <FlatList
+                    data={weaknesses4}
+                    numColumns={3}
+                    scrollEnabled={false}
+                    renderItem={({ item }) => {
+                      return <TypeItem t={item} />;
+                    }}
+                  />
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
