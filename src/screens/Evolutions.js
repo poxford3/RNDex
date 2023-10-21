@@ -15,6 +15,7 @@ import MissingInfo from "../utils/MissingInfo";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import LoadingView from "../utils/LoadingView";
 
 export default function Evolutions({ navigation, route }) {
   // const pokemonInfo = route.params;
@@ -23,6 +24,7 @@ export default function Evolutions({ navigation, route }) {
   const [evolutions, setEvolutions] = useState([]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
@@ -147,11 +149,7 @@ export default function Evolutions({ navigation, route }) {
                 id: poke_pair.evo_id,
                 pokeName: poke_pair.evolves_to,
               });
-              navigation.navigate("Pokemon", {
-                sprite: img2,
-                pokeName: poke_pair.evolves_to,
-                id: poke_pair.evo_id,
-              });
+              navigation.navigate("Pokemon");
             }}
           >
             <Image style={styles.pokemonImg} source={{ uri: img2 }} />
@@ -192,9 +190,9 @@ export default function Evolutions({ navigation, route }) {
       style={{ backgroundColor: activeColors.background }}
     >
       {scrollOn ? (
-        <>
+        <View style={styles.container}>
           {evolutions.length > 0 ? (
-            <>
+            <View style={{ width: "100%" }}>
               <Text
                 style={[styles.headerText, { color: activeColors.textColor }]}
               >
@@ -203,9 +201,9 @@ export default function Evolutions({ navigation, route }) {
               {evolutions.map((evo, idx) => {
                 return <EvolChain poke_pair={evo} key={idx} />;
               })}
-            </>
+            </View>
           ) : (
-            <></>
+            <LoadingView />
           )}
           {variety.length > 0 ? (
             <View>
@@ -238,10 +236,8 @@ export default function Evolutions({ navigation, route }) {
                 </View>
               </View>
             </View>
-          ) : (
-            <></>
-          )}
-        </>
+          ) : null}
+        </View>
       ) : (
         <MissingInfo
           str={`${capitalizeString(pokemonInfo.pokeName)} has no evolutions`}
@@ -253,6 +249,10 @@ export default function Evolutions({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
   evolContainer: {
     // height: 80,
     alignItems: "center",

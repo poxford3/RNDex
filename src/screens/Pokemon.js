@@ -7,21 +7,25 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { VictoryChart, VictoryGroup, VictoryBar } from "victory-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
+import PokeBonusInfo from "../utils/PokemonComponents/PokeBonusInfo";
+import PokeStats from "../utils/PokemonComponents/PokeStats";
 import capitalizeString from "../hooks/capitalizeString";
 import type_colors from "../../assets/types/type_colors";
 import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
-// https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
+import CustomDivider from "../utils/CustomDivider";
+import FavoritePokemon from "../utils/FavoritePokemon";
 
 export default function Pokemon({ route }) {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/${pokemonInfo.id}.png`;
+  // const sprite_to_use = `https://archives.bulbagarden.net/media/upload/8/80/${pokemonInfo.id}${pokemonInfo.pokeName}_Smile.png`; // would be funny to get working
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
@@ -31,6 +35,7 @@ export default function Pokemon({ route }) {
     type1: null,
     type2: null,
   });
+  // const [types, setTypes] = useState(null);
   const [fullData, setFullData] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
@@ -46,24 +51,27 @@ export default function Pokemon({ route }) {
 
     const json = await API_CALL(url);
 
-    // height it 1/10th of a meter
-    // weight is 1/10th of a kg
+    let json_id = await getDesc(json.id);
 
-    let json_id = getDesc(json.id);
-    setFullData[(json, json_id)];
+    setFullData({ ...json, ...json_id });
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
-      let x_ = e.stat.name.replace("-", "\n");
+      let x_ = e.stat.name.replace("-", " ");
 
       stat_list = [
         ...stat_list,
         {
-          x: capitalizeString(x_),
+          x: capitalizeString(x_).replace(" ", "\n"),
           y: e.base_stat,
-          // EV: e.effort,
+          // EV: e.effort, // EVs gained from killing
         },
       ];
+    });
+
+    stat_list.push({
+      x: "Total",
+      y: stat_list.reduce((n, { y }) => n + y, 0), // sums up all the stats
     });
 
     let type_obj = {
@@ -72,9 +80,9 @@ export default function Pokemon({ route }) {
     };
 
     setMainColor(type_colors[json.types[0].type.name]);
-    setStats(stat_list);
-    setLoaded(true);
+    setStats(stat_list.reverse());
     setTypes(type_obj);
+    setLoaded(true);
   };
 
   const getDesc = async (id) => {
@@ -91,8 +99,6 @@ export default function Pokemon({ route }) {
 
     return json_id;
   };
-
-  // functional components
 
   // on start up
   useEffect(() => {
@@ -147,28 +153,20 @@ export default function Pokemon({ route }) {
               <Text
                 style={{
                   textTransform: "capitalize",
-                  // textAlign: "center",
                   fontSize: 20,
                   color: mainColor ? mainColor : "black",
                 }}
               >
-                {types.type1} {types.type2 ? `/ ${types.type2}` : ""}
+                {types.type1} {types.type2 ? `/ ${types.type2}` : null}
               </Text>
             </View>
-            <View
-              style={{
-                height: "100%",
-                width: 1,
-                backgroundColor: "#909090",
-              }}
-            ></View>
+            <CustomDivider direction={"vertical"} />
             <View style={styles.headerRight}>
               <Text
                 style={{
                   textTransform: "capitalize",
                   fontSize: 16,
                   color: activeColors.textColor,
-                  // textAlign: "center",
                 }}
               >
                 {desc}
@@ -182,42 +180,13 @@ export default function Pokemon({ route }) {
             contentContainerStyle={{ paddingBottom: 1 }}
           >
             <View style={styles.statBox}>
-              <Text
-                style={{
-                  fontSize: 32,
-                  fontWeight: "bold",
-                  color: activeColors.textColor,
-                }}
-              >
-                Stats
-              </Text>
-              <View
-                style={{
-                  width: "100%",
-                  borderWidth: 1,
-                  borderColor: "#909090",
-                  marginTop: 10,
-                }}
-              ></View>
-              <VictoryChart domainPadding={10}>
-                <VictoryGroup offset={20}>
-                  <VictoryBar
-                    data={stats}
-                    // domain={{ y: [0, 255] }}
-                    horizontal={true}
-                    labels={({ datum }) => datum.y}
-                    alignment="middle"
-                    style={{
-                      data: {
-                        fill: "blue",
-                      },
-                      labels: {
-                        fill: activeColors.textColor,
-                      },
-                    }}
-                  />
-                </VictoryGroup>
-              </VictoryChart>
+              <CustomDivider direction={"horizontal"} />
+              <PokeStats stats={stats} typeColor={mainColor} />
+              <PokeBonusInfo
+                fullData={fullData}
+                typeColor={mainColor}
+                types={types}
+              />
               <Text
                 style={{
                   textAlign: "center",
@@ -235,6 +204,7 @@ export default function Pokemon({ route }) {
           <LoadingView />
         )}
       </ScrollView>
+      {/* <FavoritePokemon /> */}
     </SafeAreaView>
   );
 }
@@ -243,8 +213,6 @@ const styles = StyleSheet.create({
   body: {
     height: "100%",
     width: "100%",
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   container: {
     flex: 1,
@@ -283,9 +251,7 @@ const styles = StyleSheet.create({
     // height: 800,
   },
   statBox: {
-    // height: "100%",
     alignItems: "center",
-    width: "100%",
     padding: 20,
   },
   statTexts: {
