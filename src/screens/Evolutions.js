@@ -87,17 +87,36 @@ export default function Evolutions({ navigation, route }) {
   const EvolChain = ({ poke_pair }) => {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.base_id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.evo_id}.png`;
-    let method_level;
+
+    // console.log(poke_pair);
+
     // determine what to display to show how to evolve
+    let method_level;
     switch (true) {
-      case poke_pair.level != null && poke_pair.time == undefined:
+      case poke_pair.level != null && poke_pair.time == "":
         method_level = `Level ${poke_pair.level}`;
         break;
-      case poke_pair.level != null && poke_pair.time != undefined:
+      case poke_pair.level != null && poke_pair.time != "":
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
+        break;
+      case poke_pair.level != null && poke_pair.location != null:
+        method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
+        break;
+      case poke_pair.level == null &&
+        poke_pair.move_type != null &&
+        poke_pair.happy > 0:
+        method_level = `Level up with high happiness knowing a ${poke_pair.move_type} type move`;
+        break;
+      case poke_pair.level == null &&
+        poke_pair.time != undefined &&
+        poke_pair.happy > 0:
+        method_level = `Level up with high happiness during the ${poke_pair.time}`;
         break;
       case poke_pair.level == null && poke_pair.happy > 0:
         method_level = `Level up with high happiness`;
+        break;
+      case poke_pair.level == null && poke_pair.location != null:
+        method_level = `Level up at ${poke_pair.location}`;
         break;
       case poke_pair.level == null && poke_pair.move != null:
         method_level = `Level up knowing ${poke_pair.move}`;
@@ -108,8 +127,10 @@ export default function Evolutions({ navigation, route }) {
     }
     const method = method_level
       ? method_level
-      : poke_pair.method == "trade"
+      : poke_pair.method == "trade" && poke_pair.held_item == null
       ? `Trade`
+      : poke_pair.method == "trade" && poke_pair.held_item != null
+      ? `Trade with ${poke_pair.held_item} held`
       : poke_pair.method == "use-item"
       ? `Use ${poke_pair.item}`
       : `Other`;

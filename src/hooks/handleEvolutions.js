@@ -144,8 +144,12 @@ export default function handleEvolutions(item) {
         method: detail.trigger.name,
         level: detail.min_level,
         gender: genderMap[detail.gender],
+        time: detail.time_of_day,
+        location: capitalizeString(detail.location?.name),
+        happy: detail.min_happiness,
         item: capitalizeString(detail.item?.name),
-        move: capitalizeString(detail.move?.name),
+        move: capitalizeString(detail.known_move?.name),
+        move_type: capitalizeString(detail.known_move_type?.name),
         held_item: capitalizeString(detail.held_item?.name),
       };
       temp_list.push(temp_obj);
