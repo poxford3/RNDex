@@ -19,6 +19,7 @@ export default function PokeGenderBar({ genders }) {
   ]);
   const [genderless, setGenderless] = useState(false);
 
+  let male_bar, female_bar;
   const genderChance = () => {
     if (genders == -1) {
       setGenderless(true);
@@ -30,6 +31,21 @@ export default function PokeGenderBar({ genders }) {
         { x: "male", y: male_chance * 100 },
         { x: "female", y: fem_chance * 100 },
       ]);
+
+      if (genderObj[0].y == 100) {
+        male_bar = {
+          width: genderObj[0].y * 2,
+          backgroundColor: "rgb(51, 85, 255)",
+          borderRadius: 30,
+        };
+      } else {
+        male_bar = {
+          width: genderObj[0].y * 2,
+          backgroundColor: "rgb(51, 85, 255)",
+          borderTopLeftRadius: 30,
+          borderBottomLeftRadius: 30,
+        };
+      }
     }
   };
 
@@ -47,23 +63,25 @@ export default function PokeGenderBar({ genders }) {
               { borderColor: activeColors.textColor, borderWidth: 1 },
             ]}
           >
-            <View
+            <View // male
               style={[
                 styles.gender,
                 {
                   width: genderObj[0].y * 2,
                   backgroundColor: "rgb(51, 85, 255)",
+                  borderRadius: 30 * (genderObj[0].y == 100),
                   borderTopLeftRadius: 30,
                   borderBottomLeftRadius: 30,
                 },
               ]}
             ></View>
-            <View
+            <View // female
               style={[
                 styles.gender,
                 {
                   width: genderObj[1].y * 2,
                   backgroundColor: "rgb(255, 119, 221)",
+                  borderRadius: 30 * (genderObj[1].y == 100),
                   borderTopRightRadius: 30,
                   borderBottomRightRadius: 30,
                 },
@@ -82,7 +100,7 @@ export default function PokeGenderBar({ genders }) {
         </View>
       ) : (
         <View>
-          {/* <View
+          <View
             style={[styles.container, { borderColor: "grey", borderWidth: 1 }]}
           >
             <View
@@ -95,7 +113,7 @@ export default function PokeGenderBar({ genders }) {
                 },
               ]}
             ></View>
-          </View> */}
+          </View>
           <Text
             style={{
               fontSize: 16,
@@ -114,7 +132,7 @@ export default function PokeGenderBar({ genders }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderRadius: 60,
+    borderRadius: 30,
   },
   gender: {
     height: 15,
