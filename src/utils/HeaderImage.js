@@ -10,7 +10,7 @@ export default function HeaderImage({ id }) {
 
   return (
     <Image
-      style={{ width: 200, height: 50 }}
+      style={{ width: 200, height: 50, top: -5 }}
       source={{ uri: pic }}
       resizeMode="contain"
     />
