@@ -133,7 +133,7 @@ export default function Evolutions({ navigation, route }) {
       ? `Trade with ${poke_pair.held_item} held`
       : poke_pair.method == "use-item"
       ? `Use ${poke_pair.item}`
-      : `Other`;
+      : `Special`;
 
     return (
       <View style={styles.evolContainer}>
