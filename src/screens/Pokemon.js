@@ -205,7 +205,10 @@ export default function Pokemon({ route }) {
           <LoadingView />
         )}
       </ScrollView>
-      <FavoritePokemonButton id={pokemonInfo.id} />
+      <FavoritePokemonButton
+        id={pokemonInfo.id}
+        pokeName={pokemonInfo.pokeName}
+      />
     </SafeAreaView>
   );
 }

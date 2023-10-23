@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { storeData, getData } from "../config/asyncStorage";
 
-export default function FavoritePokemonButton({ id, selected }) {
+export default function FavoritePokemonButton({ id, pokeName }) {
   // will need to set up async storage to store people's favorites
   const [heartToggle, setHeartToggle] = useState(false);
   const [favPokeList, setFavPokeList] = useState([]);
@@ -12,47 +12,69 @@ export default function FavoritePokemonButton({ id, selected }) {
     ? { nameShow: "heart", colorShow: "red" }
     : { nameShow: "heart-outline", colorShow: "grey" };
 
-  const handleToggle = () => {
-    nameShow = "heart-broken";
-    setHeartToggle(!heartToggle);
-    updateFavPokemon();
+  const handleHeartTap = () => {
+    heartToggle ? removeStoredPokemon() : updateFavPokemon();
   };
 
   const updateFavPokemon = async () => {
-    console.log("begin of update", favPokeList);
+    let newFavPoke = {
+      id: id,
+      pokeName: pokeName,
+      date_added: new Date(),
+    };
     if (favPokeList.length >= 1) {
-      // setFavPokeList([...favPokeList, id])
-      storeData("favPokeList", [...favPokeList.sort(), id]);
-      console.log("in store 1", id);
+      storeData("favPokeList", [...favPokeList, newFavPoke]);
+      // console.log("in store 1", newFavPoke.pokeName, newFavPoke.date_added);
+      setHeartToggle(true);
     } else {
-      storeData("favPokeList", [id]);
-      console.log("in store 0", id);
+      storeData("favPokeList", [newFavPoke]);
+      setHeartToggle(true);
+      // console.log("in store 0", newFavPoke.pokeName);
     }
+  };
+
+  const removeStoredPokemon = async () => {
+    let newPokeList = favPokeList.filter((e) => e.id != id);
+    storeData("favPokeList", newPokeList);
+    setHeartToggle(false);
   };
 
   const fetchStoredPokemon = async () => {
     try {
       const favPokes = await getData("favPokeList");
+      // console.log("poke type", typeof favPokes, favPokes);
 
       if (favPokes) {
-        setFavPokeList(favPokes.sort());
+        setFavPokeList(favPokes);
       }
     } catch ({ message }) {
       console.log("fetch fav poke error", message);
     }
   };
 
+  const heartChanger = () => {
+    if (favPokeList.filter((e) => e.id === id).length > 0) {
+      // console.log("should be red");
+      setHeartToggle(true);
+    } else {
+      setHeartToggle(false);
+    }
+  };
+
   useEffect(() => {
     fetchStoredPokemon();
-
-    setTimeout(() => console.log("useEffect", favPokeList), 1000);
+    // setTimeout(() => console.log("useEffect", favPokeList), 1000);
   }, []);
+
+  useEffect(() => {
+    heartChanger();
+  }, [favPokeList]);
 
   return (
     <TouchableOpacity
       style={styles.heart}
       onPress={() => {
-        handleToggle();
+        handleHeartTap();
       }}
     >
       <MaterialCommunityIcons name={nameShow} color={colorShow} size={30} />

@@ -26,3 +26,21 @@ AsyncStorage.getAllKeys((err, keys) => {
     });
   });
 });
+
+// will remove an entire key worth of storage data
+// const removeItemValue = async (key) => {
+//   try {
+//     await AsyncStorage.removeItem(key);
+//     return true;
+//   } catch (exception) {
+//     return false;
+//   }
+// };
+
+// removeItemValue("favPokeList");
+
+// clearAllData() {
+//   AsyncStorage.getAllKeys()
+//   .then(keys => AsyncStorage.multiRemove(keys))
+//   .then(() => alert('success'));
+// }
