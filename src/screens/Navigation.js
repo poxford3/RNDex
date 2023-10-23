@@ -16,6 +16,7 @@ import APITest from "./APITest";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
 import Settings from "./Settings";
+import FavoritePokemon from "./FavoritePokemon";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ export default function MyStack() {
         <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
+        <Stack.Screen name="Favorites" component={FavoritePokemon} />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >

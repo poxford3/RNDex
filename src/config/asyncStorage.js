@@ -17,3 +17,12 @@ export const getData = async (key) => {
     console.log("async error", message);
   }
 };
+
+AsyncStorage.getAllKeys((err, keys) => {
+  AsyncStorage.multiGet(keys, (error, stores) => {
+    stores.map((result, i, store) => {
+      console.log("Async Keys", { [store[i][0]]: store[i][1] });
+      return true;
+    });
+  });
+});
