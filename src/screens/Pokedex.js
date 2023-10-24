@@ -13,6 +13,7 @@ import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
 import LoadingView from "../utils/LoadingView";
+import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
@@ -21,8 +22,6 @@ export default function Pokedex({ navigation }) {
   // variables
   const [pokeList, setPokeList] = useState([]);
   const [loaded, setLoaded] = useState(true);
-  // const [limit, setLimit] = useState(151);
-  // const [offset, setOffset] = useState(0);
 
   const [genSelected, setGenSelected] = useState(1);
 
@@ -35,7 +34,7 @@ export default function Pokedex({ navigation }) {
 
   // does inital call of API that gets list of pokemon,
   // based on the limit/offset params
-  const getPokeList = async ({ gen, text, limit, offset }) => {
+  const getPokeList = async ({ gen, limit, offset }) => {
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
     const response = await fetch(url);
@@ -88,40 +87,6 @@ export default function Pokedex({ navigation }) {
         bkgColor={bkgColor}
         textColor={textColor}
       />
-    );
-  };
-
-  // const PokemonItem = ({ sprite, pokeName, url, spriteData, id }) => {
-  const PokemonItem = ({ pokeName, id }) => {
-    const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-    // console.log(poke_sprite);
-
-    return (
-      <View style={styles.outerBox}>
-        <TouchableOpacity
-          style={[styles.innerBox, { borderColor: activeColors.border }]}
-          onPress={() => {
-            updatePokemon({ id: id, pokeName: pokeName });
-            navigation.navigate(
-              "PokemonTabNav"
-              // ,{
-              //   pokeName: pokeName,
-              //   id: id,
-              // }
-            );
-          }}
-        >
-          <Image source={{ uri: poke_sprite }} style={styles.images} />
-          <Text
-            style={{
-              textTransform: "capitalize",
-              color: activeColors.textColor,
-            }}
-          >
-            {pokeName}
-          </Text>
-        </TouchableOpacity>
-      </View>
     );
   };
 
@@ -255,7 +220,11 @@ export default function Pokedex({ navigation }) {
               keyExtractor={(item) => item.pokeID}
               initialNumToRender={40}
               renderItem={({ item }) => (
-                <PokemonItem pokeName={item.pokeName} id={item.pokeID} />
+                <PokemonItem
+                  pokeName={item.pokeName}
+                  id={item.pokeID}
+                  width_percent={50}
+                />
               )}
             />
           </>
@@ -293,27 +262,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     marginBottom: 30,
-  },
-  images: {
-    height: 110,
-    width: 110,
-  },
-  innerBox: {
-    padding: 10,
-    width: "90%",
-    height: "90%",
-    borderWidth: 0.5,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  outerBox: {
-    width: "50%",
-    minWidth: 180,
-    height: 180,
-    padding: 0,
-    alignItems: "center",
-    justifyContent: "center",
   },
   pokemonBox: {
     alignItems: "center",

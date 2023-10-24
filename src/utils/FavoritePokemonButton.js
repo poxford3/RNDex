@@ -64,7 +64,7 @@ export default function FavoritePokemonButton({ id, pokeName }) {
   useEffect(() => {
     fetchStoredPokemon();
     // setTimeout(() => console.log("useEffect", favPokeList), 1000);
-  }, []);
+  });
 
   useEffect(() => {
     heartChanger();

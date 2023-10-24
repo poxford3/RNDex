@@ -18,14 +18,15 @@ export const getData = async (key) => {
   }
 };
 
-AsyncStorage.getAllKeys((err, keys) => {
-  AsyncStorage.multiGet(keys, (error, stores) => {
-    stores.map((result, i, store) => {
-      console.log("Async Keys", { [store[i][0]]: store[i][1] });
-      return true;
-    });
-  });
-});
+// will show all stored data
+// AsyncStorage.getAllKeys((err, keys) => {
+//   AsyncStorage.multiGet(keys, (error, stores) => {
+//     stores.map((result, i, store) => {
+//       console.log("Async Keys", { [store[i][0]]: store[i][1] });
+//       return true;
+//     });
+//   });
+// });
 
 // will remove an entire key worth of storage data
 // const removeItemValue = async (key) => {
