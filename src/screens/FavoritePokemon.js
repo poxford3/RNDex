@@ -22,6 +22,7 @@ export default function FavoritePokemon() {
 
   const [favPokeList, setFavPokeList] = useState([]);
   const [favPokeCount, setFavPokeCount] = useState(0);
+  const [sortOption, setSortOption] = useState(1);
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -50,6 +51,37 @@ export default function FavoritePokemon() {
         </View>
       </View>
     );
+  };
+
+  const handleSortOptions = (num) => {
+    switch (num) {
+      case 1: // date asc
+        setSortOption(
+          favPokeList.sort((a, b) => (b.date_added > a.date_added ? 1 : -1))
+        );
+        break;
+      case 2: // date desc
+        setSortOption(
+          favPokeList.sort((a, b) => (b.date_added < a.date_added ? 1 : -1))
+        );
+        break;
+      case 3: // id asc
+        setSortOption(favPokeList.sort((a, b) => (b.id < a.id ? 1 : -1)));
+        break;
+      case 4: // id desc
+        setSortOption(favPokeList.sort((a, b) => (b.id > a.id ? 1 : -1)));
+        break;
+      case 5: // alpha asc
+        setSortOption(
+          favPokeList.sort((a, b) => (b.pokeName < a.pokeName ? 1 : -1))
+        );
+        break;
+      case 6: // alpha desc
+        setSortOption(
+          favPokeList.sort((a, b) => (b.pokeName > a.pokeName ? 1 : -1))
+        );
+        break;
+    }
   };
 
   // menu control
@@ -83,6 +115,7 @@ export default function FavoritePokemon() {
 
   useEffect(() => {
     fetchStoredPokemon();
+    handleSortOptions(1);
   }, []);
 
   // check list again when they return from looking at a pokemon
@@ -94,9 +127,9 @@ export default function FavoritePokemon() {
   }, [isFocused]);
 
   // newest to oldest
-  const dataToShow = favPokeList.sort((a, b) =>
-    b.date_added > a.date_added ? 1 : -1
-  );
+  // const dataToShow = favPokeList.sort((a, b) =>
+  //   b.date_added > a.date_added ? 1 : -1
+  // );
 
   // oldest to newest
   // const dataToShow = favPokeList.sort((a, b) =>
@@ -136,8 +169,11 @@ export default function FavoritePokemon() {
             >
               <Menu.Item
                 leadingIcon={"sort-calendar-ascending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(1);
+                  closeMenu();
+                }}
+                // onPress={closeMenu}
                 title="Date added (most recent)"
                 style={{
                   backgroundColor: activeColors.background,
@@ -147,8 +183,10 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-calendar-descending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(2);
+                  closeMenu();
+                }}
                 title="Date added (least recent)"
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
@@ -156,8 +194,10 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-numeric-ascending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(3);
+                  closeMenu();
+                }}
                 title="ID (lo to hi)"
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
@@ -165,8 +205,10 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-numeric-descending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(4);
+                  closeMenu();
+                }}
                 title="ID (hi to lo)"
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
@@ -174,8 +216,10 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-alphabetical-ascending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(5);
+                  closeMenu();
+                }}
                 title="abc (a to z)"
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
@@ -183,8 +227,10 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-alphabetical-descending"}
-                // onPress={() => {}}
-                onPress={closeMenu}
+                onPress={() => {
+                  handleSortOptions(6);
+                  closeMenu();
+                }}
                 title="abc (z to a)"
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
@@ -198,7 +244,7 @@ export default function FavoritePokemon() {
           </View>
         </View>
         <CustomDivider direction={"horizontal"} />
-        <FlatList data={dataToShow} renderItem={renderPokeItem} />
+        <FlatList data={sortOption} renderItem={renderPokeItem} />
       </SafeAreaView>
     </PaperProvider>
   );
