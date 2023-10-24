@@ -127,14 +127,22 @@ export default function FavoritePokemon() {
               visible={visible}
               onDismiss={closeMenu}
               anchor={menuAnchor}
-              style={{ backgroundColor: activeColors.background }}
+              style={{
+                backgroundColor: activeColors.background,
+                borderColor: activeColors.oppositeBkg,
+                borderWidth: 1,
+                borderRadius: 5,
+              }}
             >
               <Menu.Item
                 leadingIcon={"sort-calendar-ascending"}
                 // onPress={() => {}}
                 onPress={closeMenu}
                 title="Date added (most recent)"
-                style={{ backgroundColor: activeColors.background }}
+                style={{
+                  backgroundColor: activeColors.background,
+                }}
+                titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
@@ -143,6 +151,7 @@ export default function FavoritePokemon() {
                 onPress={closeMenu}
                 title="Date added (least recent)"
                 style={{ backgroundColor: activeColors.background }}
+                titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
@@ -151,6 +160,7 @@ export default function FavoritePokemon() {
                 onPress={closeMenu}
                 title="ID (lo to hi)"
                 style={{ backgroundColor: activeColors.background }}
+                titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
@@ -159,6 +169,25 @@ export default function FavoritePokemon() {
                 onPress={closeMenu}
                 title="ID (hi to lo)"
                 style={{ backgroundColor: activeColors.background }}
+                titleStyle={{ color: activeColors.textColor }}
+              />
+              <Divider />
+              <Menu.Item
+                leadingIcon={"sort-alphabetical-ascending"}
+                // onPress={() => {}}
+                onPress={closeMenu}
+                title="abc (a to z)"
+                style={{ backgroundColor: activeColors.background }}
+                titleStyle={{ color: activeColors.textColor }}
+              />
+              <Divider />
+              <Menu.Item
+                leadingIcon={"sort-alphabetical-descending"}
+                // onPress={() => {}}
+                onPress={closeMenu}
+                title="abc (z to a)"
+                style={{ backgroundColor: activeColors.background }}
+                titleStyle={{ color: activeColors.textColor }}
               />
             </Menu>
           </View>

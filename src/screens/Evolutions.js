@@ -24,7 +24,6 @@ export default function Evolutions({ navigation, route }) {
   const [evolutions, setEvolutions] = useState([]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
-  const [loaded, setLoaded] = useState(false);
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
@@ -88,19 +87,27 @@ export default function Evolutions({ navigation, route }) {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.base_id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.evo_id}.png`;
 
-    // console.log(poke_pair);
+    // console.log(poke_pair.gender);
 
     // determine what to display to show how to evolve
     let method_level;
     switch (true) {
-      case poke_pair.level != null && poke_pair.time == "":
-        method_level = `Level ${poke_pair.level}`;
-        break;
       case poke_pair.level != null && poke_pair.time != "":
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
         break;
       case poke_pair.level != null && poke_pair.location != null:
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
+        break;
+      case poke_pair.level != null && poke_pair.gender != undefined:
+        method_level = `Level ${poke_pair.level} as a ${poke_pair.gender}`;
+        break;
+      case poke_pair.level != null && poke_pair.time == "":
+        method_level = `Level ${poke_pair.level}`;
+        break;
+      case poke_pair.level == null &&
+        poke_pair.gender != undefined &&
+        poke_pair.item != "":
+        method_level = `Use ${poke_pair.item} on a ${poke_pair.gender}`;
         break;
       case poke_pair.level == null &&
         poke_pair.move_type != null &&

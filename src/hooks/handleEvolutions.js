@@ -130,8 +130,8 @@ import capitalizeString from "./capitalizeString";
 
 export default function handleEvolutions(item) {
   let genderMap = {
-    1: "Female",
-    2: "Male",
+    1: "female",
+    2: "male",
   };
   let temp_list = [];
   item.evolves_to.forEach((evo) => {
