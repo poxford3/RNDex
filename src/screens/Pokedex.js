@@ -218,7 +218,7 @@ export default function Pokedex({ navigation }) {
               numColumns={2}
               maxToRenderPerBatch={10}
               keyExtractor={(item) => item.pokeID}
-              initialNumToRender={40}
+              initialNumToRender={30}
               renderItem={({ item }) => (
                 <PokemonItem
                   pokeName={item.pokeName}

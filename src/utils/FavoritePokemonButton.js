@@ -42,7 +42,6 @@ export default function FavoritePokemonButton({ id, pokeName }) {
   const fetchStoredPokemon = async () => {
     try {
       const favPokes = await getData("favPokeList");
-      // console.log("poke type", typeof favPokes, favPokes);
 
       if (favPokes) {
         setFavPokeList(favPokes);

@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { PokemonContext } from "../../contexts/PokemonContext";
 import { useNavigation } from "@react-navigation/native";
 
-export function PokemonItem({ pokeName, id, width_percent }) {
+export const PokemonItem = memo(function PokemonItem({
+  pokeName,
+  id,
+  width_percent,
+}) {
   const navigation = useNavigation();
 
   const { theme } = useContext(ThemeContext);
@@ -36,7 +40,7 @@ export function PokemonItem({ pokeName, id, width_percent }) {
       </TouchableOpacity>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -15,6 +15,8 @@ import { getData } from "../config/asyncStorage";
 import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import CustomDivider from "../utils/CustomDivider";
+import LoadingView from "../utils/LoadingView";
+import capitalizeString from "../hooks/capitalizeString";
 
 export default function FavoritePokemon() {
   const { theme } = useContext(ThemeContext);
@@ -22,8 +24,10 @@ export default function FavoritePokemon() {
 
   const [favPokeList, setFavPokeList] = useState([]);
   const [favPokeCount, setFavPokeCount] = useState(0);
-  const [sortOption, setSortOption] = useState(1);
+  const [sortOption, setSortOption] = useState();
+  const [sortNum, setSortNum] = useState(1);
   const [visible, setVisible] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
@@ -45,6 +49,9 @@ export default function FavoritePokemon() {
           />
         </View>
         <View style={{ width: "50%", justifyContent: "center" }}>
+          <Text style={{ color: activeColors.textColor }}>
+            {capitalizeString(item.pokeName)}
+          </Text>
           <Text style={{ color: activeColors.textColor }}>ID: {item.id}</Text>
           <Text style={{ color: activeColors.textColor }}>Date added:</Text>
           <Text style={{ color: activeColors.textColor }}>{date_show}</Text>
@@ -53,35 +60,39 @@ export default function FavoritePokemon() {
     );
   };
 
-  const handleSortOptions = (num) => {
-    switch (num) {
-      case 1: // date asc
-        setSortOption(
-          favPokeList.sort((a, b) => (b.date_added > a.date_added ? 1 : -1))
-        );
+  const handleSortOptions = (arr, num) => {
+    // console.log("num", arr, num);
+    // console.log("num", num);
+    let output;
+    // setLoaded(false);
+    switch (true) {
+      case num == 1: // date asc
+        output = arr.sort((a, b) => (b.date_added > a.date_added ? 1 : -1));
+        setSortNum(1);
         break;
-      case 2: // date desc
-        setSortOption(
-          favPokeList.sort((a, b) => (b.date_added < a.date_added ? 1 : -1))
-        );
+      case num == 2: // date desc
+        output = arr.sort((a, b) => (b.date_added < a.date_added ? 1 : -1));
+        setSortNum(2);
         break;
-      case 3: // id asc
-        setSortOption(favPokeList.sort((a, b) => (b.id < a.id ? 1 : -1)));
+      case num == 3: // id asc
+        output = arr.sort((a, b) => (b.id < a.id ? 1 : -1));
+        setSortNum(3);
         break;
-      case 4: // id desc
-        setSortOption(favPokeList.sort((a, b) => (b.id > a.id ? 1 : -1)));
+      case num == 4: // id desc
+        output = arr.sort((a, b) => (b.id > a.id ? 1 : -1));
+        setSortNum(4);
         break;
-      case 5: // alpha asc
-        setSortOption(
-          favPokeList.sort((a, b) => (b.pokeName < a.pokeName ? 1 : -1))
-        );
+      case num == 5: // alpha asc
+        output = arr.sort((a, b) => (b.pokeName < a.pokeName ? 1 : -1));
+        setSortNum(5);
         break;
-      case 6: // alpha desc
-        setSortOption(
-          favPokeList.sort((a, b) => (b.pokeName > a.pokeName ? 1 : -1))
-        );
+      case num == 6: // alpha desc
+        output = arr.sort((a, b) => (b.pokeName > a.pokeName ? 1 : -1));
+        setSortNum(6);
         break;
     }
+    // console.log(output);
+    return output;
   };
 
   // menu control
@@ -115,8 +126,11 @@ export default function FavoritePokemon() {
 
   useEffect(() => {
     fetchStoredPokemon();
-    handleSortOptions(1);
   }, []);
+
+  useEffect(() => {
+    setSortOption(handleSortOptions(favPokeList, 1));
+  }, [favPokeList]);
 
   // check list again when they return from looking at a pokemon
   const isFocused = useIsFocused();
@@ -125,19 +139,6 @@ export default function FavoritePokemon() {
       fetchStoredPokemon();
     }
   }, [isFocused]);
-
-  // newest to oldest
-  // const dataToShow = favPokeList.sort((a, b) =>
-  //   b.date_added > a.date_added ? 1 : -1
-  // );
-
-  // oldest to newest
-  // const dataToShow = favPokeList.sort((a, b) =>
-  //   b.date_added < a.date_added ? 1 : -1
-  // );
-
-  // sort by id
-  // const dataToShow = favPokeList.sort((a, b) => a.id - b.id);
 
   return (
     <PaperProvider>
@@ -169,12 +170,13 @@ export default function FavoritePokemon() {
             >
               <Menu.Item
                 leadingIcon={"sort-calendar-ascending"}
+                trailingIcon={sortNum == 1 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(1);
+                  setSortOption(handleSortOptions(favPokeList, 1));
                   closeMenu();
                 }}
                 // onPress={closeMenu}
-                title="Date added (most recent)"
+                title="Date added (most recent) "
                 style={{
                   backgroundColor: activeColors.background,
                 }}
@@ -183,55 +185,60 @@ export default function FavoritePokemon() {
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-calendar-descending"}
+                trailingIcon={sortNum == 2 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(2);
+                  setSortOption(handleSortOptions(favPokeList, 2));
                   closeMenu();
                 }}
-                title="Date added (least recent)"
+                title="Date added (least recent) "
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-numeric-ascending"}
+                trailingIcon={sortNum == 3 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(3);
+                  setSortOption(handleSortOptions(favPokeList, 3));
                   closeMenu();
                 }}
-                title="ID (lo to hi)"
+                title="ID (lowest first) "
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-numeric-descending"}
+                trailingIcon={sortNum == 4 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(4);
+                  setSortOption(handleSortOptions(favPokeList, 4));
                   closeMenu();
                 }}
-                title="ID (hi to lo)"
+                title="ID (highest first) "
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-alphabetical-ascending"}
+                trailingIcon={sortNum == 5 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(5);
+                  setSortOption(handleSortOptions(favPokeList, 5));
                   closeMenu();
                 }}
-                title="abc (a to z)"
+                title="ABC (A...Z) "
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
               />
               <Divider />
               <Menu.Item
                 leadingIcon={"sort-alphabetical-descending"}
+                trailingIcon={sortNum == 6 ? "check" : null}
                 onPress={() => {
-                  handleSortOptions(6);
+                  setSortOption(handleSortOptions(favPokeList, 6));
                   closeMenu();
                 }}
-                title="abc (z to a)"
+                title="ABC (Z...A) "
                 style={{ backgroundColor: activeColors.background }}
                 titleStyle={{ color: activeColors.textColor }}
               />
@@ -244,7 +251,11 @@ export default function FavoritePokemon() {
           </View>
         </View>
         <CustomDivider direction={"horizontal"} />
-        <FlatList data={sortOption} renderItem={renderPokeItem} />
+        {loaded ? (
+          <FlatList data={sortOption} renderItem={renderPokeItem} />
+        ) : (
+          <LoadingView />
+        )}
       </SafeAreaView>
     </PaperProvider>
   );
