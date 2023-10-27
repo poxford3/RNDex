@@ -32,31 +32,8 @@ export default function FavoritePokemon() {
   const closeMenu = () => setVisible(false);
 
   const renderPokeItem = ({ item }) => {
-    const date_show = new Date(item.date_added).toLocaleString();
     return (
-      <View style={{ flexDirection: "row" }}>
-        <View
-          style={{
-            width: "50%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <PokemonItem
-            pokeName={item.pokeName}
-            id={item.id}
-            width_percent={100}
-          />
-        </View>
-        <View style={{ width: "50%", justifyContent: "center" }}>
-          <Text style={{ color: activeColors.textColor }}>
-            {capitalizeString(item.pokeName)}
-          </Text>
-          <Text style={{ color: activeColors.textColor }}>ID: {item.id}</Text>
-          <Text style={{ color: activeColors.textColor }}>Date added:</Text>
-          <Text style={{ color: activeColors.textColor }}>{date_show}</Text>
-        </View>
-      </View>
+      <PokemonItem pokeName={item.pokeName} id={item.id} width_percent={50} />
     );
   };
 
@@ -252,7 +229,14 @@ export default function FavoritePokemon() {
         </View>
         <CustomDivider direction={"horizontal"} />
         {loaded ? (
-          <FlatList data={sortOption} renderItem={renderPokeItem} />
+          <FlatList
+            data={sortOption}
+            numColumns={2}
+            maxToRenderPerBatch={10}
+            keyExtractor={(item) => item.id}
+            initialNumToRender={30}
+            renderItem={renderPokeItem}
+          />
         ) : (
           <LoadingView />
         )}

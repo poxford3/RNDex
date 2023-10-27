@@ -58,13 +58,12 @@ export default function Pokedex({ navigation }) {
   // custom components
 
   const GenSelector = ({ limit, offset, text, gen, bkgColor, textColor }) => {
+    // potentially use the generation's response as a guide for limit/offset
     return (
       <TouchableOpacity
         style={[styles.genButtons, { backgroundColor: bkgColor }]}
         disabled={!loaded}
         onPress={() => {
-          // setLimit(limit);
-          // setOffset(offset);
           setLoaded(false);
           getPokeList({ gen, text, limit, offset });
         }}
