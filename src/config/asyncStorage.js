@@ -17,3 +17,31 @@ export const getData = async (key) => {
     console.log("async error", message);
   }
 };
+
+// will show all stored data
+// AsyncStorage.getAllKeys((err, keys) => {
+//   AsyncStorage.multiGet(keys, (error, stores) => {
+//     stores.map((result, i, store) => {
+//       console.log("Async Keys", { [store[i][0]]: store[i][1] });
+//       return true;
+//     });
+//   });
+// });
+
+// will remove an entire key worth of storage data
+// const removeItemValue = async (key) => {
+//   try {
+//     await AsyncStorage.removeItem(key);
+//     return true;
+//   } catch (exception) {
+//     return false;
+//   }
+// };
+
+// removeItemValue("favPokeList");
+
+// clearAllData() {
+//   AsyncStorage.getAllKeys()
+//   .then(keys => AsyncStorage.multiRemove(keys))
+//   .then(() => alert('success'));
+// }

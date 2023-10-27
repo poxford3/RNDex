@@ -130,8 +130,6 @@ export default function TypeEffectiveness(typesInp, abilityInp) {
       });
     }
 
-    // console.log(output.filter((e) => e.effectiveness != 1));
-    // console.log("output", output);
     return output;
   } else {
   }

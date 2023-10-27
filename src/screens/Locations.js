@@ -83,6 +83,7 @@ export default function Locations() {
         return (
           <FlatList
             data={locations}
+            // contentContainerStyle={{flexGrow:1}}
             // maxToRenderPerBatch={5}
             maxToRenderPerBatch={10}
             renderItem={({ item }) => {

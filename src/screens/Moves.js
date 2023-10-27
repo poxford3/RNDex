@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, memo } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
+import { Move } from "../utils/Move";
 import images from "../../assets/types";
 import themeColors from "../styles/themeColors";
 import capitalizeString from "../hooks/capitalizeString.js";
@@ -17,8 +18,7 @@ import type_colors from "../../assets/types/type_colors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 
-export default function Moves({ route }) {
-  // const pokemonInfo = route.params;
+export default function Moves() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [methSelect, setMethSelect] = useState("level-up");
   const [moveList, setMoveList] = useState([]);
@@ -94,41 +94,6 @@ export default function Moves({ route }) {
     return mach_name;
   };
 
-  const Move = ({ item }) => {
-    let left_box_text =
-      item.level_learned > 0 ? "Lv " + item.level_learned : item.mach_name;
-
-    return (
-      <View style={styles.moveBox}>
-        <View style={styles.move}>
-          <View style={[styles.box, { width: "12%", maxWidth: 50 }]}>
-            <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
-          </View>
-          <View style={styles.nameBox}>
-            <Text
-              numberOfLines={1}
-              style={{ fontSize: 20, color: activeColors.textColor }}
-            >
-              {item.move_name}
-            </Text>
-            <View style={styles.miniImgContainer}>
-              <Image style={styles.miniImg} source={images[item.type]} />
-              <Image style={styles.miniImg} source={images[item.damageClass]} />
-            </View>
-          </View>
-          <View style={styles.rightSide}>
-            <View style={styles.box}>
-              <Text style={{ textAlign: "center" }}>{item.power}</Text>
-            </View>
-            <View style={styles.box}>
-              <Text style={{ textAlign: "center" }}>{item.accuracy}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
   filteredList = moveList.filter((x) => x.method == methSelect);
   filteredListLength = filteredList.length;
 
@@ -138,7 +103,10 @@ export default function Moves({ route }) {
         return (
           <FlatList
             data={filteredList}
-            renderItem={Move}
+            initialNumToRender={20}
+            renderItem={({ item }) => {
+              return <Move item={item} />;
+            }}
             maxToRenderPerBatch={10}
           />
         );
@@ -208,51 +176,16 @@ export default function Moves({ route }) {
           ]}
         />
       </View>
-
       <Body />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  box: {
-    backgroundColor: "lightgrey",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 35,
-    width: 40,
-    // marginHorizontal: 5,
-  },
   container: {
     flex: 1,
     alignItems: "center",
     padding: 10,
-  },
-  miniImg: {
-    // height: 20,
-    // width: 60,
-    marginRight: 5,
-    marginLeft: 2,
-  },
-  miniImgContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  move: {
-    flexDirection: "row",
-    width: "92%",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  moveBox: {
-    width: "100%",
-    maxWidth: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomColor: "grey",
-    borderBottomWidth: 1,
   },
   moveList: {
     alignItems: "center",
@@ -262,12 +195,7 @@ const styles = StyleSheet.create({
     width: "58%",
     marginLeft: 10,
   },
-  rightSide: {
-    width: "30%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
+
   pokemonImg: {
     height: 90,
     width: 90,

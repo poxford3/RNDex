@@ -18,7 +18,7 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
-import FavoritePokemon from "../utils/FavoritePokemon";
+import FavoritePokemonButton from "../utils/FavoritePokemonButton";
 
 export default function Pokemon({ route }) {
   // const pokemonInfo = route.params;
@@ -205,7 +205,10 @@ export default function Pokemon({ route }) {
           <LoadingView />
         )}
       </ScrollView>
-      {/* <FavoritePokemon /> */}
+      <FavoritePokemonButton
+        id={pokemonInfo.id}
+        pokeName={pokemonInfo.pokeName}
+      />
     </SafeAreaView>
   );
 }

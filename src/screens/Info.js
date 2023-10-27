@@ -46,6 +46,16 @@ export default function Info({ navigation }) {
             To view a list of all the generations, click here
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Favorites");
+          }}
+          style={styles.genSelect}
+        >
+          <Text style={styles.mostText}>
+            To view a list of all favorites, click here
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
