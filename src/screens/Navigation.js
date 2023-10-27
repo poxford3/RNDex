@@ -74,7 +74,7 @@ const Tab = createMaterialBottomTabNavigator();
 // https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
 // will need the above shortly
 
-export function PokemonBottomTabNav({ route }) {
+export function PokemonBottomTabNav() {
   // let info = route.params;
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
