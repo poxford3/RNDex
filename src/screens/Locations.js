@@ -1,5 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState, useContext, memo } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { Modal } from "react-native";
+// import Modal from "react-native-modal";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
@@ -7,12 +17,18 @@ import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";
+import { Button } from "react-native-paper";
 
 export default function Locations() {
-  // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
+  const [games, setGames] = useState([]);
   const [loaded, setLoaded] = useState(false);
+
+  // modal props
+  const [visible, setVisible] = useState(false);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
@@ -20,7 +36,7 @@ export default function Locations() {
   const getLocations = async (id) => {
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/encounters`;
-    console.log(url);
+    // console.log(url);
     const json = await API_CALL(url);
     let tempLocationList = [];
 
@@ -39,17 +55,18 @@ export default function Locations() {
       });
     });
 
-    setLocations(tempLocationList);
+    const uniqueGames = [...new Set(tempLocationList.map((item) => item.game))];
+    setGames(uniqueGames.sort((a, b) => (a.game > b.game ? 1 : -1)));
+    setLocations(tempLocationList.sort((a, b) => (a.game > b.game ? 1 : -1)));
     setLoaded(true);
-    // console.log(tempLocationList);
+    // console.log(uniqueGames);
   };
 
   useEffect(() => {
     getLocations(pokemonInfo.id);
   }, []);
 
-  const Location = ({ loc }) => {
-    // console.log(loc.game.toLowerCase().replace(" ", ""));
+  const Location = memo(function Location({ loc }) {
     const box_art_pic = box_art[loc.game.toLowerCase().replace(" ", "")];
     const level_disp =
       loc.min_level == loc.max_level
@@ -69,9 +86,25 @@ export default function Locations() {
         </View>
         <View style={styles.locRight}>
           <Image source={box_art_pic} style={{ height: 100, width: 100 }} />
-          {/* <Text style={{ color: activeColors.textColor, padding: 3 }}>
-            {loc.game}
-          </Text> */}
+        </View>
+      </View>
+    );
+  });
+
+  const Header = () => {
+    return (
+      <View style={styles.header}>
+        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
+          Locations
+        </Text>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={showModal}>
+            <MaterialCommunityIcons
+              name="filter"
+              color={activeColors.textColor}
+              size={30}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -83,8 +116,7 @@ export default function Locations() {
         return (
           <FlatList
             data={locations}
-            // contentContainerStyle={{flexGrow:1}}
-            // maxToRenderPerBatch={5}
+            initialNumToRender={15}
             maxToRenderPerBatch={10}
             renderItem={({ item }) => {
               return <Location loc={item} />;
@@ -106,6 +138,33 @@ export default function Locations() {
     }
   };
 
+  const ModalItem = () => {
+    return (
+      <View style={styles.modalContainer}>
+        <Modal
+          animationType={"slide"}
+          visible={visible}
+          transparent={true}
+          // onRequestClose={hideModal}
+          style={[
+            styles.modalStyle,
+            {
+              backgroundColor: activeColors.background,
+              borderColor: activeColors.textColor,
+            },
+          ]}
+        >
+          <View style={styles.modalBox}>
+            <Text style={{ color: activeColors.textColor }}>I'm a modal</Text>
+            <TouchableOpacity onPress={() => setVisible(!visible)}>
+              <Text style={{ color: activeColors.textColor }}>close</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
+    );
+  };
+
   useEffect(() => {
     getLocations(pokemonInfo.id);
   }, [pokemonInfo]);
@@ -114,11 +173,8 @@ export default function Locations() {
     <View
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <View>
-        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
-          Locations
-        </Text>
-      </View>
+      <ModalItem />
+      <Header />
       <View style={styles.list}>
         <Body />
       </View>
@@ -129,6 +185,42 @@ export default function Locations() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  modalBox: {
+    height: 100,
+    width: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: activeColors.backgroundColor,
+    backgroundColor: "green",
+  },
+  modalStyle: {
+    margin: 20,
+    // backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalContainer: {
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  headerRight: {
+    justifyContent: "center",
+    paddingRight: 10,
   },
   headerText: {
     fontWeight: "bold",

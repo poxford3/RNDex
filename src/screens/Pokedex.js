@@ -213,7 +213,6 @@ export default function Pokedex({ navigation }) {
             />
             <FlatList
               data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
-              // extraData={pokeList}
               numColumns={2}
               maxToRenderPerBatch={10}
               keyExtractor={(item) => item.pokeID}
