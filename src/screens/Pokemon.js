@@ -20,7 +20,7 @@ import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemonButton from "../utils/FavoritePokemonButton";
 
-export default function Pokemon({ route }) {
+export default function Pokemon() {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
