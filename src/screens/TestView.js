@@ -27,6 +27,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { List } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import themeColors from "../styles/themeColors";
+import CustomDivider from "../utils/CustomDivider";
 // react-native-charts-wrapper
 // import { PieChart } from "react-native-charts-wrapper";
 
@@ -445,12 +446,161 @@ export default function TestView() {
     );
   };
 
+  const games = [
+    { game: "Red", selected: false },
+    { game: "Blue", selected: false },
+    { game: "Yellow", selected: false },
+    { game: "Black", selected: false },
+    { game: "X", selected: false },
+  ];
+  const [gameSelected, setGameSelected] = useState(games);
+  const [gameFilter, setGameFilter] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const ModalTest = () => {
+    return (
+      <View
+        style={{
+          width: 200,
+          borderRadius: 20,
+          borderWidth: 1,
+          borderColor: activeColors.textColor,
+          padding: 10,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 5,
+          }}
+        >
+          <Text
+            style={{
+              color: activeColors.textColor,
+              fontWeight: "bold",
+              fontSize: 20,
+            }}
+          >
+            Filter
+          </Text>
+          <MaterialCommunityIcons
+            name={selectAll ? "circle" : "circle-outline"}
+            size={24}
+            color={activeColors.textColor}
+            onPress={() => {
+              setSelectAll(!selectAll);
+              let newGameSelected = [...gameSelected];
+              for (let gameItem of newGameSelected) {
+                gameItem.selected = !selectAll;
+              }
+              setGameSelected(newGameSelected);
+            }}
+          />
+        </View>
+        <CustomDivider direction={"horizontal"} />
+        <FlatList
+          data={gameSelected}
+          keyExtractor={(item, idx) => idx.toString()}
+          scrollEnabled={false}
+          renderItem={renderGameList}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            setGameFilter(gameSelected.filter((e) => e.selected));
+          }}
+        >
+          <Text
+            style={{
+              color: activeColors.textColor,
+              textDecorationLine: "underline",
+              textAlign: "center",
+            }}
+          >
+            Apply
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderGameList = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={{
+          padding: 10,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+        onPress={() => {
+          let newGameSelected = [...gameSelected];
+          for (let gameItem of newGameSelected) {
+            if (gameItem.game == item.game) {
+              gameItem.selected = gameItem.selected == true ? false : true;
+              break;
+            }
+          }
+          // console.log("ngs", newGameSelected);
+          setGameSelected(newGameSelected);
+        }}
+      >
+        <Text style={{ color: activeColors.textColor }}>{item.game}</Text>
+        <MaterialCommunityIcons
+          name={item.selected == true ? "circle" : "circle-outline"}
+          size={20}
+          color={activeColors.textColor}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const ModalResults = () => {
+    const gamesShown = gameFilter.length > 0 ? gameFilter : games;
+    console.log("gameShown", gamesShown);
+    return (
+      <View
+        style={{
+          borderColor: "white",
+          borderWidth: 1,
+          marginTop: 20,
+          padding: 10,
+        }}
+      >
+        <FlatList
+          data={gamesShown}
+          // extraData={gameSelected}
+          scrollEnabled={false}
+          style={{ flexGrow: 0 }}
+          renderItem={renderResults}
+        />
+      </View>
+    );
+  };
+
+  const renderResults = ({ item }) => {
+    // console.log("item", item);
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: 100,
+        }}
+      >
+        <Text style={{ color: activeColors.textColor }}>{item.game}</Text>
+        <Text style={{ color: activeColors.textColor }}>
+          {item.selected == true ? "true" : "false"}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <DataViewTest />
-      <HeartTest />
+      <ModalTest />
+      <ModalResults />
       {/* <Text>test page (Bulbasaur):</Text> */}
       {/* {gens.map((e, idx) => {
         return <ListTest game={e.name} games={e.games} key={idx} />;

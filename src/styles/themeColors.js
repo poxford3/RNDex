@@ -12,6 +12,7 @@ export default themeColors = {
     selectorInactive: "black",
     themeType: "LIGHT",
     themeTypeLower: "light",
+    modal: "white",
   },
   dark: {
     textColor: "white",
@@ -26,6 +27,7 @@ export default themeColors = {
     selectorInactive: "white",
     themeType: "DARK",
     themeTypeLower: "dark",
+    modal: "#282e38",
   },
 };
 

@@ -6,23 +6,23 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Modal,
 } from "react-native";
-import { Modal } from "react-native";
-// import Modal from "react-native-modal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
+import CustomDivider from "../utils/CustomDivider";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";
-import { Button } from "react-native-paper";
 
 export default function Locations() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
   const [games, setGames] = useState([]);
+  const [gameFilter, setGameFilter] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   // modal props
@@ -42,7 +42,6 @@ export default function Locations() {
 
     // console.log(json[0]);
     json.map((e) => {
-      // console.log(capitalizeString(e.location_area.name));
       tempLocationList.push({
         location_name: capitalizeString(e.location_area.name).replace(
           "Area",
@@ -55,8 +54,10 @@ export default function Locations() {
       });
     });
 
-    const uniqueGames = [...new Set(tempLocationList.map((item) => item.game))];
-    setGames(uniqueGames.sort((a, b) => (a.game > b.game ? 1 : -1)));
+    const uniqueGames = [
+      ...new Set(tempLocationList.map((item) => item.game)),
+    ].sort();
+    setGames(uniqueGames);
     setLocations(tempLocationList.sort((a, b) => (a.game > b.game ? 1 : -1)));
     setLoaded(true);
     // console.log(uniqueGames);
@@ -85,7 +86,10 @@ export default function Locations() {
           </Text>
         </View>
         <View style={styles.locRight}>
-          <Image source={box_art_pic} style={{ height: 100, width: 100 }} />
+          <Image
+            source={box_art_pic}
+            style={{ height: 100, width: 100, resizeMode: "contain" }}
+          />
         </View>
       </View>
     );
@@ -140,27 +144,92 @@ export default function Locations() {
 
   const ModalItem = () => {
     return (
-      <View style={styles.modalContainer}>
-        <Modal
-          animationType={"slide"}
-          visible={visible}
-          transparent={true}
-          // onRequestClose={hideModal}
-          style={[
-            styles.modalStyle,
-            {
-              backgroundColor: activeColors.background,
-              borderColor: activeColors.textColor,
-            },
-          ]}
-        >
-          <View style={styles.modalBox}>
-            <Text style={{ color: activeColors.textColor }}>I'm a modal</Text>
-            <TouchableOpacity onPress={() => setVisible(!visible)}>
-              <Text style={{ color: activeColors.textColor }}>close</Text>
+      <Modal
+        animationType={"slide"}
+        visible={visible}
+        transparent={true}
+        onRequestClose={hideModal}
+        style={styles.modalStyle}
+      >
+        <View style={styles.modalContainer}>
+          <View
+            style={[
+              styles.modalBox,
+              {
+                backgroundColor: activeColors.modal,
+                borderColor: activeColors.textColor,
+              },
+            ]}
+          >
+            <View style={{ flexShrink: 1, width: 135 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text
+                  style={{
+                    color: activeColors.textColor,
+                    fontWeight: "bold",
+                    fontSize: 18,
+                  }}
+                >
+                  Filter
+                </Text>
+                <MaterialCommunityIcons
+                  name="close"
+                  size={26}
+                  color={activeColors.textColor}
+                />
+              </View>
+              <CustomDivider direction={"horizontal"} />
+              <FlatList
+                data={games}
+                scrollEnabled={false}
+                renderItem={({ item }) => {
+                  return <UniqueGameItem game={item} />;
+                }}
+              />
+            </View>
+            <TouchableOpacity onPress={hideModal}>
+              <Text style={{ color: activeColors.textColor }}>{"\n"}Apply</Text>
             </TouchableOpacity>
           </View>
-        </Modal>
+        </View>
+      </Modal>
+    );
+  };
+
+  const UniqueGameItem = ({ game }) => {
+    let tempGameList = gameFilter;
+    return (
+      <View
+        style={{
+          height: 20,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={{ color: activeColors.textColor }}>{game}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            console.log("in button", game);
+            if (tempGameList.includes(game)) {
+              tempGameList.splice(tempGameList.indexOf(game), 1);
+              setGameFilter(tempGameList);
+            } else {
+              tempGameList.push(game);
+              setGameFilter(tempGameList);
+            }
+          }}
+        >
+          <MaterialCommunityIcons
+            name={gameFilter.includes(game) ? "circle" : "circle-outline"}
+            size={20}
+            color={activeColors.textColor}
+          />
+        </TouchableOpacity>
       </View>
     );
   };
@@ -169,12 +238,16 @@ export default function Locations() {
     getLocations(pokemonInfo.id);
   }, [pokemonInfo]);
 
+  // useEffect(() => {
+  //   console.log(gameFilter);
+  // }, [gameFilter]);
+
   return (
     <View
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ModalItem />
       <Header />
+      {1 == 2 && <ModalItem />}
       <View style={styles.list}>
         <Body />
       </View>
@@ -185,18 +258,28 @@ export default function Locations() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  modalBox: {
-    height: 100,
-    width: 100,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: activeColors.backgroundColor,
-    backgroundColor: "green",
+  },
+  modalBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    margin: 20,
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   modalStyle: {
     margin: 20,
-    // backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -210,13 +293,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalContainer: {
-    // flex: 1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
   },
   headerRight: {
     justifyContent: "center",
@@ -232,7 +316,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   locationBox: {
-    height: 150,
+    minHeight: 150,
     padding: 10,
     // borderBottomColor: "black",
     borderBottomWidth: 1,
