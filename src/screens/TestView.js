@@ -453,6 +453,8 @@ export default function TestView() {
     { game: "Black", selected: false },
     { game: "X", selected: false },
   ];
+  // logic from
+  // https://stackoverflow.com/questions/58796034/how-to-multiselect-items-in-flatlist-react-native
   const [gameSelected, setGameSelected] = useState(games);
   const [gameFilter, setGameFilter] = useState([]);
   const [selectAll, setSelectAll] = useState(false);

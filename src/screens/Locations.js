@@ -21,12 +21,13 @@ import box_art from "../../assets/box_art";
 export default function Locations() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
-  const [games, setGames] = useState([]);
-  const [gameFilter, setGameFilter] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   // modal props
+  const [games, setGames] = useState([]);
+  const [gameFilter, setGameFilter] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
@@ -57,15 +58,14 @@ export default function Locations() {
     const uniqueGames = [
       ...new Set(tempLocationList.map((item) => item.game)),
     ].sort();
-    setGames(uniqueGames);
+    let uniqueGamesObj = uniqueGames.map((game) => ({
+      game: game,
+      selected: false,
+    }));
+    setGames(uniqueGamesObj);
     setLocations(tempLocationList.sort((a, b) => (a.game > b.game ? 1 : -1)));
     setLoaded(true);
-    // console.log(uniqueGames);
   };
-
-  useEffect(() => {
-    getLocations(pokemonInfo.id);
-  }, []);
 
   const Location = memo(function Location({ loc }) {
     const box_art_pic = box_art[loc.game.toLowerCase().replace(" ", "")];
@@ -115,11 +115,18 @@ export default function Locations() {
   };
 
   const Body = () => {
+    let locFilter = locations.filter((loc) => {
+      return gameFilter.some((f) => {
+        return f.game == loc.game;
+      });
+    });
+    console.log("gf", gameFilter);
+    let locationShown = locFilter.length > 0 ? locFilter : locations;
     if (loaded) {
       if (locations.length > 0) {
         return (
           <FlatList
-            data={locations}
+            data={locationShown}
             initialNumToRender={15}
             maxToRenderPerBatch={10}
             renderItem={({ item }) => {
@@ -145,13 +152,13 @@ export default function Locations() {
   const ModalItem = () => {
     return (
       <Modal
-        animationType={"slide"}
+        // animationType={"slide"}
         visible={visible}
         transparent={true}
         onRequestClose={hideModal}
         style={styles.modalStyle}
       >
-        <View style={styles.modalContainer}>
+        <TouchableOpacity style={styles.modalContainer} onPress={hideModal}>
           <View
             style={[
               styles.modalBox,
@@ -161,7 +168,7 @@ export default function Locations() {
               },
             ]}
           >
-            <View style={{ flexShrink: 1, width: 135 }}>
+            <View style={{ flexShrink: 1, width: 200, padding: 5 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -175,12 +182,20 @@ export default function Locations() {
                     fontSize: 18,
                   }}
                 >
-                  Filter
+                  Game Filter
                 </Text>
                 <MaterialCommunityIcons
-                  name="close"
-                  size={26}
+                  name={selectAll ? "circle" : "circle-outline"}
+                  size={24}
                   color={activeColors.textColor}
+                  onPress={() => {
+                    setSelectAll(!selectAll);
+                    let newGameSelected = [...games];
+                    for (let gameItem of newGameSelected) {
+                      gameItem.selected = !selectAll;
+                    }
+                    setGames(newGameSelected);
+                  }}
                 />
               </View>
               <CustomDivider direction={"horizontal"} />
@@ -188,66 +203,77 @@ export default function Locations() {
                 data={games}
                 scrollEnabled={false}
                 renderItem={({ item }) => {
-                  return <UniqueGameItem game={item} />;
+                  return <UniqueGameItem gameObj={item} />;
                 }}
               />
             </View>
-            <TouchableOpacity onPress={hideModal}>
-              <Text style={{ color: activeColors.textColor }}>{"\n"}Apply</Text>
+            <TouchableOpacity
+              onPress={() => {
+                hideModal();
+                setGameFilter(games.filter((e) => e.selected));
+              }}
+            >
+              <Text
+                style={{
+                  color: activeColors.textColor,
+                  textDecorationLine: "underline",
+                  textAlign: "center",
+                }}
+              >
+                Apply
+              </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     );
   };
 
-  const UniqueGameItem = ({ game }) => {
-    let tempGameList = gameFilter;
+  const UniqueGameItem = ({ gameObj }) => {
+    // let tempGameList = gameFilter;
     return (
-      <View
+      <TouchableOpacity
         style={{
-          height: 20,
+          padding: 10,
           flexDirection: "row",
           justifyContent: "space-between",
         }}
-      >
-        <Text style={{ color: activeColors.textColor }}>{game}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            console.log("in button", game);
-            if (tempGameList.includes(game)) {
-              tempGameList.splice(tempGameList.indexOf(game), 1);
-              setGameFilter(tempGameList);
-            } else {
-              tempGameList.push(game);
-              setGameFilter(tempGameList);
+        onPress={() => {
+          let newGameSelected = [...games];
+          for (let gameItem of newGameSelected) {
+            if (gameItem.game == gameObj.game) {
+              gameItem.selected = gameItem.selected == true ? false : true;
+              break;
             }
-          }}
-        >
-          <MaterialCommunityIcons
-            name={gameFilter.includes(game) ? "circle" : "circle-outline"}
-            size={20}
-            color={activeColors.textColor}
-          />
-        </TouchableOpacity>
-      </View>
+          }
+          // console.log("ngs", newGameSelected);
+          setGames(newGameSelected);
+        }}
+      >
+        <Text style={{ color: activeColors.textColor }}>{gameObj.game}</Text>
+        <MaterialCommunityIcons
+          name={gameObj.selected == true ? "circle" : "circle-outline"}
+          size={20}
+          color={activeColors.textColor}
+        />
+      </TouchableOpacity>
     );
   };
 
   useEffect(() => {
     getLocations(pokemonInfo.id);
-  }, [pokemonInfo]);
+  }, []);
 
-  // useEffect(() => {
-  //   console.log(gameFilter);
-  // }, [gameFilter]);
+  useEffect(() => {
+    getLocations(pokemonInfo.id);
+  }, [pokemonInfo]);
 
   return (
     <View
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <Header />
-      {1 == 2 && <ModalItem />}
+      <ModalItem />
       <View style={styles.list}>
         <Body />
       </View>
@@ -262,13 +288,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalBox: {
+    width: 200,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     margin: 20,
     borderRadius: 20,
     padding: 20,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
