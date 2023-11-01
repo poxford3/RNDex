@@ -36,7 +36,6 @@ export default function Pokedex({ navigation }) {
   // based on the limit/offset params
   const getPokeList = async ({ gen }) => {
     setPokeList([]);
-    // const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
     const response = await fetch(url);
     const json = await response.json();
