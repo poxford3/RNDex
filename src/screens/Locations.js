@@ -120,7 +120,7 @@ export default function Locations() {
         return f.game == loc.game;
       });
     });
-    console.log("gf", gameFilter);
+    // console.log("gf", gameFilter);
     let locationShown = locFilter.length > 0 ? locFilter : locations;
     if (loaded) {
       if (locations.length > 0) {

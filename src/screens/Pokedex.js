@@ -34,15 +34,16 @@ export default function Pokedex({ navigation }) {
 
   // does inital call of API that gets list of pokemon,
   // based on the limit/offset params
-  const getPokeList = async ({ gen, limit, offset }) => {
+  const getPokeList = async ({ gen }) => {
     setPokeList([]);
-    const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
+    // const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`;
+    const url = `https://pokeapi.co/api/v2/generation/${gen}`;
     const response = await fetch(url);
     const json = await response.json();
 
     let tempPokeList = []; // Temporary array to hold values
 
-    json.results.forEach((e) => {
+    json.pokemon_species.forEach((e) => {
       tempPokeList.push({
         pokeName: e.name,
         pokeID: e.url.split("/")[6],
@@ -57,7 +58,7 @@ export default function Pokedex({ navigation }) {
 
   // custom components
 
-  const GenSelector = ({ limit, offset, text, gen, bkgColor, textColor }) => {
+  const GenSelector = ({ text, gen, bkgColor, textColor }) => {
     // potentially use the generation's response as a guide for limit/offset
     return (
       <TouchableOpacity
@@ -65,7 +66,7 @@ export default function Pokedex({ navigation }) {
         disabled={!loaded}
         onPress={() => {
           setLoaded(false);
-          getPokeList({ gen, text, limit, offset });
+          getPokeList({ gen });
         }}
       >
         <Text style={{ textAlign: "center", color: textColor }}>{text}</Text>
@@ -79,8 +80,6 @@ export default function Pokedex({ navigation }) {
 
     return (
       <GenSelector
-        limit={item.limit}
-        offset={item.offset}
         text={item.text}
         gen={item.gen}
         bkgColor={bkgColor}
