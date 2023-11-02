@@ -147,31 +147,27 @@ export default function Moves() {
   filteredListLength = filteredList.length;
 
   const Body = () => {
-    if (loaded) {
-      if (filteredList.length > 0) {
-        return (
-          <FlatList
-            data={filteredList}
-            initialNumToRender={20}
-            renderItem={({ item }) => {
-              return <Move item={item} />;
-            }}
-            maxToRenderPerBatch={10}
-          />
-        );
-      } else {
-        return (
-          <MissingInfo
-            str={`${capitalizeString(
-              pokemonInfo.pokeName
-            )} has no moves that can be
-        learned by ${methSelect}`}
-            id={pokemonInfo.id}
-          />
-        );
-      }
+    if (filteredList.length > 0) {
+      return (
+        <FlatList
+          data={filteredList}
+          initialNumToRender={20}
+          renderItem={({ item }) => {
+            return <Move item={item} />;
+          }}
+          maxToRenderPerBatch={10}
+        />
+      );
     } else {
-      return <LoadingView />;
+      return (
+        <MissingInfo
+          str={`${capitalizeString(
+            pokemonInfo.pokeName
+          )} has no moves that can be
+        learned by ${methSelect}`}
+          id={pokemonInfo.id}
+        />
+      );
     }
   };
 
@@ -188,15 +184,21 @@ export default function Moves() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <View style={styles.selector}>
-        <SegmentedButtons
-          value={methSelect}
-          onValueChange={handleMethodChange}
-          style={{ width: "100%" }}
-          buttons={moveMethods}
-        />
-      </View>
-      <Body />
+      {loaded ? (
+        <>
+          <View style={styles.selector}>
+            <SegmentedButtons
+              value={methSelect}
+              onValueChange={handleMethodChange}
+              style={{ width: "100%" }}
+              buttons={moveMethods}
+            />
+          </View>
+          <Body />
+        </>
+      ) : (
+        <LoadingView />
+      )}
     </SafeAreaView>
   );
 }
