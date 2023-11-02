@@ -124,7 +124,7 @@ export default function Moves() {
     ); // gets most recent english description
 
     let description = arr.pop();
-    description.flavor_text.replaceAll("\n", " ");
+    description?.flavor_text.replaceAll("\n", " ");
 
     return [
       json.accuracy,
@@ -132,7 +132,7 @@ export default function Moves() {
       json.type.name,
       json.damage_class.name,
       mach_name ? mach_name.toUpperCase() : null,
-      description.flavor_text,
+      description?.flavor_text,
       json.generation.name,
     ];
   };
