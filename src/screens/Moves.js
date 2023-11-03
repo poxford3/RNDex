@@ -17,27 +17,47 @@ import MissingInfo from "../utils/MissingInfo";
 import type_colors from "../../assets/types/type_colors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import API_CALL from "../hooks/API_CALL";
 
-export default function Moves() {
+export default function Moves({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
-  const [methSelect, setMethSelect] = useState("level-up");
+  const [methSelect, setMethSelect] = useState(null);
   const [moveList, setMoveList] = useState([]);
+  const [moveMethods, setMoveMethods] = useState([""]);
   const [mainColor, setMainColor] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const handleMethodChange = (method) => {
+    let newMoveMeth = moveMethods;
+    let obj = newMoveMeth.find((x) => x.value === method);
+    let index = newMoveMeth.indexOf(obj);
+    for (let i = 0; i < newMoveMeth.length; i++) {
+      if (i == index) {
+        newMoveMeth[i] = {
+          ...newMoveMeth[i],
+          style: { backgroundColor: mainColor },
+        };
+      } else {
+        newMoveMeth[i] = {
+          ...newMoveMeth[i],
+          style: { backgroundColor: activeColors.background },
+        };
+      }
+    }
+
+    setMethSelect(method);
+  };
 
   const getMoves = async (id) => {
     let tempMoveList = [];
     let tasks = [];
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-    const response = await fetch(url);
-    const json = await response.json();
+    const json = await API_CALL(url);
 
     setMainColor(type_colors[json.types[0].type.name]);
-
-    // console.log(json.moves);
 
     json.moves.forEach(async (e) => {
       let move_obj = {
@@ -55,6 +75,11 @@ export default function Moves() {
         move_obj.type = detail[2];
         move_obj.damageClass = detail[3];
         move_obj.mach_name = detail[4];
+        move_obj.desc = detail[5];
+        move_obj.genIntroduced = detail[6];
+        move_obj.pp = detail[7];
+        move_obj.target = detail[8];
+        move_obj.contest_type = detail[9];
 
         tempMoveList.push(move_obj);
       });
@@ -62,20 +87,44 @@ export default function Moves() {
     });
 
     await Promise.all(tasks);
+    // get unique methods for moves
+    const uniqueMoveTypes = [
+      ...new Set(tempMoveList.map((item) => item.method)),
+    ].sort();
+
+    // turn unique methods into object to put into button
+    let uniqueMoveObj = uniqueMoveTypes.map((method, idx) => ({
+      value: method,
+      label: capitalizeString(method),
+      checkedColor: activeColors.selectorActive,
+      uncheckedColor: activeColors.selectorInactive,
+      style: {
+        backgroundColor:
+          idx == 0
+            ? type_colors[json.types[0].type.name]
+            : activeColors.background,
+      },
+    }));
+
+    setMethSelect(uniqueMoveTypes[0]);
+    setMoveMethods(uniqueMoveObj);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
     setLoaded(true);
   };
 
   const getMoveDetails = async (url) => {
-    const response = await fetch(url);
-    const json = await response.json();
+    const json = await API_CALL(url);
 
     // json.machines[0].machine?.url.length !== 0
     json.machines.length !== 0
       ? (mach_name = await getTMName(json.machines[0].machine.url))
       : (mach_name = null);
 
-    // let mach_name = "c";
+    let arr = json.flavor_text_entries.filter(
+      (elem) => elem.language.name == "en"
+    ); // gets most recent english description
+
+    let description = arr.pop();
 
     return [
       json.accuracy,
@@ -83,14 +132,17 @@ export default function Moves() {
       json.type.name,
       json.damage_class.name,
       mach_name ? mach_name.toUpperCase() : null,
+      description?.flavor_text.replaceAll("\n", " "),
+      json.generation.name,
+      json.pp,
+      json.target.name,
+      json.contest_type?.name,
     ];
   };
 
   const getTMName = async (url) => {
-    const mach_response = await fetch(url);
-    const mach_json = await mach_response.json();
+    const mach_json = await API_CALL(url);
     const mach_name = mach_json.item.name;
-    // console.log(mach_json.item.name);
     return mach_name;
   };
 
@@ -98,31 +150,29 @@ export default function Moves() {
   filteredListLength = filteredList.length;
 
   const Body = () => {
-    if (loaded) {
-      if (filteredList.length > 0) {
-        return (
-          <FlatList
-            data={filteredList}
-            initialNumToRender={20}
-            renderItem={({ item }) => {
-              return <Move item={item} />;
-            }}
-            maxToRenderPerBatch={10}
-          />
-        );
-      } else {
-        return (
-          <MissingInfo
-            str={`${capitalizeString(
-              pokemonInfo.pokeName
-            )} has no moves that can be
-        learned by ${methSelect}`}
-            id={pokemonInfo.id}
-          />
-        );
-      }
+    if (filteredList.length > 0) {
+      return (
+        <FlatList
+          data={filteredList}
+          initialNumToRender={20}
+          renderItem={({ item }) => {
+            return (
+              <Move item={item} navigation={navigation} mainColor={mainColor} />
+            );
+          }}
+          maxToRenderPerBatch={10}
+        />
+      );
     } else {
-      return <LoadingView />;
+      return (
+        <MissingInfo
+          str={`${capitalizeString(
+            pokemonInfo.pokeName
+          )} has no moves that can be
+        learned by ${methSelect}`}
+          id={pokemonInfo.id}
+        />
+      );
     }
   };
 
@@ -131,52 +181,29 @@ export default function Moves() {
     getMoves(pokemonInfo.id);
   }, [pokemonInfo]);
 
+  // useEffect(() => {
+  //   getMoves("meth", methSelect);
+  // }, [methSelect]);
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <View style={styles.selector}>
-        <SegmentedButtons
-          value={methSelect}
-          onValueChange={setMethSelect}
-          style={{ width: "100%" }}
-          buttons={[
-            {
-              value: "level-up",
-              label: "Level",
-              checkedColor: activeColors.selectorActive,
-              uncheckedColor: activeColors.selectorInactive,
-              style: {
-                backgroundColor:
-                  methSelect == "level-up"
-                    ? mainColor
-                    : activeColors.background,
-              },
-            },
-            {
-              value: "tutor",
-              label: "Tutor",
-              checkedColor: activeColors.selectorActive,
-              uncheckedColor: activeColors.selectorInactive,
-              style: {
-                backgroundColor:
-                  methSelect == "tutor" ? mainColor : activeColors.background,
-              },
-            },
-            {
-              value: "machine",
-              label: "TM",
-              checkedColor: activeColors.selectorActive,
-              uncheckedColor: activeColors.selectorInactive,
-              style: {
-                backgroundColor:
-                  methSelect == "machine" ? mainColor : activeColors.background,
-              },
-            },
-          ]}
-        />
-      </View>
-      <Body />
+      {loaded ? (
+        <>
+          <View style={styles.selector}>
+            <SegmentedButtons
+              value={methSelect}
+              onValueChange={handleMethodChange}
+              style={{ width: "100%" }}
+              buttons={moveMethods}
+            />
+          </View>
+          <Body />
+        </>
+      ) : (
+        <LoadingView />
+      )}
     </SafeAreaView>
   );
 }

@@ -16,6 +16,7 @@ import APITest from "./APITest";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
 import Settings from "./Settings";
+import MoveDetails from "../utils/MoveDetails";
 import FavoritePokemon from "./FavoritePokemon";
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +59,7 @@ export default function MyStack() {
           screenOptions={{ presentation: "modal", headerShown: false }}
         >
           <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="MoveDetails" component={MoveDetails} />
         </Stack.Group>
       </Stack.Navigator>
       <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />

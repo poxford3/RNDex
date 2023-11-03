@@ -189,86 +189,110 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             </View>
           </View>
           <View style={styles.row}>
-            <View style={{ flexDirection: "column" }}>
-              <InfoTopic title={"Resistances"} icon={null} side={"left"} />
-              <View style={{ alignItems: "center", flexDirection: "row" }}>
-                <Text style={[styles.info, { color: activeColors.textColor }]}>
-                  1/2x
-                </Text>
-                <FlatList
-                  data={resistances2}
-                  numColumns={3}
-                  scrollEnabled={false}
-                  renderItem={({ item }) => {
-                    return <TypeItem t={item} />;
-                  }}
-                />
-              </View>
-              {resistances4.length != 0 ? (
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginTop: 10,
-                  }}
-                >
-                  <Text
-                    style={[styles.info, { color: activeColors.textColor }]}
-                  >
-                    1/4x
-                  </Text>
-                  <FlatList
-                    data={resistances4}
-                    numColumns={3}
-                    scrollEnabled={false}
-                    renderItem={({ item }) => {
-                      return <TypeItem t={item} />;
+            {resistances2.length != 0 || resistances4.length != 0 ? (
+              <View style={{ flexDirection: "column" }}>
+                <InfoTopic title={"Resistances"} icon={null} side={"left"} />
+                {resistances2.length != 0 ? (
+                  <View style={{ alignItems: "center", flexDirection: "row" }}>
+                    <View style={{ width: "15%" }}>
+                      <Text
+                        style={[styles.info, { color: activeColors.textColor }]}
+                      >
+                        1/2x
+                      </Text>
+                    </View>
+                    <View style={{ width: "85%" }}>
+                      <FlatList
+                        data={resistances2}
+                        numColumns={3}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => {
+                          return <TypeItem t={item} />;
+                        }}
+                      />
+                    </View>
+                  </View>
+                ) : null}
+                {resistances4.length != 0 ? (
+                  <View
+                    style={{
+                      alignItems: "center",
+                      flexDirection: "row",
+                      marginTop: 10,
                     }}
-                  />
-                </View>
-              ) : null}
-            </View>
+                  >
+                    <View style={{ width: "15%" }}>
+                      <Text
+                        style={[styles.info, { color: activeColors.textColor }]}
+                      >
+                        1/4x
+                      </Text>
+                    </View>
+                    <View style={{ width: "85%" }}>
+                      <FlatList
+                        data={resistances4}
+                        numColumns={3}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => {
+                          return <TypeItem t={item} />;
+                        }}
+                      />
+                    </View>
+                  </View>
+                ) : null}
+              </View>
+            ) : null}
           </View>
           <View style={styles.row}>
-            <View style={{ flexDirection: "column" }}>
-              <InfoTopic title={"Weaknesses"} icon={null} side={"left"} />
-              <View style={{ alignItems: "center", flexDirection: "row" }}>
-                <Text style={[styles.info, { color: activeColors.textColor }]}>
-                  2x
-                </Text>
-                <FlatList
-                  data={weaknesses2}
-                  numColumns={3}
-                  scrollEnabled={false}
-                  renderItem={({ item }) => {
-                    return <TypeItem t={item} />;
-                  }}
-                />
-              </View>
-              {weaknesses4.length != 0 ? (
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginTop: 10,
-                  }}
-                >
-                  <Text
-                    style={[styles.info, { color: activeColors.textColor }]}
-                  >
-                    4x
-                  </Text>
-                  <FlatList
-                    data={weaknesses4}
-                    numColumns={3}
-                    scrollEnabled={false}
-                    renderItem={({ item }) => {
-                      return <TypeItem t={item} />;
+            {weaknesses2.length != 0 || weaknesses4.length != 0 ? (
+              <View style={{ flexDirection: "column" }}>
+                <InfoTopic title={"Weaknesses"} icon={null} side={"left"} />
+                {weaknesses2.length != 0 ? (
+                  <View style={{ alignItems: "center", flexDirection: "row" }}>
+                    <View style={{ width: "15%" }}>
+                      <Text
+                        style={[styles.info, { color: activeColors.textColor }]}
+                      >
+                        2x
+                      </Text>
+                    </View>
+                    <View style={{ width: "85%" }}>
+                      <FlatList
+                        data={weaknesses2}
+                        numColumns={3}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => {
+                          return <TypeItem t={item} />;
+                        }}
+                      />
+                    </View>
+                  </View>
+                ) : null}
+                {weaknesses4.length != 0 ? (
+                  <View
+                    style={{
+                      alignItems: "center",
+                      flexDirection: "row",
+                      marginTop: 10,
                     }}
-                  />
-                </View>
-              ) : null}
-            </View>
+                  >
+                    <Text
+                      style={[styles.info, { color: activeColors.textColor }]}
+                    >
+                      4x
+                    </Text>
+                    <FlatList
+                      data={weaknesses4}
+                      numColumns={3}
+                      scrollEnabled={false}
+                      renderItem={({ item }) => {
+                        return <TypeItem t={item} />;
+                      }}
+                    />
+                  </View>
+                ) : null}
+              </View>
+            ) : null}
           </View>
           {immune.length != 0 ? (
             <View style={styles.row}>
@@ -281,19 +305,23 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                     marginTop: 10,
                   }}
                 >
-                  <Text
-                    style={[styles.info, { color: activeColors.textColor }]}
-                  >
-                    0x
-                  </Text>
-                  <FlatList
-                    data={immune}
-                    numColumns={3}
-                    scrollEnabled={false}
-                    renderItem={({ item }) => {
-                      return <TypeItem t={item} />;
-                    }}
-                  />
+                  <View style={{ width: "15%" }}>
+                    <Text
+                      style={[styles.info, { color: activeColors.textColor }]}
+                    >
+                      0x
+                    </Text>
+                  </View>
+                  <View style={{ width: "85%" }}>
+                    <FlatList
+                      data={immune}
+                      numColumns={3}
+                      scrollEnabled={false}
+                      renderItem={({ item }) => {
+                        return <TypeItem t={item} />;
+                      }}
+                    />
+                  </View>
                 </View>
               </View>
             </View>

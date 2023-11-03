@@ -1,10 +1,10 @@
 import React, { memo, useContext } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import images from "../../assets/types";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
-export const Move = memo(function Move({ item }) {
+export const Move = memo(function Move({ item, navigation, mainColor }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -12,7 +12,15 @@ export const Move = memo(function Move({ item }) {
     item.level_learned > 0 ? "Lv " + item.level_learned : item.mach_name;
 
   return (
-    <View style={styles.moveBox}>
+    <TouchableOpacity
+      style={styles.moveBox}
+      onPress={() => {
+        navigation.navigate("MoveDetails", {
+          move: item,
+          mainColor: mainColor,
+        });
+      }}
+    >
       <View style={styles.move}>
         <View style={[styles.box, { width: "12%", maxWidth: 50 }]}>
           <Text style={{ textAlign: "center" }}>{left_box_text} </Text>
@@ -38,7 +46,7 @@ export const Move = memo(function Move({ item }) {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 });
 

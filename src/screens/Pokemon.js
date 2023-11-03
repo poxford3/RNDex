@@ -91,12 +91,12 @@ export default function Pokemon() {
 
     const json_id = await API_CALL(url_id);
 
-    arr = json_id.flavor_text_entries.filter(
+    let arr = json_id.flavor_text_entries.filter(
       (elem) => elem.language.name == "en"
     ); // gets most recent description
 
-    description = arr.pop();
-    setDesc(description.flavor_text.replace("\n", " "));
+    let description = arr.pop();
+    setDesc(description.flavor_text.replaceAll("\n", " "));
 
     return json_id;
   };
