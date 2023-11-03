@@ -19,7 +19,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import API_CALL from "../hooks/API_CALL";
 
-export default function Moves() {
+export default function Moves({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [methSelect, setMethSelect] = useState(null);
   const [moveList, setMoveList] = useState([]);
@@ -55,8 +55,7 @@ export default function Moves() {
     let tasks = [];
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-    const response = await fetch(url);
-    const json = await response.json();
+    const json = await API_CALL(url);
 
     setMainColor(type_colors[json.types[0].type.name]);
 
@@ -78,6 +77,9 @@ export default function Moves() {
         move_obj.mach_name = detail[4];
         move_obj.desc = detail[5];
         move_obj.genIntroduced = detail[6];
+        move_obj.pp = detail[7];
+        move_obj.target = detail[8];
+        move_obj.contest_type = detail[9];
 
         tempMoveList.push(move_obj);
       });
@@ -106,7 +108,6 @@ export default function Moves() {
 
     setMethSelect(uniqueMoveTypes[0]);
     setMoveMethods(uniqueMoveObj);
-    console.log("UMT", uniqueMoveTypes);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
     setLoaded(true);
   };
@@ -124,7 +125,6 @@ export default function Moves() {
     ); // gets most recent english description
 
     let description = arr.pop();
-    description?.flavor_text.replaceAll("\n", " ");
 
     return [
       json.accuracy,
@@ -132,8 +132,11 @@ export default function Moves() {
       json.type.name,
       json.damage_class.name,
       mach_name ? mach_name.toUpperCase() : null,
-      description?.flavor_text,
+      description?.flavor_text.replaceAll("\n", " "),
       json.generation.name,
+      json.pp,
+      json.target.name,
+      json.contest_type?.name,
     ];
   };
 
@@ -153,7 +156,9 @@ export default function Moves() {
           data={filteredList}
           initialNumToRender={20}
           renderItem={({ item }) => {
-            return <Move item={item} />;
+            return (
+              <Move item={item} navigation={navigation} mainColor={mainColor} />
+            );
           }}
           maxToRenderPerBatch={10}
         />
