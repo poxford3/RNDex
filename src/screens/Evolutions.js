@@ -15,10 +15,9 @@ import MissingInfo from "../utils/MissingInfo";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
-import LoadingView from "../utils/LoadingView";
+import API_CALL from "../hooks/API_CALL";
 
-export default function Evolutions({ navigation, route }) {
-  // const pokemonInfo = route.params;
+export default function Evolutions({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const updatePokemon = useContext(PokemonContext).updatePokemon;
   const [evolutions, setEvolutions] = useState([]);
@@ -28,8 +27,8 @@ export default function Evolutions({ navigation, route }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const getEvolutions = async (name) => {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${name}`;
+  const getEvolutions = async (id) => {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
     const response = await fetch(url);
     const json = await response.json();
     let formType = "";
@@ -62,22 +61,33 @@ export default function Evolutions({ navigation, route }) {
     }
 
     let chain_url = json.evolution_chain.url;
-    const chain_resp = await fetch(chain_url);
-    const chain_json = await chain_resp.json();
+    const chain_json = await API_CALL(chain_url);
 
     let evols = [];
     evols = handleEvolutions(chain_json.chain);
     setEvolutions(evols);
-    // console.log("post set", evolutions);
 
-    // console.log("ahhhhh", evols.length, variety.length == 0);
-    if (evols.length == 0 && variety.length == 0) {
+    if (evols.length == 0 && json.varieties.length <= 1) {
       setScrollOn(false);
       console.log("no evolutions or extra forms");
-      // console.log(evol_names[1], variety.length);
       return;
     } else {
       setScrollOn(true);
+    }
+  };
+
+  const checkEvolutions = async (id) => {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    const response = await fetch(url);
+    if (response.ok) {
+      getEvolutions(id);
+    } else {
+      url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+      const response = await fetch(url);
+      const json = await response.json();
+
+      const default_id = json.species.url.split("/")[6];
+      getEvolutions(default_id);
     }
   };
 
@@ -209,7 +219,7 @@ export default function Evolutions({ navigation, route }) {
   useEffect(() => {
     setEvolutions([]);
     setVariety([]);
-    getEvolutions(pokemonInfo.pokeName);
+    checkEvolutions(pokemonInfo.id);
   }, [pokemonInfo]);
 
   return (
@@ -230,9 +240,7 @@ export default function Evolutions({ navigation, route }) {
                 return <EvolChain poke_pair={evo} key={idx} />;
               })}
             </View>
-          ) : (
-            <LoadingView />
-          )}
+          ) : null}
           {variety.length > 0 ? (
             <View>
               <Text

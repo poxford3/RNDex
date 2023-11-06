@@ -47,7 +47,7 @@ export default function Pokemon() {
   // API calls
 
   const getPokeStats = async () => {
-    url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.pokeName}`;
+    url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.id}`;
     let stat_list = [];
 
     const json = await API_CALL(url);

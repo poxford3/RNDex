@@ -17,6 +17,7 @@ import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import API_CALL from "../hooks/API_CALL";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -37,8 +38,7 @@ export default function Pokedex({ navigation }) {
   const getPokeList = async ({ gen }) => {
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
-    const response = await fetch(url);
-    const json = await response.json();
+    const json = await API_CALL(url);
 
     let tempPokeList = []; // Temporary array to hold values
 
