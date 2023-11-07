@@ -6,7 +6,9 @@ import {
   Image,
   FlatList,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import capitalizeString from "../../hooks/capitalizeString";
 import TypeEffectiveness from "../../hooks/TypeEffectiveness";
 import images from "../../../assets/types";
@@ -19,6 +21,8 @@ import PokeGenderBar from "./PokeGenderBar";
 const { height, width } = Dimensions.get("screen");
 
 export default function PokeBonusInfo({ fullData, typeColor, types }) {
+  const navigation = useNavigation();
+
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -46,13 +50,20 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               idx != fullData.abilities.length - 1 ? true : false;
 
             return (
-              <View
+              <TouchableOpacity
                 style={{
                   alignItems: "center",
                   flexDirection: "row",
                   marginVertical: 5,
                 }}
                 key={idx}
+                onPress={() => {
+                  navigation.navigate("AbilityDetails", {
+                    id: ab.ability.url.split("/")[6],
+                    mainColor: typeColor,
+                    is_hidden: ab.is_hidden,
+                  });
+                }}
               >
                 <Text style={[styles.info, { color: activeColors.textColor }]}>
                   {capitalizeString(ab.ability.name)}
@@ -68,7 +79,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                     />
                   </>
                 ) : null}
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
