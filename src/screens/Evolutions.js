@@ -125,7 +125,7 @@ export default function Evolutions({ navigation }) {
         method_level = `Level up with high happiness knowing a ${poke_pair.move_type} type move`;
         break;
       case poke_pair.level == null &&
-        poke_pair.time != undefined &&
+        poke_pair.time != "" &&
         poke_pair.happy > 0:
         method_level = `Level up with high happiness during the ${poke_pair.time}`;
         break;
@@ -242,7 +242,7 @@ export default function Evolutions({ navigation }) {
             </View>
           ) : null}
           {variety.length > 0 ? (
-            <View>
+            <View style={styles.evolContainer}>
               <Text
                 style={[styles.headerText, { color: activeColors.textColor }]}
               >
@@ -262,10 +262,7 @@ export default function Evolutions({ navigation }) {
                   {variety.map((item, index) => {
                     return (
                       <View key={index}>
-                        <OtherForm
-                          pokemon={item}
-                          // fullName={item.pokeNameForm}
-                        />
+                        <OtherForm pokemon={item} />
                       </View>
                     );
                   })}
@@ -302,14 +299,13 @@ const styles = StyleSheet.create({
   },
   otherFormBox: {
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   pictureBox: {
     width: "85%",
     padding: 10,
     flexDirection: "row",
     alignItems: "center",
-    // backgroundColor: "lightgrey",
     borderRadius: 10,
   },
   pokeName: {

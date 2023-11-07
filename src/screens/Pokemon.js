@@ -115,6 +115,10 @@ export default function Pokemon() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
+      <FavoritePokemonButton
+        id={pokemonInfo.id}
+        pokeName={pokemonInfo.pokeName}
+      />
       <ScrollView style={styles.body}>
         <View style={styles.header}>
           <LinearGradient
@@ -205,10 +209,6 @@ export default function Pokemon() {
           <LoadingView />
         )}
       </ScrollView>
-      <FavoritePokemonButton
-        id={pokemonInfo.id}
-        pokeName={pokemonInfo.pokeName}
-      />
     </SafeAreaView>
   );
 }

@@ -194,7 +194,7 @@ export default function Pokedex({ navigation }) {
           <>
             <Searchbar
               style={{
-                marginTop: 5,
+                marginVertical: 5,
                 width: "95%",
                 backgroundColor: activeColors.accent,
                 borderColor: activeColors.border,
