@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet, SafeAreaView, Image } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  ScrollView,
+} from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "./CustomDivider";
@@ -36,45 +43,98 @@ export default function MoveDetails({ route }) {
     );
   };
 
+  const OtherPokeList = () => {
+    return (
+      <View style={{ marginVertical: 10 }}>
+        <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
+          Pokemon who can learn
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {move.pokemon.map((poke_name, idx) => {
+            const poke_id = poke_name.url.split("/")[6];
+            const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke_id}.png`;
+            return (
+              <View
+                key={idx}
+                style={{
+                  marginBottom: 3,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  // width: "10%",
+                }}
+              >
+                {/* <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
+                - {capitalizeString(poke_name.name)}
+              </Text> */}
+                <Image
+                  source={{ uri: poke_sprite }}
+                  style={styles.pokeSpriteImg}
+                />
+              </View>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <View style={styles.header}>
-        <Text style={{ color: mainColor, fontSize: 32 }}>
-          {move.move_name}{" "}
-        </Text>
-        <Image
-          source={images[move.type]}
-          style={{ height: 20, width: 60, resizeMode: "contain", marginTop: 5 }}
-        />
-      </View>
-      <View style={styles.body}>
-        <View style={{ width: "95%", padding: 10 }}>
-          <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-            {move.desc}
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={{ color: mainColor, fontSize: 32 }}>
+            {move.move_name}{" "}
           </Text>
-          <CustomDivider direction={"horizontal"} />
-          <DetailItem header={"PP"} info={`${move.pp}`} />
-          <DetailItem header={"Power"} info={`${move.power}`} />
-          <DetailItem header={"Accuracy"} info={`${move.accuracy}%`} />
-          <DetailItem
-            header={"Category"}
-            info={capitalizeString(move.damageClass)}
-            img={move.damageClass}
+          <Image
+            source={images[move.type]}
+            style={{
+              height: 20,
+              width: 60,
+              resizeMode: "contain",
+              marginTop: 5,
+            }}
           />
-          <DetailItem
-            header={"Generation Introduced"}
-            info={capitalizeGens(move.genIntroduced)}
-          />
-          <DetailItem header={"Target"} info={capitalizeString(move.target)} />
-          <DetailItem header={"Contest Type"} info={contest_show} />
         </View>
-      </View>
+        <View style={styles.body}>
+          <View style={{ width: "95%", padding: 10 }}>
+            <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
+              {move.desc}
+            </Text>
+            <CustomDivider direction={"horizontal"} />
+            <DetailItem header={"PP"} info={`${move.pp}`} />
+            <DetailItem header={"Power"} info={`${move.power}`} />
+            <DetailItem header={"Accuracy"} info={`${move.accuracy}%`} />
+            <DetailItem
+              header={"Category"}
+              info={capitalizeString(move.damageClass)}
+              img={move.damageClass}
+            />
+            <DetailItem
+              header={"Generation Introduced"}
+              info={capitalizeGens(move.genIntroduced)}
+            />
+            <DetailItem
+              header={"Target"}
+              info={capitalizeString(move.target)}
+            />
+            <DetailItem header={"Contest Type"} info={contest_show} />
+            <OtherPokeList />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
+const SPRITE_SIZE = 75;
 const styles = StyleSheet.create({
   body: {
     justifyContent: "center",
@@ -92,5 +152,9 @@ const styles = StyleSheet.create({
   miniImg: {
     marginRight: 5,
     marginLeft: 2,
+  },
+  pokeSpriteImg: {
+    height: SPRITE_SIZE,
+    width: SPRITE_SIZE,
   },
 });

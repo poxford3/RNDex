@@ -24,6 +24,7 @@ export default function Pokemon() {
   // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${pokemonInfo.id}.png`;
   // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemonInfo.id}.gif`;
   // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/${pokemonInfo.id}.png`;
   // const sprite_to_use = `https://archives.bulbagarden.net/media/upload/8/80/${pokemonInfo.id}${pokemonInfo.pokeName}_Smile.png`; // would be funny to get working
@@ -51,10 +52,7 @@ export default function Pokemon() {
     let stat_list = [];
 
     const json = await API_CALL(url);
-
-    let json_id = await getDesc(json.id);
-
-    setFullData({ ...json, ...json_id });
+    // console.log(pokemonInfo.pokeName, json.stats);
 
     // console.log(json.stats);
     json.stats.forEach((e) => {
@@ -83,6 +81,11 @@ export default function Pokemon() {
     setMainColor(type_colors[json.types[0].type.name]);
     setStats(stat_list.reverse());
     setTypes(type_obj);
+
+    let json_id = await getDesc(json.id);
+
+    setFullData({ ...json, ...json_id });
+
     setLoaded(true);
   };
 

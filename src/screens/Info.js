@@ -10,6 +10,7 @@ import {
 import { Text, Divider } from "react-native-paper";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import CustomDivider from "../utils/CustomDivider";
 
 export default function Info({ navigation }) {
   const { theme } = useContext(ThemeContext);
@@ -21,7 +22,8 @@ export default function Info({ navigation }) {
     >
       <View style={styles.body}>
         <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          This app uses the PokeAPI tool linked here:{"\n"}
+          This app uses the PokeAPI tool linked here for its data ingestion:
+          {"\n"}
         </Text>
         <Text
           onPress={() => {
@@ -32,11 +34,11 @@ export default function Info({ navigation }) {
           PokeAPI
         </Text>
         <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          {"\n\n\n"}The intent of this app is to practice React Native API calls
-          to create a seemless tool.
+          {"\n"}The intent of this app is to practice React Native API calls to
+          create a seemless tool.
         </Text>
-        <Divider bold={true} />
-        <TouchableOpacity
+        <CustomDivider direction={"horizontal"} />
+        {/* <TouchableOpacity
           onPress={() => {
             navigation.navigate("Gens");
           }}
@@ -45,7 +47,7 @@ export default function Info({ navigation }) {
           <Text style={styles.mostText}>
             To view a list of all the generations, click here
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Favorites");
@@ -63,6 +65,7 @@ export default function Info({ navigation }) {
 
 const styles = StyleSheet.create({
   body: {
+    padding: 10,
     height: "100%",
     width: "100%",
     justifyContent: "center",

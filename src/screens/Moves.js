@@ -80,6 +80,7 @@ export default function Moves({ navigation }) {
         move_obj.pp = detail[7];
         move_obj.target = detail[8];
         move_obj.contest_type = detail[9];
+        move_obj.pokemon = detail[10];
 
         tempMoveList.push(move_obj);
       });
@@ -137,6 +138,7 @@ export default function Moves({ navigation }) {
       json.pp,
       json.target.name,
       json.contest_type?.name,
+      json.learned_by_pokemon,
     ];
   };
 
