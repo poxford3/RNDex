@@ -38,4 +38,4 @@ The following information can be found in the tabs:
 
 See image below using Charizard as an example
 
-<img src="/assets/pokemon_tabs.gif" alt="pokemon view with stats and description" height=350>
+<img src="/assets/poke_tabs.gif" alt="pokemon view with stats and description of charizard" height=350>
