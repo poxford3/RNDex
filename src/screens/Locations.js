@@ -41,15 +41,17 @@ export default function Locations() {
     let tempLocationList = [];
 
     json.map((e) => {
-      tempLocationList.push({
-        location_name: capitalizeString(e.location_area.name).replace(
-          "Area",
-          ""
-        ),
-        game: capitalizeString(e.version_details[0]?.version.name),
-        chance: e.version_details[0].encounter_details[0].chance,
-        min_level: e.version_details[0].encounter_details[0].min_level,
-        max_level: e.version_details[0].encounter_details[0].max_level,
+      e.version_details.map((o) => {
+        tempLocationList.push({
+          location_name: capitalizeString(e.location_area.name).replace(
+            "Area",
+            ""
+          ),
+          game: capitalizeString(o.version.name),
+          chance: o.encounter_details[0].chance,
+          min_level: o.encounter_details[0].min_level,
+          max_level: o.encounter_details[0].max_level,
+        });
       });
     });
 
