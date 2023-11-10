@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-// import genList from ".../assets/generations.js";
-// import { genList } from ".../assets/generations.js";
 import {
   VictoryChart,
   VictoryGroup,

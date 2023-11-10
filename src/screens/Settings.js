@@ -126,8 +126,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 40,
     borderRightColor: "white",
     borderRightWidth: 300,
-    // position: "absolute",
-    // opacity: 0.5,
   },
   selectionImg: {
     height: 87,

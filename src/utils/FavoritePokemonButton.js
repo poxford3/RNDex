@@ -24,12 +24,10 @@ export default function FavoritePokemonButton({ id, pokeName }) {
     };
     if (favPokeList.length >= 1) {
       storeData("favPokeList", [...favPokeList, newFavPoke]);
-      // console.log("in store 1", newFavPoke.pokeName, newFavPoke.date_added);
       setHeartToggle(true);
     } else {
       storeData("favPokeList", [newFavPoke]);
       setHeartToggle(true);
-      // console.log("in store 0", newFavPoke.pokeName);
     }
   };
 
@@ -53,7 +51,6 @@ export default function FavoritePokemonButton({ id, pokeName }) {
 
   const heartChanger = () => {
     if (favPokeList.filter((e) => e.id === id).length > 0) {
-      // console.log("should be red");
       setHeartToggle(true);
     } else {
       setHeartToggle(false);
@@ -62,7 +59,6 @@ export default function FavoritePokemonButton({ id, pokeName }) {
 
   useEffect(() => {
     fetchStoredPokemon();
-    // setTimeout(() => console.log("useEffect", favPokeList), 1000);
   }, []);
 
   useEffect(() => {

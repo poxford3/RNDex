@@ -31,8 +31,12 @@ export default function Moves({ navigation }) {
 
   const handleMethodChange = (method) => {
     let newMoveMeth = moveMethods;
+    // gets current method
     let obj = newMoveMeth.find((x) => x.value === method);
+    // gets location of where the method is in the list
     let index = newMoveMeth.indexOf(obj);
+    // goes throught the method list and sets each one's background
+    // depending on whether or not its selected
     for (let i = 0; i < newMoveMeth.length; i++) {
       if (i == index) {
         newMoveMeth[i] = {
@@ -101,11 +105,23 @@ export default function Moves({ navigation }) {
       uncheckedColor: activeColors.selectorInactive,
       style: {
         backgroundColor:
-          idx == 0
+          method == "level-up"
             ? type_colors[json.types[0].type.name]
             : activeColors.background,
       },
     }));
+
+    const methSortOrder = [
+      "level-up",
+      "machine",
+      "egg",
+      "tutor",
+      "stadium-surfing-pikachu",
+    ];
+
+    uniqueMoveObj.sort(
+      (a, b) => methSortOrder.indexOf(a.value) - methSortOrder.indexOf(b.value)
+    );
 
     setMethSelect(uniqueMoveTypes[0]);
     setMoveMethods(uniqueMoveObj);
@@ -116,7 +132,6 @@ export default function Moves({ navigation }) {
   const getMoveDetails = async (url) => {
     const json = await API_CALL(url);
 
-    // json.machines[0].machine?.url.length !== 0
     json.machines.length !== 0
       ? (mach_name = await getTMName(json.machines[0].machine.url))
       : (mach_name = null);
@@ -183,10 +198,6 @@ export default function Moves({ navigation }) {
     getMoves(pokemonInfo.id);
   }, [pokemonInfo]);
 
-  // useEffect(() => {
-  //   getMoves("meth", methSelect);
-  // }, [methSelect]);
-
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
@@ -234,7 +245,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     flexDirection: "row",
     width: "85%",
-    // justifyContent: "space-between",
     justifyContent: "center",
   },
   selectorBox: {

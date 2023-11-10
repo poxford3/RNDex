@@ -6,7 +6,6 @@ import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
 export default function PokeGenderPie({ genders, typeColor }) {
-  // console.log(genders);
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     margin: 5,
-    // width: "50%",
   },
   headerText: {
     fontSize: 32,

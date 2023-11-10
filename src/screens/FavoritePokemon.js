@@ -54,7 +54,6 @@ export default function FavoritePokemon() {
       } else {
         return <MissingFavorites />;
       }
-      // if ()
     } else {
       return <LoadingView />;
     }
@@ -88,7 +87,6 @@ export default function FavoritePokemon() {
         setSortNum(6);
         break;
     }
-    // console.log(output);
     return output;
   };
 
@@ -102,8 +100,6 @@ export default function FavoritePokemon() {
       x: nativeEvent.locationX,
       y: nativeEvent.locationY,
     };
-    // console.log("anchor", anchor);
-    // console.log("event", nativeEvent);
     setMenuAnchor(anchor);
     openMenu();
   };
@@ -172,7 +168,6 @@ export default function FavoritePokemon() {
                   setSortOption(handleSortOptions(favPokeList, 1));
                   closeMenu();
                 }}
-                // onPress={closeMenu}
                 title="Date added (most recent) "
                 style={{
                   backgroundColor: activeColors.background,

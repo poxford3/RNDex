@@ -37,7 +37,6 @@ export default function Evolutions({ navigation }) {
       json.varieties.forEach((e) => {
         if (e.is_default == false) {
           let temp_id = e.pokemon.url.split("/")[6];
-          // console.log(e.pokemon.url);
 
           e.pokemon.name.includes("mega")
             ? (formType = "Mega")
@@ -96,8 +95,6 @@ export default function Evolutions({ navigation }) {
   const EvolChain = ({ poke_pair }) => {
     const img1 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.base_id}.png`;
     const img2 = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${poke_pair.evo_id}.png`;
-
-    // console.log(poke_pair.gender);
 
     // determine what to display to show how to evolve
     let method_level;
@@ -288,7 +285,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   evolContainer: {
-    // height: 80,
     alignItems: "center",
     marginBottom: 20,
     marginTop: 10,

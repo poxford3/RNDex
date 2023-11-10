@@ -32,7 +32,6 @@ export default function AbilityDetails(route) {
 
   const getAbilityDetail = async (id) => {
     let url = `https://pokeapi.co/api/v2/ability/${id}/`;
-    // console.log(url);
     const ability_json = await API_CALL(url);
     setAbility(ability_json);
     let ab_desc = ability_json.flavor_text_entries.filter(
@@ -67,7 +66,6 @@ export default function AbilityDetails(route) {
     const abilityNameList = [
       ...new Set(ability.names.map((item) => item.name)),
     ].sort();
-    // console.log(abilityNameList);
     return (
       <View style={{ marginVertical: 10 }}>
         <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
@@ -81,7 +79,6 @@ export default function AbilityDetails(route) {
                 style={{
                   color: activeColors.textColor,
                   fontSize: 20,
-                  // textDecorationLine: "underline",
                 }}
                 onPress={() => {
                   const translateURL = `https://translate.google.com/?sl=auto&tl=en&text=${ab_name}&op=translate`;
@@ -113,7 +110,6 @@ export default function AbilityDetails(route) {
           {ability.pokemon.map((poke_name, idx) => {
             const poke_id = poke_name.pokemon.url.split("/")[6];
             const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke_id}.png`;
-            // console.log(poke_sprite);
             return (
               <View
                 key={idx}
@@ -192,8 +188,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   header: {
     alignItems: "center",

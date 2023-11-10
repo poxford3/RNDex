@@ -31,8 +31,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   // weight is 1/10th of a kg
   // gender rate is chance of being female in 1/8ths, -1 == genderless
 
-  // console.log("bonus", Object.keys(fullData));
-
   const AbilityDisplay = () => {
     return (
       <View style={{ flexDirection: "column" }}>
@@ -105,7 +103,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
 
   const InfoBody = () => {
     let egg_list = [];
-    // console.log(fullData.egg_groups);
     fullData.egg_groups.map((egg, idx) => {
       egg_list.push(
         capitalizeString(egg.name).concat(
@@ -122,7 +119,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       weaknesses4,
       immune;
     if (types.type1 != null) {
-      // console.log("made it in");
       const type2 = types.type2 ? capitalizeString(types.type2) : "None";
       const ability_name = capitalizeString(fullData.abilities[0].ability.name);
       const type_array = [capitalizeString(types.type1), type2];

@@ -73,7 +73,6 @@ export default function PokeStats({ stats, typeColor }) {
           />
           <VictoryBar
             data={stats.filter((e) => e.x != "Total")}
-            // domain={{ y: [0, 255] }}
             horizontal={true}
             labels={({ datum }) => datum.y}
             alignment="middle"

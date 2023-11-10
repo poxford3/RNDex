@@ -37,11 +37,9 @@ export default function Locations() {
   const getLocations = async (id) => {
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/encounters`;
-    // console.log(url);
     const json = await API_CALL(url);
     let tempLocationList = [];
 
-    // console.log(json[0]);
     json.map((e) => {
       tempLocationList.push({
         location_name: capitalizeString(e.location_area.name).replace(
@@ -120,7 +118,6 @@ export default function Locations() {
         return f.game == loc.game;
       });
     });
-    // console.log("gf", gameFilter);
     let locationShown = locFilter.length > 0 ? locFilter : locations;
     if (loaded) {
       if (locations.length > 0) {
@@ -230,7 +227,6 @@ export default function Locations() {
   };
 
   const UniqueGameItem = ({ gameObj }) => {
-    // let tempGameList = gameFilter;
     return (
       <TouchableOpacity
         style={{
@@ -246,7 +242,6 @@ export default function Locations() {
               break;
             }
           }
-          // console.log("ngs", newGameSelected);
           setGames(newGameSelected);
         }}
       >
@@ -338,13 +333,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   list: {
-    // height: "100%",
     flex: 1,
   },
   locationBox: {
     minHeight: 150,
     padding: 10,
-    // borderBottomColor: "black",
     borderBottomWidth: 1,
     alignItems: "center",
     flexDirection: "row",
@@ -355,7 +348,6 @@ const styles = StyleSheet.create({
   locRight: {
     width: "50%",
     paddingLeft: 10,
-    // alignItems: "flex-end",
     alignItems: "center",
     justifyContent: "center",
   },

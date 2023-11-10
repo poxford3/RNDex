@@ -21,7 +21,6 @@ import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemonButton from "../utils/FavoritePokemonButton";
 
 export default function Pokemon() {
-  // const pokemonInfo = route.params;
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
   // const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${pokemonInfo.id}.png`;
@@ -37,7 +36,6 @@ export default function Pokemon() {
     type1: null,
     type2: null,
   });
-  // const [types, setTypes] = useState(null);
   const [fullData, setFullData] = useState([]);
   const [desc, setDesc] = useState("");
   const [loaded, setLoaded] = useState(false);
@@ -238,7 +236,6 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     justifyContent: "center",
-    // alignItems: "center",
   },
   images: {
     height: 300,
@@ -255,7 +252,6 @@ const styles = StyleSheet.create({
   },
   pokeDetails: {
     width: "100%",
-    // height: 800,
   },
   statBox: {
     alignItems: "center",

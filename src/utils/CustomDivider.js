@@ -18,9 +18,7 @@ export default function CustomDivider({ direction }) {
     return (
       <View
         style={{
-          // width: width,
           width: "100%",
-          // width: 100,
           borderWidth: 1,
           borderColor: "#909090",
           marginVertical: 5,

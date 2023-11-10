@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
 import {
   View,
-  // Text,
+  Text,
   SafeAreaView,
   StyleSheet,
   Linking,
   TouchableOpacity,
 } from "react-native";
-import { Text, Divider } from "react-native-paper";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "../utils/CustomDivider";

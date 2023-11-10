@@ -19,8 +19,6 @@ export default function MoveDetails({ route }) {
   const contest_show = move.contest_type
     ? capitalizeString(move.contest_type)
     : "-";
-  // console.log(Object.keys(move));
-  // const mainColor = route.params.mainColor;
   const mainColor = type_colors[move.type];
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
@@ -66,12 +64,8 @@ export default function MoveDetails({ route }) {
                   marginBottom: 3,
                   flexDirection: "row",
                   alignItems: "center",
-                  // width: "10%",
                 }}
               >
-                {/* <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-                - {capitalizeString(poke_name.name)}
-              </Text> */}
                 <Image
                   source={{ uri: poke_sprite }}
                   style={styles.pokeSpriteImg}

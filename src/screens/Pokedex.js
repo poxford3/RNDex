@@ -51,7 +51,6 @@ export default function Pokedex({ navigation }) {
 
     setPokeList((prevList) => [...prevList, ...tempPokeList]);
     setGenSelected(gen);
-    // console.log(`gen ${text} selected`);
     setLoaded(true);
   };
 
@@ -207,7 +206,6 @@ export default function Pokedex({ navigation }) {
               }}
               placeholder="Find your favorite Pokemon!"
               placeholderTextColor={activeColors.searchBarPlaceholder}
-              // iconColor={"green"}
             />
             <FlatList
               data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}

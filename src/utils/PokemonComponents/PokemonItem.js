@@ -43,15 +43,14 @@ export const PokemonItem = memo(function PokemonItem({
   );
 });
 
+const IMG_SIZE = 110;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   images: {
-    height: 110,
-    // height: 40,
-    width: 110,
-    // width: 40,
+    height: IMG_SIZE,
+    width: IMG_SIZE,
   },
   innerBox: {
     padding: 10,

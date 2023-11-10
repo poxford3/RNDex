@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
@@ -12,7 +11,6 @@ import { PokemonContext } from "../contexts/PokemonContext";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
-import APITest from "./APITest";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
 import Settings from "./Settings";
@@ -47,12 +45,10 @@ export default function MyStack() {
           name="PokemonTabNav"
           component={PokemonBottomTabNav}
           options={({ route }) => ({
-            // title: route.params.pokeName,
             headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
           })}
         />
         <Stack.Screen name="Test" component={TestView} />
-        <Stack.Screen name="APITest" component={APITest} />
         <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
@@ -75,11 +71,8 @@ import Locations from "./Locations";
 import Moves from "./Moves";
 
 const Tab = createMaterialBottomTabNavigator();
-// https://reactnavigation.org/docs/nesting-navigators/#passing-params-to-a-screen-in-a-nested-navigator
-// will need the above shortly
 
 export function PokemonBottomTabNav() {
-  // let info = route.params;
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -103,7 +96,6 @@ export function PokemonBottomTabNav() {
           </Text>
         ),
         tabBarIcon: ({ color, size, focused }) => {
-          // console.log(color);
           const icons = {
             Pokemon: "information",
             Evolutions: "duck",
