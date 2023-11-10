@@ -18,6 +18,7 @@ export const PokemonItem = memo(function PokemonItem({
   const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
 
   const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${id}.png`;
 
   return (
     <View style={[styles.outerBox, { width: `${width_percent}%` }]}>
@@ -48,7 +49,9 @@ const styles = StyleSheet.create({
   },
   images: {
     height: 110,
+    // height: 40,
     width: 110,
+    // width: 40,
   },
   innerBox: {
     padding: 10,

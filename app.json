@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/pokeball.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#15202b"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,

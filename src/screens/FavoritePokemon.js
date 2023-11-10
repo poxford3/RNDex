@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Menu, Divider, PaperProvider } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { getData } from "../config/asyncStorage";
 import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import CustomDivider from "../utils/CustomDivider";
+import MissingFavorites from "../utils/MissingFavorites";
 import LoadingView from "../utils/LoadingView";
 import capitalizeString from "../hooks/capitalizeString";
 
@@ -37,11 +38,30 @@ export default function FavoritePokemon() {
     );
   };
 
+  const Body = () => {
+    if (loaded) {
+      if (favPokeList.length != 0) {
+        return (
+          <FlatList
+            data={sortOption}
+            numColumns={2}
+            maxToRenderPerBatch={10}
+            keyExtractor={(item) => item.id}
+            initialNumToRender={30}
+            renderItem={renderPokeItem}
+          />
+        );
+      } else {
+        return <MissingFavorites />;
+      }
+      // if ()
+    } else {
+      return <LoadingView />;
+    }
+  };
+
   const handleSortOptions = (arr, num) => {
-    // console.log("num", arr, num);
-    // console.log("num", num);
     let output;
-    // setLoaded(false);
     switch (true) {
       case num == 1: // date asc
         output = arr.sort((a, b) => (b.date_added > a.date_added ? 1 : -1));
@@ -228,18 +248,7 @@ export default function FavoritePokemon() {
           </View>
         </View>
         <CustomDivider direction={"horizontal"} />
-        {loaded ? (
-          <FlatList
-            data={sortOption}
-            numColumns={2}
-            maxToRenderPerBatch={10}
-            keyExtractor={(item) => item.id}
-            initialNumToRender={30}
-            renderItem={renderPokeItem}
-          />
-        ) : (
-          <LoadingView />
-        )}
+        <Body />
       </SafeAreaView>
     </PaperProvider>
   );

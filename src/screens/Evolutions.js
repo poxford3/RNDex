@@ -202,6 +202,7 @@ export default function Evolutions({ navigation }) {
     let img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
     return (
       <TouchableOpacity
+        style={{ alignItems: "center", marginVertical: 5 }}
         onPress={() => {
           updatePokemon({
             id: pokemon.id,
@@ -211,7 +212,7 @@ export default function Evolutions({ navigation }) {
         }}
       >
         <Image style={styles.pokemonImg} source={{ uri: img }} />
-        {/* <Text>{pokemon.pokeNameForm}</Text> */}
+        {/* <Text style={{ fontSize: 20 }}>{pokemon.pokeNameForm}</Text> */}
       </TouchableOpacity>
     );
   };
@@ -242,13 +243,13 @@ export default function Evolutions({ navigation }) {
             </View>
           ) : null}
           {variety.length > 0 ? (
-            <View style={styles.evolContainer}>
+            <View style={{ width: "100%" }}>
               <Text
                 style={[styles.headerText, { color: activeColors.textColor }]}
               >
                 Other Forms
               </Text>
-              <View style={styles.otherFormBox}>
+              <View style={styles.evolContainer}>
                 <View
                   style={[
                     styles.pictureBox,
@@ -318,4 +319,5 @@ const styles = StyleSheet.create({
     width: 90,
     marginHorizontal: 10,
   },
+  sectionContainer: {},
 });

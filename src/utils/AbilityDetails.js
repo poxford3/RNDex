@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import {
   Text,
   View,
+  Image,
   StyleSheet,
   SafeAreaView,
   ScrollView,
@@ -100,19 +101,36 @@ export default function AbilityDetails(route) {
     return (
       <View style={{ marginVertical: 10 }}>
         <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
-          Pokemon who can learn
+          Pokemon with same ability
         </Text>
-        {ability.pokemon.map((poke_name, idx) => {
-          const poke_id = poke_name.pokemon.url.split("\n")[6];
-          return (
-            <Text
-              style={{ color: activeColors.textColor, fontSize: 20 }}
-              key={idx}
-            >
-              - {capitalizeString(poke_name.pokemon.name)}
-            </Text>
-          );
-        })}
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {ability.pokemon.map((poke_name, idx) => {
+            const poke_id = poke_name.pokemon.url.split("/")[6];
+            const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke_id}.png`;
+            // console.log(poke_sprite);
+            return (
+              <View
+                key={idx}
+                style={{
+                  marginBottom: 3,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={{ uri: poke_sprite }}
+                  style={styles.pokeSpriteImg}
+                />
+              </View>
+            );
+          })}
+        </View>
       </View>
     );
   };
@@ -166,6 +184,7 @@ export default function AbilityDetails(route) {
   );
 }
 
+const SPRITE_SIZE = 75;
 const styles = StyleSheet.create({
   body: {
     justifyContent: "center",
@@ -181,5 +200,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     flexDirection: "row",
+  },
+  pokeSpriteImg: {
+    height: SPRITE_SIZE,
+    width: SPRITE_SIZE,
   },
 });
