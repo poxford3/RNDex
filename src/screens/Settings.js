@@ -11,6 +11,7 @@ import { Checkbox } from "react-native-paper";
 import themeColors from "../styles/themeColors";
 import appearance from "../styles/appearance";
 import { ThemeContext } from "../contexts/ThemeContext";
+import PullTab from "../utils/PullTab";
 
 export default function Settings() {
   const { theme, updateTheme } = useContext(ThemeContext);
@@ -51,9 +52,7 @@ export default function Settings() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <View
-        style={[styles.pullTab, { backgroundColor: activeColors.textColor }]}
-      ></View>
+      <PullTab />
       <View style={[styles.body, { backgroundColor: activeColors.background }]}>
         <Text
           style={{
@@ -105,12 +104,6 @@ const styles = StyleSheet.create({
   },
   lowerOption: {
     flexDirection: "row",
-  },
-  pullTab: {
-    height: 5,
-    width: 40,
-    borderRadius: 10,
-    margin: 10,
   },
   toggleBox: {
     marginHorizontal: 5,

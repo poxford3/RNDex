@@ -18,6 +18,8 @@ export const PokemonItem = memo(function PokemonItem({
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
+  let og_sprites = true;
+
   const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
   let poke_sprite;
   // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -25,7 +27,7 @@ export const PokemonItem = memo(function PokemonItem({
 
   poke_sprite = handleGenImageSelect({ gen: gen, id: id });
 
-  if (gen == null || poke_sprite.includes("undefined")) {
+  if (gen == null || poke_sprite.includes("undefined") || !og_sprites) {
     poke_sprite =
       poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }

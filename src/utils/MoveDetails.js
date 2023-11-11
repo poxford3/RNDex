@@ -13,6 +13,7 @@ import CustomDivider from "./CustomDivider";
 import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import images from "../../assets/types";
 import type_colors from "../../assets/types/type_colors";
+import PullTab from "./PullTab";
 
 export default function MoveDetails({ route }) {
   const move = route.params.move;
@@ -82,6 +83,7 @@ export default function MoveDetails({ route }) {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
+      <PullTab />
       <ScrollView>
         <View style={styles.header}>
           <Text style={{ color: mainColor, fontSize: 32 }}>
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    // alignItems: "center",
   },
   header: {
     alignItems: "center",
