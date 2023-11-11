@@ -1,24 +1,34 @@
 import React, { useContext, memo } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { PokemonContext } from "../../contexts/PokemonContext";
-import { useNavigation } from "@react-navigation/native";
+import { handleGenImageSelect } from "../../hooks/handleGenImageSelect";
 
 export const PokemonItem = memo(function PokemonItem({
   pokeName,
   id,
   width_percent,
+  gen,
 }) {
   const navigation = useNavigation();
+  // console.log("gen", gen);
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
   const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
-
-  const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  let poke_sprite;
+  // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${id}.png`;
+
+  poke_sprite = handleGenImageSelect({ gen: gen, id: id });
+
+  if (gen == null || poke_sprite.includes("undefined")) {
+    poke_sprite =
+      poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  }
 
   return (
     <View style={[styles.outerBox, { width: `${width_percent}%` }]}>
