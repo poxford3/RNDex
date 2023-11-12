@@ -5,6 +5,7 @@ import { ThemeContext } from "./src/contexts/ThemeContext";
 import { storeData, getData } from "./src/config/asyncStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
+import { SpriteContext } from "./src/contexts/SpriteContext";
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();
@@ -62,10 +63,19 @@ export default function App() {
     setPokemon({ id: newPoke.id, pokeName: newPoke.pokeName });
   };
 
+  // sprite data
+  const [sprites, setSprites] = useState({ type: "modern" });
+
+  const updateSprites = (newSpriteType) => {
+    setSprites({ type: newSpriteType });
+  };
+
   return (
     <ThemeContext.Provider value={{ theme, updateTheme }}>
       <PokemonContext.Provider value={{ pokemon, updatePokemon }}>
-        <Navigation />
+        <SpriteContext.Provider value={{ sprites, updateSprites }}>
+          <Navigation />
+        </SpriteContext.Provider>
       </PokemonContext.Provider>
     </ThemeContext.Provider>
   );

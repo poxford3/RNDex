@@ -4,6 +4,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { PokemonContext } from "../../contexts/PokemonContext";
+import { SpriteContext } from "../../contexts/SpriteContext";
 import { handleGenImageSelect } from "../../hooks/handleGenImageSelect";
 
 export const PokemonItem = memo(function PokemonItem({
@@ -18,9 +19,10 @@ export const PokemonItem = memo(function PokemonItem({
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  let og_sprites = true;
-
   const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
+
+  const { sprites, updateSprites } = useContext(SpriteContext);
+  let og_sprites = sprites.type == "classic" ? true : false;
   let poke_sprite;
   // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/${id}.png`;

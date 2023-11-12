@@ -7,15 +7,18 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { Checkbox } from "react-native-paper";
 import themeColors from "../styles/themeColors";
 import appearance from "../styles/appearance";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { SpriteContext } from "../contexts/SpriteContext";
 import PullTab from "../utils/PullTab";
+import { UpdatesCheckAutomaticallyValue } from "expo-updates";
 
 export default function Settings() {
   const { theme, updateTheme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const { sprites, updateSprites } = useContext(SpriteContext);
 
   const LightingSetting = ({ appearanceName, active }) => {
     const imgBkg = active ? "blue" : activeColors.oppositeBkg;
@@ -48,19 +51,10 @@ export default function Settings() {
     );
   };
 
-  return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: activeColors.background }]}
-    >
-      <PullTab />
-      <View style={[styles.body, { backgroundColor: activeColors.background }]}>
-        <Text
-          style={{
-            fontSize: 30,
-            color: activeColors.textColor,
-            marginBottom: 10,
-          }}
-        >
+  const AppearanceSetting = () => {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
           Appearance
         </Text>
         <View style={styles.boxCont}>
@@ -74,9 +68,86 @@ export default function Settings() {
               active={theme.mode === "dark" && !theme.system}
             />
             <LightingSetting appearanceName={"system"} active={theme.system} />
-            {/* need to implement the system theme... */}
           </View>
         </View>
+      </View>
+    );
+  };
+
+  const PokeIconSetting = () => {
+    const pokemonImgID = 4;
+    const classic_url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/${pokemonImgID}.png`;
+    const modern_url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonImgID}.png`;
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={[styles.headerText, { color: activeColors.textColor }]}>
+          Sprite Type
+        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+          <TouchableOpacity
+            style={[styles.toggleBox, { borderColor: activeColors.border }]}
+            onPress={() => {
+              updateSprites("modern");
+            }}
+          >
+            <Image
+              style={[
+                styles.selectionImg,
+                {
+                  borderColor:
+                    sprites.type == "modern" ? "blue" : activeColors.border,
+                },
+              ]}
+              source={{ uri: modern_url }}
+            />
+            <Text
+              style={{
+                color: activeColors.textColor,
+                marginVertical: 5,
+              }}
+            >
+              Modern
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.toggleBox}
+            onPress={() => {
+              updateSprites("classic");
+            }}
+          >
+            <Image
+              style={[
+                styles.selectionImg,
+                {
+                  borderColor:
+                    sprites.type == "classic" ? "blue" : activeColors.border,
+                  padding: 5,
+                },
+              ]}
+              source={{ uri: classic_url }}
+            />
+            <Text
+              style={{
+                color: activeColors.textColor,
+                marginVertical: 5,
+              }}
+            >
+              Classic
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  return (
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
+    >
+      <PullTab />
+      <View style={[styles.body, { backgroundColor: activeColors.background }]}>
+        <AppearanceSetting />
+        <PokeIconSetting />
       </View>
     </SafeAreaView>
   );
@@ -84,7 +155,7 @@ export default function Settings() {
 
 const styles = StyleSheet.create({
   body: {
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     flex: 1,
   },
@@ -100,7 +171,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 30,
+    marginBottom: 10,
   },
   lowerOption: {
     flexDirection: "row",
