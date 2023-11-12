@@ -218,6 +218,7 @@ export default function Pokedex({ navigation }) {
                   pokeName={item.pokeName}
                   id={item.pokeID}
                   width_percent={50}
+                  gen={genSelected}
                 />
               )}
             />

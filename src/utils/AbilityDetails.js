@@ -16,6 +16,7 @@ import { PokemonContext } from "../contexts/PokemonContext";
 import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import CustomDivider from "./CustomDivider";
 import LoadingView from "./LoadingView";
+import PullTab from "./PullTab";
 
 export default function AbilityDetails(route) {
   let ab_id = route.route.params.id;
@@ -142,6 +143,7 @@ export default function AbilityDetails(route) {
     >
       {ability ? (
         <ScrollView>
+          <PullTab />
           <View style={styles.header}>
             <Text style={{ color: mainColor, fontSize: 32 }}>
               {capitalizeString(ability.name)}{" "}
