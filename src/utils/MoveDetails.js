@@ -84,27 +84,25 @@ export default function MoveDetails({ route }) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <PullTab />
+      <View style={styles.header}>
+        <Text style={{ color: mainColor, fontSize: 32 }}>
+          {move.move_name}{" "}
+        </Text>
+        <Image
+          source={images[move.type]}
+          style={{
+            height: 20,
+            width: 60,
+            resizeMode: "contain",
+            marginTop: 5,
+          }}
+        />
+      </View>
+      <CustomDivider direction={"horizontal"} />
       <ScrollView>
-        <View style={styles.header}>
-          <Text style={{ color: mainColor, fontSize: 32 }}>
-            {move.move_name}{" "}
-          </Text>
-          <Image
-            source={images[move.type]}
-            style={{
-              height: 20,
-              width: 60,
-              resizeMode: "contain",
-              marginTop: 5,
-            }}
-          />
-        </View>
         <View style={styles.body}>
           <View style={{ width: "95%", padding: 10 }}>
-            <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-              {move.desc}
-            </Text>
-            <CustomDivider direction={"horizontal"} />
+            <DetailItem header={"Description"} info={`${move.desc}`} />
             <DetailItem header={"PP"} info={`${move.pp}`} />
             <DetailItem header={"Power"} info={`${move.power}`} />
             <DetailItem header={"Accuracy"} info={`${move.accuracy}%`} />
@@ -138,12 +136,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // alignItems: "center",
   },
   header: {
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
+    marginBottom: 5,
     flexDirection: "row",
   },
   miniImg: {

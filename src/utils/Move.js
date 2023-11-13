@@ -9,7 +9,11 @@ export const Move = memo(function Move({ item, navigation, mainColor }) {
   let activeColors = themeColors[theme.mode];
 
   let left_box_text =
-    item.level_learned > 0 ? "Lv " + item.level_learned : item.mach_name;
+    item.level_learned > 0
+      ? "Lv " + item.level_learned
+      : item.mach_name
+      ? item.mach_name
+      : "-";
 
   return (
     <TouchableOpacity

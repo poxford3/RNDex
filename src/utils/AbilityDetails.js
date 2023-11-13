@@ -141,9 +141,9 @@ export default function AbilityDetails(route) {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
+      <PullTab />
       {ability ? (
-        <ScrollView>
-          <PullTab />
+        <View style={{ flex: 1 }}>
           <View style={styles.header}>
             <Text style={{ color: mainColor, fontSize: 32 }}>
               {capitalizeString(ability.name)}{" "}
@@ -155,26 +155,26 @@ export default function AbilityDetails(route) {
               </>
             ) : null}
           </View>
-          <View style={styles.body}>
-            <View style={{ width: "95%", padding: 10 }}>
-              <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-                {abilityDesc}
-              </Text>
-              <CustomDivider direction={"horizontal"} />
-              <AbilityItem header={"Effect"} info={abilityShortEffect} />
-              <AbilityItem
-                header={"Hidden Ability?"}
-                info={is_hidden ? "Yes" : "No"}
-              />
-              <AbilityItem
-                header={"Generation Introduced"}
-                info={capitalizeGens(ability.generation.name)}
-              />
-              <OtherLangList />
-              <OtherPokeList />
+          <CustomDivider direction={"horizontal"} />
+          <ScrollView style={{}}>
+            <View style={styles.body}>
+              <View style={{ width: "95%", padding: 10 }}>
+                <AbilityItem header={"Description"} info={abilityDesc} />
+                <AbilityItem header={"Effect"} info={abilityShortEffect} />
+                <AbilityItem
+                  header={"Hidden Ability?"}
+                  info={is_hidden ? "Yes" : "No"}
+                />
+                <AbilityItem
+                  header={"Generation Introduced"}
+                  info={capitalizeGens(ability.generation.name)}
+                />
+                <OtherLangList />
+                <OtherPokeList />
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       ) : (
         <LoadingView />
       )}
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
+    marginBottom: 5,
     flexDirection: "row",
   },
   pokeSpriteImg: {
