@@ -54,6 +54,7 @@ export default function App() {
 
   useEffect(() => {
     fetchStoredTheme();
+    fetchStoredSpriteType();
   }, []);
 
   // pokemon data
@@ -68,6 +69,19 @@ export default function App() {
 
   const updateSprites = (newSpriteType) => {
     setSprites({ type: newSpriteType });
+    storeData("spriteType", { type: newSpriteType });
+  };
+
+  const fetchStoredSpriteType = async () => {
+    try {
+      const spriteType = await getData("spriteType");
+
+      if (spriteType) {
+        setSprites(spriteType);
+      }
+    } catch ({ message }) {
+      console.log("fetchStore error (sprite)", message);
+    }
   };
 
   return (

@@ -12,7 +12,6 @@ import appearance from "../styles/appearance";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { SpriteContext } from "../contexts/SpriteContext";
 import PullTab from "../utils/PullTab";
-import { UpdatesCheckAutomaticallyValue } from "expo-updates";
 
 export default function Settings() {
   const { theme, updateTheme } = useContext(ThemeContext);
