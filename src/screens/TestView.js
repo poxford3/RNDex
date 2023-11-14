@@ -19,6 +19,8 @@ import {
 } from "victory-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 // mat com icons file:
+// import { Tooltip, Provider } from "react-native-paper";
+import { Tooltip } from "react-native-elements";
 // app_glyphmaps_materialcommunityicons.json
 import { Svg } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
@@ -595,18 +597,47 @@ export default function TestView() {
     );
   };
 
+  const ToolTipFun = () => {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ color: activeColors.textColor }}>test test</Text>
+        <Tooltip
+          popover={
+            <Text style={{ color: activeColors.textColor }}>
+              hi jonas {"<3"}
+            </Text>
+          }
+        >
+          <MaterialCommunityIcons
+            name={"information"}
+            size={30}
+            color={activeColors.textColor}
+          />
+        </Tooltip>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ModalTest />
-      <ModalResults />
-      {/* <Text>test page (Bulbasaur):</Text> */}
-      {/* {gens.map((e, idx) => {
-        return <ListTest game={e.name} games={e.games} key={idx} />;
-      })} */}
+      <ToolTipFun />
     </SafeAreaView>
   );
+}
+
+{
+  /* <ModalTest />
+<ModalResults /> */
+}
+{
+  /* <Text>test page (Bulbasaur):</Text> */
+}
+{
+  /* {gens.map((e, idx) => {
+  return <ListTest game={e.name} games={e.games} key={idx} />;
+})} */
 }
 
 const styles = StyleSheet.create({

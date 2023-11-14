@@ -17,6 +17,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import PokeGenderBar from "./PokeGenderBar";
+import TooltipInfo from "../TooltipInfo";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -166,6 +167,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               textValue={`${capitalizeString(fullData.growth_rate.name)}`}
               icon={"chart-line"}
               side={"right"}
+              tip={
+                "Pokemon level up at different rates, the type of growth rate determines how much XP is needed to level up."
+              }
             />
           </View>
           <View style={styles.row}>
@@ -180,6 +184,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               textValue={`${egg_text}`}
               icon={"egg"}
               side={"right"}
+              tip={
+                "Egg groups determine which Pokemon can breed with each other. Multiple groups allow for multiple breeding combinations."
+              }
             />
           </View>
           <View style={styles.row}>
@@ -336,7 +343,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
     );
   };
 
-  const InfoTopic = ({ title, textValue, icon, side }) => {
+  const InfoTopic = ({ title, textValue, icon, side, tip }) => {
     return (
       <View>
         {side == "left" ? (
@@ -356,24 +363,40 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             <Text style={[styles.info, { color: activeColors.textColor }]}>
               {textValue}
             </Text>
+            {tip ? <TooltipInfo tip={tip} /> : null}
           </>
         ) : (
           <>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <MaterialCommunityIcons name={icon} size={20} color={typeColor} />
               <Text style={[styles.info, { color: typeColor, fontSize: 24 }]}>
                 {" "}
                 {title}
               </Text>
             </View>
-            <Text
-              style={[
-                styles.info,
-                { color: activeColors.textColor, textAlign: "right" },
-              ]}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
             >
-              {textValue}
-            </Text>
+              <Text
+                style={[
+                  styles.info,
+                  { color: activeColors.textColor, textAlign: "right" },
+                ]}
+              >
+                {textValue}
+              </Text>
+              {tip ? <TooltipInfo tip={tip} /> : null}
+            </View>
           </>
         )}
       </View>
@@ -385,8 +408,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       <View style={styles.styleBody}>
         <View style={styles.firstSection}>
           <InfoBody />
-          {/* <PokeGenderPie genders={fullData.gender_rate} typeColor={typeColor} />
-          <TypeEffectiveBody /> */}
         </View>
       </View>
     );
