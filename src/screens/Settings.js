@@ -12,8 +12,9 @@ import appearance from "../styles/appearance";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { SpriteContext } from "../contexts/SpriteContext";
 import PullTab from "../utils/PullTab";
+import ModalCloseButton from "../utils/ModalCloseButton";
 
-export default function Settings() {
+export default function Settings({ navigation }) {
   const { theme, updateTheme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -144,6 +145,7 @@ export default function Settings() {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <PullTab />
+      <ModalCloseButton navigation={navigation} />
       <View style={[styles.body, { backgroundColor: activeColors.background }]}>
         <AppearanceSetting />
         <PokeIconSetting />

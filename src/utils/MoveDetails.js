@@ -14,8 +14,9 @@ import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import images from "../../assets/types";
 import type_colors from "../../assets/types/type_colors";
 import PullTab from "./PullTab";
+import ModalCloseButton from "./ModalCloseButton";
 
-export default function MoveDetails({ route }) {
+export default function MoveDetails({ route, navigation }) {
   const move = route.params.move;
   const contest_show = move.contest_type
     ? capitalizeString(move.contest_type)
@@ -84,6 +85,7 @@ export default function MoveDetails({ route }) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <PullTab />
+      <ModalCloseButton navigation={navigation} />
       <View style={styles.header}>
         <Text style={{ color: mainColor, fontSize: 32 }}>
           {move.move_name}{" "}

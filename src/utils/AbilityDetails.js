@@ -12,19 +12,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
-import { PokemonContext } from "../contexts/PokemonContext";
 import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import CustomDivider from "./CustomDivider";
 import LoadingView from "./LoadingView";
 import PullTab from "./PullTab";
+import ModalCloseButton from "./ModalCloseButton";
 
-export default function AbilityDetails(route) {
-  let ab_id = route.route.params.id;
-  let mainColor = route.route.params.mainColor;
-  let is_hidden = route.route.params.is_hidden;
-
-  const pokemonInfo = useContext(PokemonContext).pokemon;
-  const updatePokemon = useContext(PokemonContext).updatePokemon;
+export default function AbilityDetails({ route, navigation }) {
+  let ab_id = route.params.id;
+  let mainColor = route.params.mainColor;
+  let is_hidden = route.params.is_hidden;
 
   const [ability, setAbility] = useState(null);
   const [abilityDesc, setAbilityDesc] = useState("");
@@ -37,7 +34,7 @@ export default function AbilityDetails(route) {
     setAbility(ability_json);
     let ab_desc = ability_json.flavor_text_entries.filter(
       (e) => e.language.name === "en"
-    )[0].flavor_text;
+    )[0].flavor_text; // gets most recent english description
 
     setAbilityDesc(ab_desc.replaceAll("\n", " "));
   };
@@ -142,6 +139,7 @@ export default function AbilityDetails(route) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <PullTab />
+      <ModalCloseButton navigation={navigation} />
       {ability ? (
         <View style={{ flex: 1 }}>
           <View style={styles.header}>
