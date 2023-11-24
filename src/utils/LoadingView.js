@@ -9,7 +9,9 @@ export default function LoadingView() {
   let activeColors = themeColors[theme.mode];
 
   return (
-    <View style={styles.loading}>
+    <View
+      style={[styles.loading, { backgroundColor: activeColors.background }]}
+    >
       <ActivityIndicator
         size="large"
         animating={true}

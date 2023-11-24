@@ -12,6 +12,7 @@ export const PokemonItem = memo(function PokemonItem({
   id,
   width_percent,
   gen,
+  disabled,
 }) {
   const navigation = useNavigation();
   // console.log("gen", gen);
@@ -34,10 +35,13 @@ export const PokemonItem = memo(function PokemonItem({
       poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }
 
+  const touchable = disabled ? disabled : false;
+
   return (
     <View style={[styles.outerBox, { width: `${width_percent}%` }]}>
       <TouchableOpacity
         style={[styles.innerBox, { borderColor: activeColors.border }]}
+        disabled={touchable}
         onPress={() => {
           updatePokemon({ id: id, pokeName: pokeName });
           navigation.navigate("PokemonTabNav");

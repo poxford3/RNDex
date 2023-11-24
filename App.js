@@ -49,12 +49,13 @@ export default function App() {
       console.log("fetchStore error", message);
     } finally {
       setTimeout(() => SplashScreen.hideAsync(), 1000);
-    }
+    } // TODO remove the finally to see if the system changes happen more quickly when this isn't there
   };
 
   useEffect(() => {
     fetchStoredTheme();
     fetchStoredSpriteType();
+    // fetchUserFirstTime();
   }, []);
 
   // pokemon data
@@ -84,10 +85,30 @@ export default function App() {
     }
   };
 
+  // // check if user has used app before
+  // const [initRouteName, setInitRouteName] = useState();
+
+  // const fetchUserFirstTime = async () => {
+  //   try {
+  //     const isFirst = await getData("first_time");
+
+  //     if (isFirst) {
+  //       console.log("if", isFirst);
+  //       setInitRouteName("Pokedex");
+  //     } else {
+  //       console.log("if else", isFirst);
+  //       setInitRouteName("FirstTimeView");
+  //     }
+  //   } catch ({ message }) {
+  //     console.log("user instance", message);
+  //   }
+  // };
+
   return (
     <ThemeContext.Provider value={{ theme, updateTheme }}>
       <PokemonContext.Provider value={{ pokemon, updatePokemon }}>
         <SpriteContext.Provider value={{ sprites, updateSprites }}>
+          {/* <Navigation initRoute={initRouteName} /> */}
           <Navigation />
         </SpriteContext.Provider>
       </PokemonContext.Provider>
