@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -8,6 +8,7 @@ import { StatusBar, Text } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
+import { getData } from "../config/asyncStorage";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
@@ -17,29 +18,72 @@ import Settings from "./Settings";
 import MoveDetails from "../utils/MoveDetails";
 import FavoritePokemon from "./FavoritePokemon";
 import AbilityDetails from "../utils/AbilityDetails";
+import FirstTimeView from "./FirstTimeView";
+import LoadingView from "../utils/LoadingView";
 
 const Stack = createNativeStackNavigator();
 
 export default function MyStack() {
+  // console.log("nav", initRoute);
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
   const pokemonInfo = useContext(PokemonContext).pokemon;
 
+  const [initRouteName, setInitRouteName] = useState(null);
+
+  const CheckUserFirstTime = async () => {
+    // setInitRouteName("LoadingView");
+    let tempName;
+    // let isFirstTime = await getData("first_time").then((e) => {
+    await getData("first_time")
+      .then((e) => {
+        // console.log("e", e);
+        if (e == "completed") {
+          // console.log("PD", 1);
+          tempName = "Pokedex";
+        } else {
+          // console.log("FTV", 2);
+          tempName = "FirstTimeView";
+        }
+      })
+      .finally(() => {
+        // console.log("finally", tempName);
+        setInitRouteName(tempName);
+      });
+  };
+  useEffect(() => {
+    CheckUserFirstTime();
+  }, []);
+
+  if (initRouteName == null) {
+    return <LoadingView />;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Pokedex"
+        initialRouteName={initRouteName}
         // initialRouteName="Test"
         screenOptions={{
           headerTintColor: activeColors.textColor,
           headerStyle: { backgroundColor: activeColors.background },
         }}
       >
+        {/* <Stack.Screen
+          name="LoadingView"
+          component={LoadingView}
+          options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="FirstTimeView"
+          component={FirstTimeView}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Pokedex"
           component={Pokedex}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, gestureEnabled: false }}
         />
         <Stack.Screen
           name="PokemonTabNav"
@@ -48,7 +92,11 @@ export default function MyStack() {
             headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
           })}
         />
-        <Stack.Screen name="Test" component={TestView} />
+        <Stack.Screen
+          name="Test"
+          component={TestView}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
         <Stack.Screen name="Favorites" component={FavoritePokemon} />

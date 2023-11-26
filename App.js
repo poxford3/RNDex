@@ -48,13 +48,14 @@ export default function App() {
     } catch ({ message }) {
       console.log("fetchStore error", message);
     } finally {
-      setTimeout(() => SplashScreen.hideAsync(), 1000);
-    }
+      setTimeout(() => SplashScreen.hideAsync(), 500);
+    } // TODO remove the finally to see if the system changes happen more quickly when this isn't there
   };
 
   useEffect(() => {
     fetchStoredTheme();
     fetchStoredSpriteType();
+    // fetchUserFirstTime();
   }, []);
 
   // pokemon data

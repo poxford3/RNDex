@@ -38,7 +38,7 @@ export const getData = async (key) => {
 //   }
 // };
 
-// removeItemValue("favPokeList");
+// removeItemValue("first_time");
 
 // clearAllData() {
 //   AsyncStorage.getAllKeys()

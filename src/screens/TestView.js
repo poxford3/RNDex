@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Dimensions,
+  Button,
 } from "react-native";
 import {
   VictoryChart,
@@ -18,7 +20,7 @@ import {
   VictoryAxis,
 } from "victory-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// mat com icons file:
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 // import { Tooltip, Provider } from "react-native-paper";
 import { Tooltip } from "react-native-elements";
 // app_glyphmaps_materialcommunityicons.json
@@ -28,8 +30,7 @@ import { List } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import themeColors from "../styles/themeColors";
 import CustomDivider from "../utils/CustomDivider";
-// react-native-charts-wrapper
-// import { PieChart } from "react-native-charts-wrapper";
+import box_art from "../../assets/box_art";
 
 export default function TestView() {
   const [open, setOpen] = useState(false);
@@ -618,11 +619,212 @@ export default function TestView() {
     );
   };
 
+  const imgList = Object.values(box_art).slice(0, 3);
+  // let imgList = Object.fromEntries(Object.entries(box_art).slice(0, 3));
+  // let imgList = [{ id: 20 }, { id: 19 }, { id: 21 }];
+
+  // console.log("img list", imgList);
+  const [screenIndex, setScreenIndex] = useState(0);
+
+  const screenWidth = Dimensions.get("window").width;
+
+  const ImageIGList = () => {
+    return (
+      <View
+        style={{
+          height: "90%",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* <Image source={imgList[1]} style={{ height: 150, width: 150 }} /> */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={screenWidth}
+          pagingEnabled
+          decelerationRate={"fast"}
+          directionalLockEnabled={true}
+          disableIntervalMomentum={true}
+          alwaysBounceHorizontal={true}
+          style={{ height: "90%" }}
+          scrollEventThrottle={45}
+          onScroll={(e) => {
+            let slide = Math.round(
+              e.nativeEvent.contentOffset.x /
+                e.nativeEvent.layoutMeasurement.width
+            );
+            if (e.nativeEvent.contentOffset.x % screenWidth == 0) {
+              setScreenIndex(e.nativeEvent.contentOffset.x / screenWidth);
+              // setScreenIndex(slide + 1);
+            }
+            // if (slide !== screenIndex) {
+            //   setScreenIndex(slide);
+            // }
+          }}
+        >
+          {imgList.map((img, idx) => {
+            return (
+              <View
+                key={idx}
+                style={{
+                  width: screenWidth,
+                  height: 300,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // borderWidth: 1,
+                  // borderColor: "grey",
+                }}
+              >
+                <Image source={img.id} style={{ height: 150, width: 150 }} />
+              </View>
+            );
+          })}
+        </ScrollView>
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              flex: 1,
+              alignSelf: "center",
+              zIndex: 8,
+              elevation: 8,
+              position: "absolute",
+              bottom: 20,
+            }}
+          >
+            {imgList.map((img, idx) => {
+              console.log("idx screenIndex", idx, screenIndex);
+              return (
+                <View
+                  key={idx}
+                  style={{
+                    backgroundColor: idx == screenIndex ? "purple" : "grey",
+                    height: 10,
+                    width: 10,
+                    borderRadius: 5,
+                    margin: 2,
+                  }}
+                ></View>
+              );
+            })}
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const ImageIGList3 = () => {
+    return (
+      <>
+        <View
+          style={{
+            height: "90%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 24 }}>header</Text>
+          <SwiperFlatList
+            showPagination
+            index={screenIndex}
+            style={{ borderWidth: 1, borderColor: "grey" }}
+            onChangeIndex={(idx) => {
+              // console.log(idx.index);
+              setScreenIndex(idx.index);
+            }}
+            paginationStyle={{
+              marginBottom: 15,
+            }}
+            paginationStyleItemActive={{
+              backgroundColor: "green",
+              height: 10,
+              width: 10,
+            }}
+            paginationStyleItemInactive={{
+              backgroundColor: "grey",
+              height: 10,
+              width: 10,
+            }}
+          >
+            <View
+              style={{
+                width: screenWidth,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image source={19} style={{ height: 150, width: 150 }} />
+            </View>
+            <View
+              style={{
+                width: screenWidth,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image source={20} style={{ height: 150, width: 150 }} />
+            </View>
+            <View
+              style={{
+                width: screenWidth,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image source={21} style={{ height: 150, width: 150 }} />
+            </View>
+          </SwiperFlatList>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <View
+              style={{
+                width: screenWidth * 0.5,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                onPress={() => {
+                  setScreenIndex(0);
+                }}
+                title="go to first"
+              />
+            </View>
+            <View
+              style={{
+                width: screenWidth * 0.5,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                onPress={() => {
+                  setScreenIndex(2);
+                }}
+                title="go to last"
+              />
+            </View>
+          </View>
+        </View>
+        <Text style={{ color: "white" }}>{screenIndex}</Text>
+      </>
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ToolTipFun />
+      <ImageIGList3 />
     </SafeAreaView>
   );
 }
