@@ -23,65 +23,58 @@ import LoadingView from "../utils/LoadingView";
 
 const Stack = createNativeStackNavigator();
 
-export default function MyStack({ initRoute }) {
+export default function MyStack() {
   // console.log("nav", initRoute);
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
   const pokemonInfo = useContext(PokemonContext).pokemon;
 
-  const [initRouteName, setInitRouteName] = useState();
+  const [initRouteName, setInitRouteName] = useState(null);
 
   const CheckUserFirstTime = async () => {
-    setInitRouteName("LoadingView");
+    // setInitRouteName("LoadingView");
     let tempName;
     // let isFirstTime = await getData("first_time").then((e) => {
     await getData("first_time")
       .then((e) => {
-        console.log("e", e);
-        if (e == null) {
-          console.log(1);
-          // setInitRouteName("FirstTimeView");
-          tempName = "FirstTimeView";
-          // return "FirstTimeView";
-        } else {
-          console.log(2);
-          // setInitRouteName("Pokedex");
+        // console.log("e", e);
+        if (e == "completed") {
+          // console.log("PD", 1);
           tempName = "Pokedex";
-          // return "Pokedex";
+        } else {
+          // console.log("FTV", 2);
+          tempName = "FirstTimeView";
         }
       })
       .finally(() => {
+        // console.log("finally", tempName);
         setInitRouteName(tempName);
       });
   };
-  let isFirst;
   useEffect(() => {
-    // isFirst = CheckUserFirstTime();
     CheckUserFirstTime();
-    // console.log("if", isFirst);
-    // console.log("init", initRouteName);
   }, []);
+
+  if (initRouteName == null) {
+    return <LoadingView />;
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Pokedex"
-        initialRouteName="FirstTimeView"
-        // initialRouteName={isFirst ? isFirst : "FirstTimeView"}
-        // initialRouteName={initRoute}
-        // initialRouteName={initRouteName}
+        initialRouteName={initRouteName}
         // initialRouteName="Test"
         screenOptions={{
           headerTintColor: activeColors.textColor,
           headerStyle: { backgroundColor: activeColors.background },
         }}
       >
-        <Stack.Screen
+        {/* <Stack.Screen
           name="LoadingView"
           component={LoadingView}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
           name="FirstTimeView"
           component={FirstTimeView}

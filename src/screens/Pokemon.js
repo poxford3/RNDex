@@ -197,7 +197,7 @@ export default function Pokemon() {
                   color: activeColors.textColor,
                 }}
               >
-                Shiny Sprite
+                Shiny Artwork
               </Text>
               <Image source={{ uri: shiny_sprite }} style={styles.images} />
             </View>

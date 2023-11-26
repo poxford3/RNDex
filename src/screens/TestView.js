@@ -31,7 +31,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 import themeColors from "../styles/themeColors";
 import CustomDivider from "../utils/CustomDivider";
 import box_art from "../../assets/box_art";
-import PagerView from "react-native-pager-view";
 
 export default function TestView() {
   const [open, setOpen] = useState(false);
