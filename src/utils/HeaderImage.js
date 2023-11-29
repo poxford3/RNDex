@@ -1,5 +1,7 @@
 import React from "react";
-import { Image } from "react-native";
+import { View, Image, Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 export default function HeaderImage({ id }) {
   const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;

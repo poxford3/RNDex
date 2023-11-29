@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { VictoryChart, VictoryBar, VictoryAxis } from "victory-native";
 import themeColors from "../../styles/themeColors";
-import CustomDivider from "../CustomDivider";
 import { ThemeContext } from "../../contexts/ThemeContext";
 // https://formidable.com/open-source/victory/docs/victory-bar <- actually good documentation
+
+const screenWidth = Dimensions.get("window").width;
 
 export default function PokeStats({ stats, typeColor }) {
   const { theme } = useContext(ThemeContext);
@@ -33,10 +34,11 @@ export default function PokeStats({ stats, typeColor }) {
         (Total: {stats[0]["y"]})
       </Text>
       {/* <CustomDivider direction={"horizontal"} /> */}
-      <View>
+      <View style={{ width: "auto" }}>
         <VictoryChart
           domainPadding={10}
-          padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
+          padding={{ left: 70, top: 30, right: 30, bottom: 60 }}
+          width={screenWidth}
         >
           <VictoryAxis
             dependentAxis

@@ -18,6 +18,7 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import API_CALL from "../hooks/API_CALL";
+import CustomDivider from "../utils/CustomDivider";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -180,14 +181,7 @@ export default function Pokedex({ navigation }) {
           />
         </View>
       </View>
-      <View
-        style={{
-          width: "100%",
-          borderWidth: 1,
-          borderColor: "black",
-          marginVertical: 10,
-        }}
-      ></View>
+      <CustomDivider direction={"horizontal"} />
       <View style={styles.pokemonBox}>
         {loaded ? (
           <>
@@ -247,16 +241,16 @@ const styles = StyleSheet.create({
   },
   genSelection: {
     flexDirection: "row",
-    height: 50,
+    // height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,
+    // paddingVertical: 5,
   },
   header: {
     alignItems: "center",
-    flex: 1,
+    justifyContent: "center",
     padding: 5,
-    marginBottom: 30,
   },
   pokemonBox: {
     alignItems: "center",
