@@ -444,8 +444,6 @@ const styles = StyleSheet.create({
   header: {
     height: 50,
     padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
     borderRadius: 30,
     borderWidth: 3,
     position: "absolute",

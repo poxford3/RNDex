@@ -90,6 +90,7 @@ export default function MyStack() {
           component={PokemonBottomTabNav}
           options={({ route }) => ({
             headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
+            headerTitleAlign: "center",
           })}
         />
         <Stack.Screen

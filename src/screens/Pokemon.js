@@ -251,7 +251,9 @@ const styles = StyleSheet.create({
   },
   statBox: {
     alignItems: "center",
+    justifyContent: "center",
     padding: 20,
+    // width: "95%",
   },
   statTexts: {
     flexDirection: "row",
