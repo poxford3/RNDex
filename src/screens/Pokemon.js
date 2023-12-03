@@ -48,7 +48,7 @@ export default function Pokemon() {
     const json = await API_CALL(url);
     // console.log(pokemonInfo.pokeName, json.stats);
 
-    // console.log(json.stats);
+    // console.log(json.abilities);
     json.stats.forEach((e) => {
       let x_ = e.stat.name.replace("-", " ");
 

@@ -27,6 +27,8 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
+  // console.log("fd", fullData.abilities);
+
   // info:
   // height it 1/10th of a meter
   // weight is 1/10th of a kg
