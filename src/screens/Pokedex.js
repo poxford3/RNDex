@@ -141,7 +141,7 @@ export default function Pokedex({ navigation }) {
               color={activeColors.textColor}
             />
           </TouchableOpacity>
-          <Text
+          {/* <Text
             style={{
               fontSize: 40,
               textAlign: "center",
@@ -150,7 +150,11 @@ export default function Pokedex({ navigation }) {
             }}
           >
             RN Dex
-          </Text>
+          </Text> */}
+          <Image
+            source={require("../../assets/rndex_logo.png")}
+            style={{ height: 55, width: 120, resizeMode: "contain" }}
+          />
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Information");

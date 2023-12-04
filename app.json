@@ -8,7 +8,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/pokeball.png",
+      "image": "./assets/rndex_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#15202b"
     },
