@@ -194,6 +194,7 @@ export default function Pokedex({ navigation }) {
               }}
               keyboardAppearance={activeColors.themeTypeLower}
               iconColor={activeColors.textColor}
+              inputStyle={{ color: activeColors.textColor }}
               value={searchText}
               onChangeText={(text) => {
                 setSearchText(text);

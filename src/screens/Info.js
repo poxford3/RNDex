@@ -14,12 +14,51 @@ import CustomDivider from "../utils/CustomDivider";
 export default function Info({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const PokeInfoObj = ({ headerText, bodyText }) => {
+    return (
+      <View style={styles.infoObj}>
+        <View style={styles.objHeader}>
+          <Text style={[styles.objHeadText, { color: activeColors.textColor }]}>
+            {headerText}
+          </Text>
+        </View>
+        <View
+          style={[styles.objBody, { backgroundColor: activeColors.accent }]}
+        >
+          <Text style={[styles.objBodyText, { color: activeColors.textColor }]}>
+            {bodyText}
+          </Text>
+        </View>
+      </View>
+    );
+  };
   // https://pokeapi.co/
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <View style={styles.body}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Favorites");
+          }}
+        >
+          <PokeInfoObj
+            headerText={"Favorites"}
+            bodyText={"Tap here to access your favorites list!"}
+          />
+        </TouchableOpacity>
+        <PokeInfoObj
+          headerText={"Source of Data"}
+          bodyText={
+            "This app uses the PokeAPI tool linked here for its data ingestion (linked below)"
+          }
+        />
+        <PokeInfoObj
+          headerText={"About"}
+          bodyText={`This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`}
+        />
         <Text style={[styles.mostText, { color: activeColors.textColor }]}>
           This app uses the PokeAPI tool linked here for its data ingestion:
           {"\n"}
@@ -28,7 +67,7 @@ export default function Info({ navigation }) {
           onPress={() => {
             Linking.openURL("https://pokeapi.co/");
           }}
-          style={{ color: "blue", fontSize: 26 }}
+          style={{ color: "blue", fontSize: 24 }}
         >
           PokeAPI
         </Text>
@@ -37,16 +76,6 @@ export default function Info({ navigation }) {
           create a seemless tool.
         </Text>
         <CustomDivider direction={"horizontal"} />
-        {/* <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Gens");
-          }}
-          style={styles.genSelect}
-        >
-          <Text style={styles.mostText}>
-            To view a list of all the generations, click here
-          </Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Favorites");
@@ -65,22 +94,26 @@ export default function Info({ navigation }) {
 const styles = StyleSheet.create({
   body: {
     padding: 10,
-    height: "100%",
-    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
   container: {
     flex: 1,
   },
-  genSelect: {
-    marginTop: 30,
-    borderRadius: 20,
-    backgroundColor: "lightgrey",
-    padding: 10,
+  infoObj: {
+    marginBottom: 15,
+    width: "100%",
   },
-  mostText: {
-    textAlign: "center",
-    fontSize: 26,
+  objHeader: {},
+  objHeadText: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  objBody: {
+    padding: 10,
+    borderRadius: 10,
+  },
+  objBodyText: {
+    fontSize: 20,
   },
 });

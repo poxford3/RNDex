@@ -170,7 +170,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               icon={"chart-line"}
               side={"right"}
               tip={
-                "Pokemon level up at different rates, the type of growth rate determines how much XP is needed to level up."
+                "Pokémon level up at different rates, the type of growth rate determines how much XP is needed to level up."
               }
             />
           </View>

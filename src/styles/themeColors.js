@@ -20,7 +20,7 @@ export default themeColors = {
     oppositeBkg: "white",
     border: "grey",
     barStyle: "light-content",
-    accent: "#8899ac",
+    accent: "#566b85",
     searchBarPlaceholder: "lightgrey",
     grey: "grey",
     selectorActive: "white",
