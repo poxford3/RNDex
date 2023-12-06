@@ -14,21 +14,21 @@
 
 a pokedex using React Native, click around to see your favorite pokemon throughout the generations!
 
-## Main Pokedex View
+## Main Pokédex View
 
-In the main view, you can access Pokemon by generation (recently added gen's 7-9) by clicking the top selector for the desired generation
+In the main view, you can access Pokémon by generation (recently added gen's 7-9) by clicking the top selector for the desired generation
 
-Once you find your generation, you can either scroll or search for the Pokemon you'd like to learn more about!
+Once you find your generation, you can either scroll or search for the Pokémon you'd like to learn more about!
 
 <img src="/assets/main_view.png" alt="search screen with scrolling images" height=250>
 
-## Pokemon View
+## Pokémon View
 
-Once you select a Pokemon, the Pokemon's detailed view will show up with tabs at the bottom.
+Once you select a Pokémon, the Pokémon's detailed view will show up with tabs at the bottom.
 
 The following information can be found in the tabs:
 
-- Pokemon number/ID
+- Pokémon number/ID
 - Description
 - Type
 - Stats
@@ -38,4 +38,4 @@ The following information can be found in the tabs:
 
 See image below using Charizard as an example
 
-<img src="/assets/poke_tabs.gif" alt="pokemon view with stats and description of charizard" height=350>
+<img src="/assets/poke_tabs.gif" alt="Pokémon view with stats and description of charizard" height=350>

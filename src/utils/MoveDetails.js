@@ -47,7 +47,7 @@ export default function MoveDetails({ route, navigation }) {
     return (
       <View style={{ marginVertical: 10 }}>
         <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
-          Pokemon who can learn
+          Pokémon who can learn
         </Text>
         <View
           style={{

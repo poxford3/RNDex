@@ -8,7 +8,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/pokeball.png",
+      "image": "./assets/rndex_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#15202b"
     },
@@ -29,7 +29,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/rndex_logo.png"
     },
     "extra": {
       "eas": {

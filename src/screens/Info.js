@@ -6,57 +6,81 @@ import {
   StyleSheet,
   Linking,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "../utils/CustomDivider";
 
+const screenWidth = Dimensions.get("window").width;
+
 export default function Info({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  boxTexts = [
+    {
+      header: "Source of Data",
+      body: "This app uses the PokeAPI tool linked here for its data ingestion (linked below)",
+    },
+    {
+      header: "About",
+      body: `This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`,
+    },
+  ];
+
+  const PokeInfoObj = ({ headerText, bodyText }) => {
+    return (
+      <View style={styles.infoObj}>
+        <View style={styles.objHeader}>
+          <Text style={[styles.objHeadText, { color: activeColors.textColor }]}>
+            {headerText}
+          </Text>
+        </View>
+        <View
+          style={[styles.objBody, { backgroundColor: activeColors.accent }]}
+        >
+          <Text style={[styles.objBodyText, { color: activeColors.textColor }]}>
+            {bodyText}
+          </Text>
+        </View>
+      </View>
+    );
+  };
   // https://pokeapi.co/
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <View style={styles.body}>
-        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          This app uses the PokeAPI tool linked here for its data ingestion:
-          {"\n"}
-        </Text>
-        <Text
-          onPress={() => {
-            Linking.openURL("https://pokeapi.co/");
-          }}
-          style={{ color: "blue", fontSize: 26 }}
-        >
-          PokeAPI
-        </Text>
-        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          {"\n"}The intent of this app is to practice React Native API calls to
-          create a seemless tool.
-        </Text>
-        <CustomDivider direction={"horizontal"} />
-        {/* <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Gens");
-          }}
-          style={styles.genSelect}
-        >
-          <Text style={styles.mostText}>
-            To view a list of all the generations, click here
-          </Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Favorites");
           }}
-          style={styles.genSelect}
         >
-          <Text style={styles.mostText}>
-            To view a list of all favorites, click here
-          </Text>
+          <PokeInfoObj
+            headerText={"Favorites"}
+            bodyText={"Tap here to access your favorites list!"}
+          />
         </TouchableOpacity>
+        {boxTexts.map((box, idx) => {
+          return (
+            <PokeInfoObj
+              key={idx}
+              headerText={box.header}
+              bodyText={box.body}
+            />
+          );
+        })}
+        <CustomDivider direction={"horizontal"} />
+        <Text
+          onPress={() => {
+            Linking.openURL("https://pokeapi.co/");
+          }}
+          style={{ color: "blue", fontSize: 24 }}
+        >
+          PokeAPI
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -65,22 +89,27 @@ export default function Info({ navigation }) {
 const styles = StyleSheet.create({
   body: {
     padding: 10,
-    height: "100%",
-    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
   container: {
     flex: 1,
   },
-  genSelect: {
-    marginTop: 30,
-    borderRadius: 20,
-    backgroundColor: "lightgrey",
+  infoObj: {
+    marginBottom: 15,
+    width: screenWidth,
     padding: 10,
   },
-  mostText: {
-    textAlign: "center",
-    fontSize: 26,
+  objHeader: {},
+  objHeadText: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  objBody: {
+    padding: 10,
+    borderRadius: 10,
+  },
+  objBodyText: {
+    fontSize: 20,
   },
 });

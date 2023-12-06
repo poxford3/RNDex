@@ -96,7 +96,7 @@ export default function AbilityDetails({ route, navigation }) {
     return (
       <View style={{ marginVertical: 10 }}>
         <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
-          Pokemon with same ability
+          Pokémon with same ability
         </Text>
         <View
           style={{

@@ -35,7 +35,7 @@ export default function FirstTimeView({ navigation }) {
     >
       <View style={styles.header}>
         <Text style={[styles.headerText, { color: activeColors.textColor }]}>
-          Welcome to the React Native Pokedex! (RNDex)
+          Welcome to the React Native Pokédex! (RNDex)
         </Text>
         <Text
           style={{
@@ -74,7 +74,7 @@ export default function FirstTimeView({ navigation }) {
           </View>
           <View style={styles.listItem}>
             <Text style={[styles.bodyText, { color: activeColors.textColor }]}>
-              On the Pokedex page, tap on the Pokemon that you'd like to view,
+              On the Pokédex page, tap on the Pokémon that you'd like to view,
               or select different gens to see other options!
             </Text>
             <PokemonItem
