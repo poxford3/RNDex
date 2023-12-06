@@ -29,7 +29,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/rndex_logo.png"
     },
     "extra": {
       "eas": {

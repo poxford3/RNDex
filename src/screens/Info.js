@@ -6,14 +6,28 @@ import {
   StyleSheet,
   Linking,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "../utils/CustomDivider";
 
+const screenWidth = Dimensions.get("window").width;
+
 export default function Info({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  boxTexts = [
+    {
+      header: "Source of Data",
+      body: "This app uses the PokeAPI tool linked here for its data ingestion (linked below)",
+    },
+    {
+      header: "About",
+      body: `This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`,
+    },
+  ];
 
   const PokeInfoObj = ({ headerText, bodyText }) => {
     return (
@@ -49,20 +63,16 @@ export default function Info({ navigation }) {
             bodyText={"Tap here to access your favorites list!"}
           />
         </TouchableOpacity>
-        <PokeInfoObj
-          headerText={"Source of Data"}
-          bodyText={
-            "This app uses the PokeAPI tool linked here for its data ingestion (linked below)"
-          }
-        />
-        <PokeInfoObj
-          headerText={"About"}
-          bodyText={`This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`}
-        />
-        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          This app uses the PokeAPI tool linked here for its data ingestion:
-          {"\n"}
-        </Text>
+        {boxTexts.map((box, idx) => {
+          return (
+            <PokeInfoObj
+              key={idx}
+              headerText={box.header}
+              bodyText={box.body}
+            />
+          );
+        })}
+        <CustomDivider direction={"horizontal"} />
         <Text
           onPress={() => {
             Linking.openURL("https://pokeapi.co/");
@@ -71,21 +81,6 @@ export default function Info({ navigation }) {
         >
           PokeAPI
         </Text>
-        <Text style={[styles.mostText, { color: activeColors.textColor }]}>
-          {"\n"}The intent of this app is to practice React Native API calls to
-          create a seemless tool.
-        </Text>
-        <CustomDivider direction={"horizontal"} />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Favorites");
-          }}
-          style={styles.genSelect}
-        >
-          <Text style={styles.mostText}>
-            To view a list of all favorites, click here
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -102,7 +97,8 @@ const styles = StyleSheet.create({
   },
   infoObj: {
     marginBottom: 15,
-    width: "100%",
+    width: screenWidth,
+    padding: 10,
   },
   objHeader: {},
   objHeadText: {
