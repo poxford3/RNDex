@@ -70,7 +70,7 @@ export default function MoveDetails({ route, navigation }) {
                   navigation.goBack();
                   updatePokemon({
                     id: poke_id,
-                    pokeName: poke_name.pokemon.name,
+                    pokeName: poke_name.name,
                   });
                   navigation.navigate("Pokemon");
                 }}
