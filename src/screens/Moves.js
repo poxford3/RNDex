@@ -202,6 +202,7 @@ export default function Moves({ navigation }) {
               onValueChange={handleMethodChange}
               style={{ width: "100%" }}
               buttons={moveMethods}
+              label={"test"}
             />
           </View>
           <Body />
