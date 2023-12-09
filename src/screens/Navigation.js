@@ -18,6 +18,7 @@ import Settings from "./Settings";
 import MoveDetails from "../utils/MoveDetails";
 import FavoritePokemon from "./FavoritePokemon";
 import AbilityDetails from "../utils/AbilityDetails";
+import Natures from "./Natures";
 import FirstTimeView from "./FirstTimeView";
 import LoadingView from "../utils/LoadingView";
 
@@ -70,11 +71,6 @@ export default function MyStack() {
           headerStyle: { backgroundColor: activeColors.background },
         }}
       >
-        {/* <Stack.Screen
-          name="LoadingView"
-          component={LoadingView}
-          options={{ headerShown: false }}
-        /> */}
         <Stack.Screen
           name="FirstTimeView"
           component={FirstTimeView}
@@ -101,6 +97,7 @@ export default function MyStack() {
         <Stack.Screen name="Information" component={Info} />
         <Stack.Screen name="Gens" component={GenerationList} />
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
+        <Stack.Screen name="Natures" component={Natures} />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >
@@ -109,7 +106,7 @@ export default function MyStack() {
           <Stack.Screen name="AbilityDetails" component={AbilityDetails} />
         </Stack.Group>
       </Stack.Navigator>
-      <StatusBar barStyle={activeColors.barStyle} backgroundColor="#000000" />
+      <StatusBar barStyle={activeColors.barStyle} backgroundColor={activeColors.background} />
     </NavigationContainer>
   );
 }

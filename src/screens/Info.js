@@ -81,7 +81,7 @@ export default function Info({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            console.log("natures");
+            navigation.navigate("Natures");
           }}
         >
           <PokeInfoObj
