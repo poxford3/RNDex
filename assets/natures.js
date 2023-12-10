@@ -1,4 +1,4 @@
-const natures = [
+export const natures = [
     {
       "nature": "lonely",
       "increased_stat": "attack",
@@ -143,4 +143,13 @@ const natures = [
     }
   ]
 
-  export default natures
+  export const natureColors = {
+    "attack": '#f3af74',
+    "defense": "#f9e179",
+    "speed": "#fa93b2",
+    "sp. attack": "#9db7f9",
+    "sp. defense": "#a7dd8b",
+    "-": '#000000'
+  }
+
+  // export default natures
