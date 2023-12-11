@@ -106,7 +106,10 @@ export default function MyStack() {
           <Stack.Screen name="AbilityDetails" component={AbilityDetails} />
         </Stack.Group>
       </Stack.Navigator>
-      <StatusBar barStyle={activeColors.barStyle} backgroundColor={activeColors.background} />
+      <StatusBar
+        barStyle={activeColors.barStyle}
+        backgroundColor={activeColors.textColor}
+      />
     </NavigationContainer>
   );
 }
