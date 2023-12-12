@@ -1,20 +1,22 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { natures, natureColors } from "../../assets/natures";
 import capitalizeString from "../hooks/capitalizeString";
 import CustomDivider from "../utils/CustomDivider";
 
+const screenWidth = Dimensions.get("window").width;
 export default function Natures() {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
-
-  const tableHead = [
-    "Nature",
-    "Increased Stat (+10%)",
-    "Decreased Stat (-10%)",
-  ];
 
   return (
     <SafeAreaView
@@ -43,7 +45,9 @@ export default function Natures() {
             Increased Stat (+10%)
           </Text>
         </View>
-        <View style={styles.textFormat}>
+        <View
+          style={[styles.textFormat, { borderColor: activeColors.background }]}
+        >
           <Text style={{ color: activeColors.textColor }}>
             Decreased Stat (-10%)
           </Text>
@@ -71,9 +75,7 @@ export default function Natures() {
               ? activeColors.background
               : natureColors[item.decreased_stat];
           return (
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
+            <View style={{ flexDirection: "row", width: screenWidth }}>
               <View
                 style={[
                   styles.textFormat,
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textFormat: {
-    width: "33%",
+    width: screenWidth / 3,
     justifyContent: "center",
     alignItems: "center",
     // borderColor: 'white',

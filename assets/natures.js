@@ -20,14 +20,14 @@ export const natures = [
     decreased_stat: "sp. defense",
   },
   {
-    nature: "bold",
-    increased_stat: "defense",
-    decreased_stat: "attack",
-  },
-  {
     nature: "docile",
     increased_stat: "-",
     decreased_stat: "-",
+  },
+  {
+    nature: "bold",
+    increased_stat: "defense",
+    decreased_stat: "attack",
   },
   {
     nature: "relaxed",
@@ -45,6 +45,11 @@ export const natures = [
     decreased_stat: "sp. defense",
   },
   {
+    nature: "serious",
+    increased_stat: "-",
+    decreased_stat: "-",
+  },
+  {
     nature: "timid",
     increased_stat: "speed",
     decreased_stat: "attack",
@@ -55,11 +60,6 @@ export const natures = [
     decreased_stat: "defense",
   },
   {
-    nature: "serious",
-    increased_stat: "-",
-    decreased_stat: "-",
-  },
-  {
     nature: "jolly",
     increased_stat: "speed",
     decreased_stat: "sp. attack",
@@ -68,6 +68,11 @@ export const natures = [
     nature: "naive",
     increased_stat: "speed",
     decreased_stat: "sp. defense",
+  },
+  {
+    nature: "bashful",
+    increased_stat: "-",
+    decreased_stat: "-",
   },
   {
     nature: "modest",
@@ -85,14 +90,14 @@ export const natures = [
     decreased_stat: "speed",
   },
   {
-    nature: "bashful",
-    increased_stat: "-",
-    decreased_stat: "-",
-  },
-  {
     nature: "rash",
     increased_stat: "sp. attack",
     decreased_stat: "sp. defense",
+  },
+  {
+    nature: "quirky",
+    increased_stat: "-",
+    decreased_stat: "-",
   },
   {
     nature: "calm",
@@ -113,11 +118,6 @@ export const natures = [
     nature: "careful",
     increased_stat: "sp. defense",
     decreased_stat: "sp. attack",
-  },
-  {
-    nature: "quirky",
-    increased_stat: "-",
-    decreased_stat: "-",
   },
 ];
 
