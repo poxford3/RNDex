@@ -7,11 +7,13 @@ import {
   SafeAreaView,
   ScrollView,
   Linking,
+  TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import API_CALL from "../hooks/API_CALL";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import CustomDivider from "./CustomDivider";
 import LoadingView from "./LoadingView";
@@ -27,6 +29,8 @@ export default function AbilityDetails({ route, navigation }) {
   const [abilityDesc, setAbilityDesc] = useState("");
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+  
+  const updatePokemon = useContext(PokemonContext).updatePokemon;
 
   const getAbilityDetail = async (id) => {
     let url = `https://pokeapi.co/api/v2/ability/${id}/`;
@@ -109,19 +113,22 @@ export default function AbilityDetails({ route, navigation }) {
             const poke_id = poke_name.pokemon.url.split("/")[6];
             const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke_id}.png`;
             return (
-              <View
+              <TouchableOpacity
                 key={idx}
-                style={{
-                  marginBottom: 3,
-                  flexDirection: "row",
-                  alignItems: "center",
+                onPress={() => {
+                  navigation.goBack();
+                  updatePokemon({
+                    id: poke_id,
+                    pokeName: poke_name.pokemon.name,
+                  });
+                  navigation.navigate("Pokemon");
                 }}
-              >
+                >
                 <Image
                   source={{ uri: poke_sprite }}
                   style={styles.pokeSpriteImg}
                 />
-              </View>
+                </TouchableOpacity>
             );
           })}
         </View>

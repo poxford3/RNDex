@@ -1,16 +1,8 @@
-import React, { useEffect, useState, useContext, memo } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  Image,
-} from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { View, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { SegmentedButtons } from "react-native-paper";
 import LoadingView from "../utils/LoadingView";
 import { Move } from "../utils/Move";
-import images from "../../assets/types";
 import themeColors from "../styles/themeColors";
 import capitalizeString from "../hooks/capitalizeString.js";
 import MissingInfo from "../utils/MissingInfo";
@@ -210,6 +202,7 @@ export default function Moves({ navigation }) {
               onValueChange={handleMethodChange}
               style={{ width: "100%" }}
               buttons={moveMethods}
+              label={"test"}
             />
           </View>
           <Body />

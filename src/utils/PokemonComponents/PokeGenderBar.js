@@ -69,7 +69,7 @@ export default function PokeGenderBar({ genders }) {
                 {
                   width: genderObj[0].y * 2,
                   backgroundColor: "rgb(51, 85, 255)",
-                  borderRadius: 30 * (genderObj[0].y == 100),
+                  borderRadius: 30 * (genderObj[0].y == 100), // set an overall border radius if the bar is 100% of 1 gender
                   borderTopLeftRadius: 30,
                   borderBottomLeftRadius: 30,
                 },

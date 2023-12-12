@@ -6,9 +6,11 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  TouchableOpacity
 } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "./CustomDivider";
 import capitalizeString, { capitalizeGens } from "../hooks/capitalizeString";
 import images from "../../assets/types";
@@ -24,6 +26,8 @@ export default function MoveDetails({ route, navigation }) {
   const mainColor = type_colors[move.type];
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const updatePokemon = useContext(PokemonContext).updatePokemon;
 
   const DetailItem = ({ header, info, img }) => {
     return (
@@ -60,8 +64,16 @@ export default function MoveDetails({ route, navigation }) {
             const poke_id = poke_name.url.split("/")[6];
             const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke_id}.png`;
             return (
-              <View
+              <TouchableOpacity
                 key={idx}
+                onPress={() => {
+                  navigation.goBack();
+                  updatePokemon({
+                    id: poke_id,
+                    pokeName: poke_name.name,
+                  });
+                  navigation.navigate("Pokemon");
+                }}
                 style={{
                   marginBottom: 3,
                   flexDirection: "row",
@@ -72,7 +84,7 @@ export default function MoveDetails({ route, navigation }) {
                   source={{ uri: poke_sprite }}
                   style={styles.pokeSpriteImg}
                 />
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
