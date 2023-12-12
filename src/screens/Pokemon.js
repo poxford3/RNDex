@@ -143,6 +143,7 @@ export default function Pokemon() {
             <View style={styles.headerLeft}>
               <Text style={{ color: "grey", fontSize: 14 }}>#{id_text}</Text>
               <Text
+                numberOfLines={1}
                 style={{
                   fontSize: 24,
                   textTransform: "capitalize",
