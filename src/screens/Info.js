@@ -24,6 +24,12 @@ export default function Info({ navigation }) {
 
   boxTexts = [
     {
+      header: "Favorites",
+      body: "This app uses the PokéAPI tool linked here for its data ingestion (linked below)",
+      disabled: true,
+      destination: "Favorites",
+    },
+    {
       header: "Source of Data",
       body: "This app uses the PokéAPI tool linked here for its data ingestion (linked below)",
     },
@@ -40,7 +46,7 @@ export default function Info({ navigation }) {
 
   const scrollEnabled = _screenHeight > screenHeight;
 
-  const PokeInfoObj = ({ headerText, bodyText }) => {
+  const PokeInfoObj = ({ headerText, bodyText, disabled, destination }) => {
     return (
       <View style={styles.infoObj}>
         <View style={styles.objHeader}>
