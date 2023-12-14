@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import LoadingView from "../utils/LoadingView";
 import PokeBonusInfo from "../utils/PokemonComponents/PokeBonusInfo";
@@ -103,6 +104,19 @@ export default function Pokemon() {
     getPokeStats();
   }, []);
 
+  // whenever you reload the pokemon screen with new data, scroll to top
+  const isFocused = useIsFocused();
+  const scrollRef = useRef();
+  useEffect(() => {
+    if (isFocused) {
+      scrollRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [isFocused]);
+
+  // whenever user selects new pokemon, get the new info
   useEffect(() => {
     getPokeStats();
   }, [pokemonInfo]);
@@ -116,7 +130,7 @@ export default function Pokemon() {
         id={pokemonInfo.id}
         pokeName={pokemonInfo.pokeName}
       />
-      <ScrollView style={styles.body}>
+      <ScrollView style={styles.body} ref={scrollRef}>
         <View style={styles.header}>
           <LinearGradient
             colors={[

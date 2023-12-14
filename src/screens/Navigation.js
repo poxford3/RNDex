@@ -21,6 +21,7 @@ import AbilityDetails from "../utils/AbilityDetails";
 import Natures from "./Natures";
 import FirstTimeView from "./FirstTimeView";
 import LoadingView from "../utils/LoadingView";
+import MatchupChart from "./MatchupChart";
 
 const Stack = createNativeStackNavigator();
 
@@ -98,6 +99,7 @@ export default function MyStack() {
         <Stack.Screen name="Gens" component={GenerationList} />
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
         <Stack.Screen name="Natures" component={Natures} />
+        <Stack.Screen name="MatchupChart" component={MatchupChart} />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >

@@ -14,41 +14,63 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "../utils/CustomDivider";
 
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
+// const screenHeight = Dimensions.get("window").height;
 
 export default function Info({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const [_screenHeight, setScreenHeight] = useState(0);
+  // const [_screenHeight, setScreenHeight] = useState(0);
 
   boxTexts = [
     {
       header: "Favorites",
-      body: "This app uses the PokéAPI tool linked here for its data ingestion (linked below)",
-      disabled: true,
+      body: "Tap here to access your favorites list!",
+      disabled: false,
       destination: "Favorites",
     },
     {
+      header: "Natures",
+      body: "Tap here to view a chart of how each nature affects your Pokémon!",
+      disabled: false,
+      destination: "Natures",
+    },
+    {
+      header: "Matchup Chart",
+      body: "Tap here to view a chart of how type fairs against another!",
+      disabled: false,
+      destination: "MatchupChart",
+    },
+    {
       header: "Source of Data",
-      body: "This app uses the PokéAPI tool linked here for its data ingestion (linked below)",
+      body: "This app uses the PokéAPI tool for its data ingestion (linked below)",
+      disabled: true,
+      destination: "Info",
     },
     {
       header: "About",
       body: `This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`,
+      disabled: true,
+      destination: "Info",
     },
   ];
 
-  onContentSizeChange = (contentWidth, contentHeight) => {
-    // Save the content height in state
-    setScreenHeight(contentHeight);
-  };
+  // onContentSizeChange = (contentWidth, contentHeight) => {
+  //   // Save the content height in state
+  //   setScreenHeight(contentHeight);
+  // };
 
-  const scrollEnabled = _screenHeight > screenHeight;
+  // const scrollEnabled = _screenHeight > screenHeight;
 
   const PokeInfoObj = ({ headerText, bodyText, disabled, destination }) => {
     return (
-      <View style={styles.infoObj}>
+      <TouchableOpacity
+        disabled={disabled}
+        style={styles.infoObj}
+        onPress={() => {
+          navigation.navigate(destination);
+        }}
+      >
         <View style={styles.objHeader}>
           <Text style={[styles.objHeadText, { color: activeColors.textColor }]}>
             {headerText}
@@ -61,7 +83,7 @@ export default function Info({ navigation }) {
             {bodyText}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   // https://pokeapi.co/
@@ -70,54 +92,37 @@ export default function Info({ navigation }) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <ScrollView
+        // style={styles.body}
         style={styles.container}
-        contentContainerStyle={styles.body}
-        onContentSizeChange={onContentSizeChange}
-        scrollEnabled={scrollEnabled}
+        // contentContainerStyle={styles.body}
+        // onContentSizeChange={onContentSizeChange}
+        // scrollEnabled={scrollEnabled}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Favorites");
-          }}
-        >
-          <PokeInfoObj
-            headerText={"Favorites"}
-            bodyText={"Tap here to access your favorites list!"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Natures");
-          }}
-        >
-          <PokeInfoObj
-            headerText={"Natures"}
-            bodyText={
-              "Tap here to view a chart of how each nature affects your Pokémon!"
-            }
-          />
-        </TouchableOpacity>
-        {boxTexts.map((box, idx) => {
-          return (
-            <PokeInfoObj
-              key={idx}
-              headerText={box.header}
-              bodyText={box.body}
-            />
-          );
-        })}
-        <Text
-          onPress={() => {
-            Linking.openURL("https://pokeapi.co/");
-          }}
-          style={{ color: "blue", fontSize: 24 }}
-        >
-          PokeAPI
-        </Text>
-        <CustomDivider direction={"horizontal"} />
-        <Text style={{ fontSize: 14, color: activeColors.textColor }}>
-          RNDex is a nice app
-        </Text>
+        <View style={styles.body}>
+          {boxTexts.map((box, idx) => {
+            return (
+              <PokeInfoObj
+                key={idx}
+                headerText={box.header}
+                bodyText={box.body}
+                disabled={box.disabled}
+                destination={box.destination}
+              />
+            );
+          })}
+          <Text
+            onPress={() => {
+              Linking.openURL("https://pokeapi.co/");
+            }}
+            style={{ color: "blue", fontSize: 24 }}
+          >
+            PokeAPI
+          </Text>
+          <CustomDivider direction={"horizontal"} />
+          <Text style={{ fontSize: 14, color: activeColors.textColor }}>
+            RNDex is a nice app
+          </Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
