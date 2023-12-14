@@ -26,10 +26,10 @@ export default function MatchupChart() {
   let activeColors = themeColors[theme.mode];
 
   // remove the "None" type
-  const typeArr = ["", ...type_name.slice(0, -10)];
+  const typeArr = ["", ...type_name.slice(0, -1)];
 
   // remove the "None" type chart
-  const types_filter = types.slice(0, -10);
+  const types_filter = types.slice(0, -1);
 
   // arrays to even the
   let list_of_1s = [];
@@ -131,7 +131,7 @@ export default function MatchupChart() {
               );
             })}
           </ScrollView>
-          <ScrollView directionalLockEnabled={false} stickyHeaderIndices={[0]}>
+          <ScrollView>
             {types_filter.map((typeList, idx) => {
               return <RowElement arr={typeList} key={idx} />;
             })}

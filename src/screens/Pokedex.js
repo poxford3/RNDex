@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext, memo } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -147,12 +147,12 @@ export default function Pokedex({ navigation }) {
           />
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Information");
+              navigation.navigate("Favorites");
             }}
             style={{ width: 40 }}
           >
             <Ionicons
-              name="information-circle-outline"
+              name="heart-outline"
               size={32}
               color={activeColors.textColor}
             />

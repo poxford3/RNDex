@@ -6,6 +6,7 @@ import PullTab from "../utils/PullTab";
 import ModalCloseButton from "../utils/ModalCloseButton";
 import AppearanceSetting from "../utils/SettingsComponents/AppearanceSetting";
 import PokeIconSetting from "../utils/SettingsComponents/PokeIconSetting";
+import InfoSetting from "../utils/SettingsComponents/InfoSetting";
 
 export default function Settings({ navigation }) {
   const { theme, updateTheme } = useContext(ThemeContext);
@@ -20,6 +21,7 @@ export default function Settings({ navigation }) {
       <View style={[styles.body, { backgroundColor: activeColors.background }]}>
         <AppearanceSetting />
         <PokeIconSetting pokeID={4} />
+        <InfoSetting />
       </View>
     </SafeAreaView>
   );
