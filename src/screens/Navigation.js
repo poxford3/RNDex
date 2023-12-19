@@ -9,6 +9,7 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import { getData } from "../config/asyncStorage";
+import capitalizeString from "../hooks/capitalizeString";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
@@ -22,6 +23,9 @@ import Natures from "./Natures";
 import FirstTimeView from "./FirstTimeView";
 import LoadingView from "../utils/LoadingView";
 import MatchupChart from "./MatchupChart";
+import AllItems from "../utils/SettingsComponents/AllItems";
+import ItemView from "../utils/SettingsComponents/ItemView";
+import AllLocations from "../utils/SettingsComponents/AllLocations";
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +104,15 @@ export default function MyStack() {
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
         <Stack.Screen name="Natures" component={Natures} />
         <Stack.Screen name="MatchupChart" component={MatchupChart} />
+        <Stack.Screen name="All Items" component={AllItems} />
+        <Stack.Screen
+          name="ItemView"
+          component={ItemView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
+        <Stack.Screen name="AllLocations" component={AllLocations} />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >

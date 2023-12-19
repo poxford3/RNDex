@@ -24,12 +24,6 @@ export default function Info({ navigation }) {
 
   boxTexts = [
     {
-      header: "Favorites",
-      body: "Tap here to access your favorites list!",
-      disabled: false,
-      destination: "Favorites",
-    },
-    {
       header: "Natures",
       body: "Tap here to view a chart of how each nature affects your Pokémon!",
       disabled: false,
@@ -40,6 +34,12 @@ export default function Info({ navigation }) {
       body: "Tap here to view a chart of how type fairs against another!",
       disabled: false,
       destination: "MatchupChart",
+    },
+    {
+      header: "Items",
+      body: "Tap here to view a list of all items!",
+      disabled: false,
+      destination: "All Items",
     },
     {
       header: "Source of Data",

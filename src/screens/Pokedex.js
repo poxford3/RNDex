@@ -30,12 +30,10 @@ export default function Pokedex({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
-
   // functions
 
   // does inital call of API that gets list of pokemon,
-  // based on the limit/offset params
+  // based on gen selected
   const getPokeList = async ({ gen }) => {
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
