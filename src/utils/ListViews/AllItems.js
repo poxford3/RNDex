@@ -102,7 +102,7 @@ export default function AllItems({ navigation }) {
           onChangeText={(text) => {
             setSearchText(text);
           }}
-          placeholder="Find your favorite item!"
+          placeholder={`Find your favorite item!`}
           placeholderTextColor={activeColors.searchBarPlaceholder}
         />
       </View>

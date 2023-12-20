@@ -16,16 +16,18 @@ import TestView from "./TestView";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
 import Settings from "./Settings";
-import MoveDetails from "../utils/MoveDetails";
-import FavoritePokemon from "./FavoritePokemon";
-import AbilityDetails from "../utils/AbilityDetails";
 import Natures from "./Natures";
-import FirstTimeView from "./FirstTimeView";
-import LoadingView from "../utils/LoadingView";
+import FavoritePokemon from "./FavoritePokemon";
 import MatchupChart from "./MatchupChart";
-import AllItems from "../utils/SettingsComponents/AllItems";
-import ItemView from "../utils/SettingsComponents/ItemView";
-import AllLocations from "../utils/SettingsComponents/AllLocations";
+
+import MoveDetails from "../utils/MoveDetails";
+import AbilityDetails from "../utils/AbilityDetails";
+import LoadingView from "../utils/LoadingView";
+import FirstTimeView from "./FirstTimeView";
+
+import AllLists from "../utils/ListViews/AllLists";
+import ItemView from "../utils/ListViews/ItemView";
+import AbilityView from "../utils/ListViews/AbilityView";
 
 const Stack = createNativeStackNavigator();
 
@@ -104,7 +106,13 @@ export default function MyStack() {
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
         <Stack.Screen name="Natures" component={Natures} />
         <Stack.Screen name="MatchupChart" component={MatchupChart} />
-        <Stack.Screen name="All Items" component={AllItems} />
+        <Stack.Screen
+          name="All Lists"
+          component={AllLists}
+          options={({ route }) => ({
+            title: route.params.list_data.title,
+          })}
+        />
         <Stack.Screen
           name="ItemView"
           component={ItemView}
@@ -112,7 +120,13 @@ export default function MyStack() {
             title: capitalizeString(route.params.route.name),
           })}
         />
-        <Stack.Screen name="AllLocations" component={AllLocations} />
+        <Stack.Screen
+          name="AbilityView"
+          component={AbilityView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >

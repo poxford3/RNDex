@@ -24,12 +24,16 @@ export default function AbilityDetails({ route, navigation }) {
   let ab_id = route.params.id;
   let mainColor = route.params.mainColor;
   let is_hidden = route.params.is_hidden;
+  var modal_on = true;
+  if (route.params.modal == false) {
+    modal_on = route.params.modal;
+  }
 
   const [ability, setAbility] = useState(null);
   const [abilityDesc, setAbilityDesc] = useState("");
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
-  
+
   const updatePokemon = useContext(PokemonContext).updatePokemon;
 
   const getAbilityDetail = async (id) => {
@@ -51,7 +55,7 @@ export default function AbilityDetails({ route, navigation }) {
     return (
       <View style={{ marginVertical: 10 }}>
         <View>
-          <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
+          <Text style={[styles.headerText, { color: mainColor }]}>
             {header}{" "}
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -70,7 +74,7 @@ export default function AbilityDetails({ route, navigation }) {
     ].sort();
     return (
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
+        <Text style={[styles.headerText, { color: mainColor }]}>
           In Other Languages
         </Text>
         {abilityNameList
@@ -99,7 +103,7 @@ export default function AbilityDetails({ route, navigation }) {
   const OtherPokeList = () => {
     return (
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: mainColor, fontSize: 20, paddingRight: 5 }}>
+        <Text style={[styles.headerText, { color: mainColor }]}>
           Pokémon with same ability
         </Text>
         <View
@@ -116,22 +120,65 @@ export default function AbilityDetails({ route, navigation }) {
               <TouchableOpacity
                 key={idx}
                 onPress={() => {
-                  navigation.goBack();
+                  {
+                    modal_on ? navigation.goBack() : null;
+                  }
                   updatePokemon({
                     id: poke_id,
                     pokeName: poke_name.pokemon.name,
                   });
                   navigation.navigate("Pokemon");
                 }}
-                >
+              >
                 <Image
                   source={{ uri: poke_sprite }}
                   style={styles.pokeSpriteImg}
                 />
-                </TouchableOpacity>
+              </TouchableOpacity>
             );
           })}
         </View>
+      </View>
+    );
+  };
+
+  const Body = () => {
+    return (
+      <View style={{ flex: 1 }}>
+        {modal_on ? (
+          <View style={styles.header}>
+            <Text
+              style={[styles.headerText, { color: mainColor, fontSize: 32 }]}
+            >
+              {capitalizeString(ability.name)}{" "}
+            </Text>
+            {is_hidden ? (
+              <>
+                <Text> </Text>
+                <Ionicons name="eye-off-outline" color={mainColor} size={28} />
+              </>
+            ) : null}
+          </View>
+        ) : null}
+        <CustomDivider direction={"horizontal"} />
+        <ScrollView style={{}}>
+          <View style={styles.body}>
+            <View style={{ width: "95%", padding: 10 }}>
+              <AbilityItem header={"Description"} info={abilityDesc} />
+              <AbilityItem header={"Effect"} info={abilityShortEffect} />
+              <AbilityItem
+                header={"Hidden Ability?"}
+                info={is_hidden ? "Yes" : "No"}
+              />
+              <AbilityItem
+                header={"Generation Introduced"}
+                info={capitalizeGens(ability.generation.name)}
+              />
+              <OtherLangList />
+              <OtherPokeList />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     );
   };
@@ -145,44 +192,13 @@ export default function AbilityDetails({ route, navigation }) {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <PullTab />
-      <ModalCloseButton navigation={navigation} />
-      {ability ? (
-        <View style={{ flex: 1 }}>
-          <View style={styles.header}>
-            <Text style={{ color: mainColor, fontSize: 32 }}>
-              {capitalizeString(ability.name)}{" "}
-            </Text>
-            {is_hidden ? (
-              <>
-                <Text> </Text>
-                <Ionicons name="eye-off-outline" color={mainColor} size={28} />
-              </>
-            ) : null}
-          </View>
-          <CustomDivider direction={"horizontal"} />
-          <ScrollView style={{}}>
-            <View style={styles.body}>
-              <View style={{ width: "95%", padding: 10 }}>
-                <AbilityItem header={"Description"} info={abilityDesc} />
-                <AbilityItem header={"Effect"} info={abilityShortEffect} />
-                <AbilityItem
-                  header={"Hidden Ability?"}
-                  info={is_hidden ? "Yes" : "No"}
-                />
-                <AbilityItem
-                  header={"Generation Introduced"}
-                  info={capitalizeGens(ability.generation.name)}
-                />
-                <OtherLangList />
-                <OtherPokeList />
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-      ) : (
-        <LoadingView />
-      )}
+      {modal_on ? (
+        <>
+          <PullTab />
+          <ModalCloseButton navigation={navigation} />
+        </>
+      ) : null}
+      {ability ? <Body /> : <LoadingView />}
     </SafeAreaView>
   );
 }
@@ -202,6 +218,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
     flexDirection: "row",
+  },
+  headerText: {
+    fontSize: 20,
+    paddingRight: 5,
+    fontWeight: "bold",
   },
   pokeSpriteImg: {
     height: SPRITE_SIZE,

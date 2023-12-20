@@ -11,6 +11,7 @@ export default function ItemView({ route }) {
   let activeColors = themeColors[theme.mode];
 
   const [itemDetails, setItemDetails] = useState(null);
+  const [itemAttrs, setItemAttrs] = useState([]);
   const [itemEffect, setItemEffect] = useState();
 
   const getItemDetails = async () => {
@@ -35,6 +36,7 @@ export default function ItemView({ route }) {
     // console.log(`\n--\n--\n`, response, `\n--\n--\n`);
 
     setItemEffect(arr_effect);
+    setItemAttrs(response.attributes.map((a) => a.name));
     setItemDetails(response);
   };
 
@@ -60,10 +62,17 @@ export default function ItemView({ route }) {
     return (
       <View style={{ marginVertical: 10 }}>
         <View>
-          <Text style={{ color: mainColor, fontSize: 22 }}>{header} </Text>
-          <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-            {info}
-          </Text>
+          <Text style={{ color: mainColor, fontSize: 24 }}>{header} </Text>
+          {info.map((i, idx) => {
+            return (
+              <Text
+                key={idx}
+                style={{ color: activeColors.textColor, fontSize: 20 }}
+              >
+                {capitalizeString(i)}
+              </Text>
+            );
+          })}
         </View>
       </View>
     );
@@ -91,12 +100,12 @@ export default function ItemView({ route }) {
             ? "This item cannot be purchased"
             : itemDetails.cost.toLocaleString()}
         </Text>
-        <View style={{ alignItems: "flex-start" }}>
-          <DetailItem
-            header={"Category"}
-            info={capitalizeString(itemDetails.category.name)}
-          />
-          <DetailItem header={"Description"} info={itemEffect} />
+        <View style={{ alignItems: "flex-start", width: "100%" }}>
+          <DetailItem header={"Category"} info={[itemDetails.category.name]} />
+          <DetailItem header={"Description"} info={[itemEffect]} />
+          {itemDetails.attributes.length > 0 ? (
+            <DetailItem header={"Attributes"} info={itemAttrs} />
+          ) : null}
         </View>
       </View>
     );

@@ -39,7 +39,34 @@ export default function Info({ navigation }) {
       header: "Items",
       body: "Tap here to view a list of all items!",
       disabled: false,
-      destination: "All Items",
+      destination: "All Lists",
+      list_data: {
+        api_context: "item",
+        title: "All Items",
+        detailPage: "ItemView",
+      },
+    },
+    {
+      header: "Abilities",
+      body: "Tap here to view a list of all abilities!",
+      disabled: false,
+      destination: "All Lists",
+      list_data: {
+        api_context: "ability",
+        title: "Abilities",
+        detailPage: "AbilityView",
+      },
+    },
+    {
+      header: "Locations",
+      body: "Tap here to view a list of all locations!",
+      disabled: false,
+      destination: "All Lists",
+      list_data: {
+        api_context: "location",
+        title: "Location",
+        detailPage: "LocationView",
+      },
     },
     {
       header: "Source of Data",
@@ -62,13 +89,23 @@ export default function Info({ navigation }) {
 
   // const scrollEnabled = _screenHeight > screenHeight;
 
-  const PokeInfoObj = ({ headerText, bodyText, disabled, destination }) => {
+  const PokeInfoObj = ({
+    headerText,
+    bodyText,
+    disabled,
+    destination,
+    list_data,
+  }) => {
     return (
       <TouchableOpacity
         disabled={disabled}
         style={styles.infoObj}
         onPress={() => {
-          navigation.navigate(destination);
+          list_data
+            ? navigation.navigate(destination, {
+                list_data: list_data,
+              })
+            : navigation.navigate(destination);
         }}
       >
         <View style={styles.objHeader}>
@@ -107,6 +144,7 @@ export default function Info({ navigation }) {
                 bodyText={box.body}
                 disabled={box.disabled}
                 destination={box.destination}
+                list_data={box.list_data}
               />
             );
           })}
