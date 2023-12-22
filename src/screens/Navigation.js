@@ -28,6 +28,7 @@ import FirstTimeView from "./FirstTimeView";
 import AllLists from "../utils/ListViews/AllLists";
 import ItemView from "../utils/ListViews/ItemView";
 import AbilityView from "../utils/ListViews/AbilityView";
+import LocationView from "../utils/ListViews/LocationView";
 
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +95,7 @@ export default function MyStack() {
           options={({ route }) => ({
             headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
             headerTitleAlign: "center",
+            headerBackTitleVisible: false,
           })}
         />
         <Stack.Screen
@@ -123,6 +125,13 @@ export default function MyStack() {
         <Stack.Screen
           name="AbilityView"
           component={AbilityView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
+        <Stack.Screen
+          name="LocationView"
+          component={LocationView}
           options={({ route }) => ({
             title: capitalizeString(route.params.route.name),
           })}

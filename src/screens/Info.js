@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   View,
   Text,
+  Image,
   SafeAreaView,
   StyleSheet,
   Linking,
@@ -28,13 +29,14 @@ export default function Info({ navigation }) {
       body: "Tap here to view a chart of how each nature affects your Pokémon!",
       disabled: false,
       destination: "Natures",
+      img: require("../../assets/info_imgs/poke_leaf.png"),
     },
-    {
-      header: "Matchup Chart",
-      body: "Tap here to view a chart of how type fairs against another!",
-      disabled: false,
-      destination: "MatchupChart",
-    },
+    // { // TODO fix meee!!!
+    //   header: "Matchup Chart",
+    //   body: "Tap here to view a chart of how type fairs against another!",
+    //   disabled: false,
+    //   destination: "MatchupChart",
+    // },
     {
       header: "Items",
       body: "Tap here to view a list of all items!",
@@ -45,6 +47,7 @@ export default function Info({ navigation }) {
         title: "All Items",
         detailPage: "ItemView",
       },
+      img: require("../../assets/info_imgs/poke-ball.png"),
     },
     {
       header: "Abilities",
@@ -56,6 +59,7 @@ export default function Info({ navigation }) {
         title: "Abilities",
         detailPage: "AbilityView",
       },
+      img: require("../../assets/info_imgs/poke_star.png"),
     },
     {
       header: "Locations",
@@ -67,6 +71,7 @@ export default function Info({ navigation }) {
         title: "Location",
         detailPage: "LocationView",
       },
+      img: require("../../assets/info_imgs/poke_map.png"),
     },
     {
       header: "Source of Data",
@@ -82,19 +87,13 @@ export default function Info({ navigation }) {
     },
   ];
 
-  // onContentSizeChange = (contentWidth, contentHeight) => {
-  //   // Save the content height in state
-  //   setScreenHeight(contentHeight);
-  // };
-
-  // const scrollEnabled = _screenHeight > screenHeight;
-
   const PokeInfoObj = ({
     headerText,
     bodyText,
     disabled,
     destination,
     list_data,
+    img,
   }) => {
     return (
       <TouchableOpacity
@@ -112,6 +111,10 @@ export default function Info({ navigation }) {
           <Text style={[styles.objHeadText, { color: activeColors.textColor }]}>
             {headerText}
           </Text>
+          <Image
+            source={img}
+            style={{ height: 40, width: 40, marginLeft: 5 }}
+          />
         </View>
         <View
           style={[styles.objBody, { backgroundColor: activeColors.accent }]}
@@ -128,13 +131,7 @@ export default function Info({ navigation }) {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ScrollView
-        // style={styles.body}
-        style={styles.container}
-        // contentContainerStyle={styles.body}
-        // onContentSizeChange={onContentSizeChange}
-        // scrollEnabled={scrollEnabled}
-      >
+      <ScrollView style={styles.container}>
         <View style={styles.body}>
           {boxTexts.map((box, idx) => {
             return (
@@ -145,6 +142,7 @@ export default function Info({ navigation }) {
                 disabled={box.disabled}
                 destination={box.destination}
                 list_data={box.list_data}
+                img={box.img}
               />
             );
           })}
@@ -180,7 +178,11 @@ const styles = StyleSheet.create({
     width: screenWidth,
     padding: 10,
   },
-  objHeader: {},
+  objHeader: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    alignItems: "center",
+  },
   objHeadText: {
     fontSize: 28,
     fontWeight: "bold",

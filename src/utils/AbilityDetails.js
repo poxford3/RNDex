@@ -19,15 +19,19 @@ import CustomDivider from "./CustomDivider";
 import LoadingView from "./LoadingView";
 import PullTab from "./PullTab";
 import ModalCloseButton from "./ModalCloseButton";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AbilityDetails({ route, navigation }) {
+export default function AbilityDetails({ route }) {
   let ab_id = route.params.id;
   let mainColor = route.params.mainColor;
   let is_hidden = route.params.is_hidden;
+  // this can either be a modal or a main view,
+  // depending on where it's sourced
   var modal_on = true;
   if (route.params.modal == false) {
     modal_on = route.params.modal;
   }
+  const navigation = useNavigation();
 
   const [ability, setAbility] = useState(null);
   const [abilityDesc, setAbilityDesc] = useState("");
@@ -127,7 +131,11 @@ export default function AbilityDetails({ route, navigation }) {
                     id: poke_id,
                     pokeName: poke_name.pokemon.name,
                   });
-                  navigation.navigate("Pokemon");
+                  {
+                    modal_on
+                      ? navigation.navigate("Pokemon")
+                      : navigation.navigate("PokemonTabNav");
+                  }
                 }}
               >
                 <Image

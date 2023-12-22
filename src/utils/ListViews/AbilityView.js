@@ -4,7 +4,7 @@ import AbilityDetails from "../AbilityDetails";
 import themeColors from "../../styles/themeColors";
 import { ThemeContext } from "../../contexts/ThemeContext";
 
-export default function AbilityView({ route, navigation }) {
+export default function AbilityView({ route }) {
   const list_data = route.params.route;
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];

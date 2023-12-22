@@ -62,7 +62,9 @@ export default function ItemView({ route }) {
     return (
       <View style={{ marginVertical: 10 }}>
         <View>
-          <Text style={{ color: mainColor, fontSize: 24 }}>{header} </Text>
+          <Text style={[styles.headerText, { color: mainColor }]}>
+            {header}{" "}
+          </Text>
           {info.map((i, idx) => {
             return (
               <Text
@@ -131,5 +133,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  headerText: {
+    fontSize: 20,
+    paddingRight: 5,
+    fontWeight: "bold",
   },
 });
