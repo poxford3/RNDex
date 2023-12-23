@@ -54,13 +54,13 @@ export default function AllItems({ navigation }) {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
-            {capitalizeString(item.name)}
-          </Text>
           <Image
             source={{ uri: sprite_url }}
             style={{ height: imgSize, width: imgSize }}
           />
+          <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
+            {capitalizeString(item.name)}
+          </Text>
         </View>
         <MaterialCommunityIcons
           name="chevron-right"

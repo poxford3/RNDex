@@ -71,6 +71,7 @@ export default function LocationView({ route, navigation }) {
 
     // prepare all the values to be shown before mapping them in
     let dispValues = [
+      capitalizeString(e.pokemon.name),
       capitalizeString(e.version_details[0].encounter_details[0].method.name),
       levelDisp,
       `${capitalizeString(e.version_details[0].encounter_details[0].chance)}%`,
@@ -91,13 +92,6 @@ export default function LocationView({ route, navigation }) {
         }}
       >
         <Image source={{ uri: poke_sprite }} style={styles.pokeSpriteImg} />
-        <View style={{ width: "20%" }}>
-          <Text
-            style={{ color: activeColors.textColor, fontSize: textSizeBody }}
-          >
-            {capitalizeString(e.pokemon.name)}
-          </Text>
-        </View>
         {dispValues.map((val, idx) => {
           return (
             <View style={{ width: "20%", alignItems: "center" }} key={idx}>
@@ -117,7 +111,7 @@ export default function LocationView({ route, navigation }) {
   };
 
   const StickyHeader = () => {
-    const headers = ["Method", "Level", "Chance"];
+    const headers = ["Name", "Method", "Level", "Chance"];
     return (
       <View
         style={{
@@ -129,16 +123,6 @@ export default function LocationView({ route, navigation }) {
         }}
       >
         <View style={{ width: SPRITE_SIZE }}></View>
-        <View style={{ width: "20%" }}>
-          <Text
-            style={{
-              color: activeColors.textColor,
-              fontSize: textSizeBody,
-            }}
-          >
-            Name
-          </Text>
-        </View>
         {headers.map((header, idx) => {
           return (
             <View style={{ width: "20%", alignItems: "center" }} key={idx}>

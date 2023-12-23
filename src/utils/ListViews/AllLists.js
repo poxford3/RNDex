@@ -58,15 +58,15 @@ export default function AllLists({ route, navigation }) {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
-            {capitalizeString(item.name)}
-          </Text>
           {imgSize > 0 ? (
             <Image
               source={{ uri: sprite_url }}
               style={{ height: imgSize, width: imgSize }}
             />
           ) : null}
+          <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
+            {capitalizeString(item.name)}
+          </Text>
         </View>
         <MaterialCommunityIcons
           name="chevron-right"

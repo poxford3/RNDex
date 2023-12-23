@@ -78,12 +78,14 @@ export default function Info({ navigation }) {
       body: "This app uses the PokéAPI tool for its data ingestion (linked below)",
       disabled: true,
       destination: "Info",
+      img: require("../../assets/info_imgs/poke_about.png"),
     },
     {
       header: "About",
       body: `This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`,
       disabled: true,
       destination: "Info",
+      img: require("../../assets/info_imgs/poke_info.png"),
     },
   ];
 
