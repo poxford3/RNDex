@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 
 export default function FileName() {

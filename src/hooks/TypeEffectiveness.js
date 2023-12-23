@@ -1,4 +1,4 @@
-const types = new Array(
+export const types = new Array(
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1, 1], // Normal
   [1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1, 1], // Fire
   [1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1, 1], // Water
@@ -20,7 +20,7 @@ const types = new Array(
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1] // None
 );
 
-const type_name = new Array(
+export const type_name = new Array(
   "Normal",
   "Fire",
   "Water",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext, memo } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -30,12 +30,10 @@ export default function Pokedex({ navigation }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
-
   // functions
 
   // does inital call of API that gets list of pokemon,
-  // based on the limit/offset params
+  // based on gen selected
   const getPokeList = async ({ gen }) => {
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
@@ -147,12 +145,12 @@ export default function Pokedex({ navigation }) {
           />
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Information");
+              navigation.navigate("Favorites");
             }}
             style={{ width: 40 }}
           >
             <Ionicons
-              name="information-circle-outline"
+              name="heart-outline"
               size={32}
               color={activeColors.textColor}
             />
@@ -182,6 +180,7 @@ export default function Pokedex({ navigation }) {
             <Searchbar
               style={{
                 marginVertical: 5,
+                // height: 40, // maybe can get this to go well idc
                 width: "95%",
                 backgroundColor: activeColors.accent,
                 borderColor: activeColors.border,

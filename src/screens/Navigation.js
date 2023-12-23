@@ -9,18 +9,26 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import { getData } from "../config/asyncStorage";
+import capitalizeString from "../hooks/capitalizeString";
 
 import Pokedex from "./Pokedex";
 import TestView from "./TestView";
 import Info from "./Info";
 import GenerationList from "./GenerationList";
 import Settings from "./Settings";
-import MoveDetails from "../utils/MoveDetails";
-import FavoritePokemon from "./FavoritePokemon";
-import AbilityDetails from "../utils/AbilityDetails";
 import Natures from "./Natures";
-import FirstTimeView from "./FirstTimeView";
+import FavoritePokemon from "./FavoritePokemon";
+import MatchupChart from "./MatchupChart";
+
+import MoveDetails from "../utils/MoveDetails";
+import AbilityDetails from "../utils/AbilityDetails";
 import LoadingView from "../utils/LoadingView";
+import FirstTimeView from "./FirstTimeView";
+
+import AllLists from "../utils/ListViews/AllLists";
+import ItemView from "../utils/ListViews/ItemView";
+import AbilityView from "../utils/ListViews/AbilityView";
+import LocationView from "../utils/ListViews/LocationView";
 
 const Stack = createNativeStackNavigator();
 
@@ -87,6 +95,7 @@ export default function MyStack() {
           options={({ route }) => ({
             headerTitle: (props) => <HeaderImage id={pokemonInfo.id} />,
             headerTitleAlign: "center",
+            headerBackTitleVisible: false,
           })}
         />
         <Stack.Screen
@@ -98,6 +107,35 @@ export default function MyStack() {
         <Stack.Screen name="Gens" component={GenerationList} />
         <Stack.Screen name="Favorites" component={FavoritePokemon} />
         <Stack.Screen name="Natures" component={Natures} />
+        <Stack.Screen name="MatchupChart" component={MatchupChart} />
+        <Stack.Screen
+          name="All Lists"
+          component={AllLists}
+          options={({ route }) => ({
+            title: route.params.list_data.title,
+          })}
+        />
+        <Stack.Screen
+          name="ItemView"
+          component={ItemView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
+        <Stack.Screen
+          name="AbilityView"
+          component={AbilityView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
+        <Stack.Screen
+          name="LocationView"
+          component={LocationView}
+          options={({ route }) => ({
+            title: capitalizeString(route.params.route.name),
+          })}
+        />
         <Stack.Group
           screenOptions={{ presentation: "modal", headerShown: false }}
         >

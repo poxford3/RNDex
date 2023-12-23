@@ -190,33 +190,33 @@ export default function TestView() {
     );
   };
 
-  const GradientTest = () => {
-    return (
-      <View style={styles.gradient}>
-        <LinearGradient
-          // Background Linear Gradient
-          // colors={["rgba(0,0,0,0.8)", "transparent"]}
-          // colors={["blue", "white"]}
-          colors={["blue", "blue", "transparent", "transparent", "transparent"]}
-          style={styles.background}
-        >
-          <Image
-            source={require("../../assets/arse.jpeg")}
-            style={{ height: 300, width: 300 }}
-          />
-        </LinearGradient>
-        <LinearGradient
-          start={{ x: 0.0, y: 0.25 }}
-          end={{ x: 0.5, y: 1.0 }}
-          locations={[0, 0.5, 0.6]}
-          colors={["#4c669f", "#3b5998", "#192f6a"]}
-          style={styles.linearGradient}
-        >
-          <Text style={styles.buttonText}>Sign in with Facebook</Text>
-        </LinearGradient>
-      </View>
-    );
-  };
+  // const GradientTest = () => {
+  //   return (
+  //     <View style={styles.gradient}>
+  //       <LinearGradient
+  //         // Background Linear Gradient
+  //         // colors={["rgba(0,0,0,0.8)", "transparent"]}
+  //         // colors={["blue", "white"]}
+  //         colors={["blue", "blue", "transparent", "transparent", "transparent"]}
+  //         style={styles.background}
+  //       >
+  //         <Image
+  //           source={require("../../assets/rndex_logo.jpeg")}
+  //           style={{ height: 300, width: 300 }}
+  //         />
+  //       </LinearGradient>
+  //       <LinearGradient
+  //         start={{ x: 0.0, y: 0.25 }}
+  //         end={{ x: 0.5, y: 1.0 }}
+  //         locations={[0, 0.5, 0.6]}
+  //         colors={["#4c669f", "#3b5998", "#192f6a"]}
+  //         style={styles.linearGradient}
+  //       >
+  //         <Text style={styles.buttonText}>Sign in with Facebook</Text>
+  //       </LinearGradient>
+  //     </View>
+  //   );
+  // };
 
   const ListTest = ({ game, games }) => {
     return (

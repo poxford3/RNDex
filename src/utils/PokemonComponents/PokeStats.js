@@ -33,7 +33,6 @@ export default function PokeStats({ stats, typeColor }) {
       >
         (Total: {stats[0]["y"]})
       </Text>
-      {/* <CustomDivider direction={"horizontal"} /> */}
       <View style={{ width: "auto" }}>
         <VictoryChart
           domainPadding={10}
