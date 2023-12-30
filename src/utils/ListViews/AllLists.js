@@ -98,13 +98,14 @@ export default function AllLists({ route, navigation }) {
           <Searchbar
             style={{
               marginVertical: 5,
+              height: 45,
               width: "95%",
               backgroundColor: activeColors.accent,
               borderColor: activeColors.border,
             }}
             keyboardAppearance={activeColors.themeTypeLower}
             iconColor={activeColors.textColor}
-            inputStyle={{ color: activeColors.textColor }}
+            inputStyle={{ color: activeColors.textColor, minHeight: 45 }}
             value={searchText}
             onChangeText={(text) => {
               setSearchText(text);

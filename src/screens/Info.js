@@ -75,7 +75,7 @@ export default function Info({ navigation }) {
     },
     {
       header: "Source of Data",
-      body: "This app uses the PokéAPI tool for its data ingestion (linked below)",
+      body: `This app uses the PokéAPI tool for its data ingestion (linked below).${"\n\n"}Note that not all data may be shown as it is in game. Check back periodically to see if the information/Pokémon you're looking for is updated.`,
       disabled: true,
       destination: "Info",
       img: require("../../assets/info_imgs/poke_about.png"),
