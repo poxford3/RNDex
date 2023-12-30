@@ -15,7 +15,6 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import { all_pokemon } from "../../assets/all_pokemon";
 import API_CALL from "../hooks/API_CALL";
-import capitalizeString from "../hooks/capitalizeString";
 import { PokemonItem } from "./PokemonComponents/PokemonItem";
 
 export default function DirectSearch({ pokemon }) {
