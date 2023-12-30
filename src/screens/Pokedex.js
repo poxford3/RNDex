@@ -16,7 +16,7 @@ import LoadingView from "../utils/LoadingView";
 import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
-import { PokemonContext } from "../contexts/PokemonContext";
+import DirectSearch from "../utils/DirectSearch";
 import API_CALL from "../hooks/API_CALL";
 import CustomDivider from "../utils/CustomDivider";
 
@@ -35,6 +35,7 @@ export default function Pokedex({ navigation }) {
   // does inital call of API that gets list of pokemon,
   // based on gen selected
   const getPokeList = async ({ gen }) => {
+    setLoaded(false);
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
     const json = await API_CALL(url);
@@ -93,6 +94,32 @@ export default function Pokedex({ navigation }) {
       )
     : pokeList;
 
+  const Body = () => {
+    return (
+      <>
+        {searchFilteredData.length > 0 ? (
+          <FlatList
+            data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
+            numColumns={2}
+            maxToRenderPerBatch={10}
+            keyExtractor={(item) => item.pokeID}
+            initialNumToRender={30}
+            renderItem={({ item }) => (
+              <PokemonItem
+                pokeName={item.pokeName}
+                id={item.pokeID}
+                width_percent={50}
+                gen={genSelected}
+              />
+            )}
+          />
+        ) : (
+          <DirectSearch pokemon={searchText} />
+        )}
+      </>
+    );
+  };
+
   // search bar animation
   const [toggleSearchBar, setToggleSearchBar] = useState(false);
 
@@ -116,7 +143,7 @@ export default function Pokedex({ navigation }) {
 
   // on start up
   useEffect(() => {
-    getPokeList({ gen: 1, text: "I", limit: 151, offset: 0 });
+    getPokeList({ gen: 1 });
   }, []);
 
   // main view
@@ -180,14 +207,14 @@ export default function Pokedex({ navigation }) {
             <Searchbar
               style={{
                 marginVertical: 5,
-                // height: 40, // maybe can get this to go well idc
+                height: 45,
                 width: "95%",
                 backgroundColor: activeColors.accent,
                 borderColor: activeColors.border,
               }}
               keyboardAppearance={activeColors.themeTypeLower}
               iconColor={activeColors.textColor}
-              inputStyle={{ color: activeColors.textColor }}
+              inputStyle={{ color: activeColors.textColor, minHeight: 45 }}
               value={searchText}
               onChangeText={(text) => {
                 setSearchText(text);
@@ -195,21 +222,7 @@ export default function Pokedex({ navigation }) {
               placeholder="Find your favorite Pokemon!"
               placeholderTextColor={activeColors.searchBarPlaceholder}
             />
-            <FlatList
-              data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
-              numColumns={2}
-              maxToRenderPerBatch={10}
-              keyExtractor={(item) => item.pokeID}
-              initialNumToRender={30}
-              renderItem={({ item }) => (
-                <PokemonItem
-                  pokeName={item.pokeName}
-                  id={item.pokeID}
-                  width_percent={50}
-                  gen={genSelected}
-                />
-              )}
-            />
+            <Body />
           </>
         ) : (
           <LoadingView />

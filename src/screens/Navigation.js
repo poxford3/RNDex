@@ -146,7 +146,7 @@ export default function MyStack() {
       </Stack.Navigator>
       <StatusBar
         barStyle={activeColors.barStyle}
-        backgroundColor={activeColors.textColor}
+        backgroundColor={activeColors.background}
       />
     </NavigationContainer>
   );

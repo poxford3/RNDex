@@ -6,6 +6,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { PokemonContext } from "../../contexts/PokemonContext";
 import { SpriteContext } from "../../contexts/SpriteContext";
 import { handleGenImageSelect } from "../../hooks/handleGenImageSelect";
+import capitalizeString from "../../hooks/capitalizeString";
 
 export const PokemonItem = memo(function PokemonItem({
   pokeName,
@@ -54,7 +55,7 @@ export const PokemonItem = memo(function PokemonItem({
             color: activeColors.textColor,
           }}
         >
-          {pokeName}
+          {capitalizeString(pokeName)}
         </Text>
       </TouchableOpacity>
     </View>
