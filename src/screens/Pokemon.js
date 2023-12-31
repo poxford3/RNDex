@@ -79,7 +79,8 @@ export default function Pokemon() {
 
     let json_id = await getDesc(json.id);
 
-    setFullData({ ...json, ...json_id });
+    // setFullData({ ...json, ...json_id });
+    setFullData([json, json_id]);
 
     setLoaded(true);
   };
@@ -89,12 +90,16 @@ export default function Pokemon() {
 
     const json_id = await API_CALL(url_id);
 
-    let arr = json_id.flavor_text_entries.filter(
-      (elem) => elem.language.name == "en"
-    ); // gets most recent description
+    if (json_id != undefined) {
+      let arr = json_id.flavor_text_entries.filter(
+        (elem) => elem.language.name == "en"
+      ); // gets most recent description
 
-    let description = arr.pop();
-    setDesc(description.flavor_text.replaceAll("\n", " "));
+      let description = arr.pop();
+      setDesc(description.flavor_text.replaceAll("\n", " "));
+    } else {
+      setDesc("");
+    }
 
     return json_id;
   };
@@ -165,7 +170,7 @@ export default function Pokemon() {
                   color: activeColors.textColor,
                 }}
               >
-                {pokemonInfo.pokeName}
+                {capitalizeString(pokemonInfo.pokeName)}
               </Text>
               <Text
                 style={{
@@ -241,12 +246,15 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-around",
     paddingTop: 10,
+    paddingHorizontal: 10,
   },
   headerRight: {
-    width: "50%",
+    maxWidth: "50%",
+    paddingLeft: 10,
   },
   headerLeft: {
     justifyContent: "center",
+    width: "50%",
   },
   images: {
     height: 300,
