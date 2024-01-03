@@ -57,6 +57,7 @@ export default function LoadingView() {
           style={{ height: 50, width: 50 }}
         />
       </Animated.View>
+      <Text style={{ color: activeColors.textColor }}>Loading...</Text>
     </View>
   );
 }

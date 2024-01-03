@@ -20,6 +20,11 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemonButton from "../utils/FavoritePokemonButton";
+// import {
+//   BannerAd,
+//   BannerAdSize,
+//   TestIds,
+// } from "react-native-google-mobile-ads";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
