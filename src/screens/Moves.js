@@ -115,7 +115,7 @@ export default function Moves({ navigation }) {
       (a, b) => methSortOrder.indexOf(a.value) - methSortOrder.indexOf(b.value)
     );
 
-    setMethSelect(uniqueMoveTypes[0]);
+    setMethSelect(uniqueMoveObj[0].value);
     setMoveMethods(uniqueMoveObj);
     setMoveList(tempMoveList.sort((a, b) => a.level_learned - b.level_learned));
     setLoaded(true);

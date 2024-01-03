@@ -16,6 +16,7 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import API_CALL from "../hooks/API_CALL";
+import LoadingView from "../utils/LoadingView";
 
 export default function Evolutions({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -23,11 +24,13 @@ export default function Evolutions({ navigation }) {
   const [evolutions, setEvolutions] = useState([]);
   const [variety, setVariety] = useState([]);
   const [scrollOn, setScrollOn] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
   const getEvolutions = async (id) => {
+    setEvolutions(false);
     let url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
     const response = await fetch(url);
     const json = await response.json();
@@ -73,6 +76,7 @@ export default function Evolutions({ navigation }) {
     } else {
       setScrollOn(true);
     }
+    setLoaded(true);
   };
 
   const checkEvolutions = async (id) => {
@@ -214,6 +218,60 @@ export default function Evolutions({ navigation }) {
     );
   };
 
+  const Body = () => {
+    return (
+      <>
+        {loaded ? (
+          <View style={styles.container}>
+            {evolutions.length > 0 ? (
+              <View style={{ width: "100%" }}>
+                <Text
+                  style={[styles.headerText, { color: activeColors.textColor }]}
+                >
+                  Evolutions
+                </Text>
+                {evolutions.map((evo, idx) => {
+                  return <EvolChain poke_pair={evo} key={idx} />;
+                })}
+              </View>
+            ) : null}
+            {variety.length > 0 ? (
+              <View style={{ width: "100%" }}>
+                <Text
+                  style={[styles.headerText, { color: activeColors.textColor }]}
+                >
+                  Other Forms
+                </Text>
+                <View style={styles.evolContainer}>
+                  <View
+                    style={[
+                      styles.pictureBox,
+                      {
+                        justifyContent:
+                          variety.length == 1 ? "center" : "space-around",
+                        backgroundColor: activeColors.accent,
+                      },
+                    ]}
+                  >
+                    {variety.map((item, index) => {
+                      return (
+                        <View key={index}>
+                          <OtherForm pokemon={item} />
+                        </View>
+                      );
+                    })}
+                  </View>
+                </View>
+              </View>
+            ) : null}
+          </View>
+        ) : (
+          <LoadingView />
+        )}
+      </>
+    );
+  };
+
   useEffect(() => {
     setEvolutions([]);
     setVariety([]);
@@ -226,49 +284,7 @@ export default function Evolutions({ navigation }) {
       style={{ backgroundColor: activeColors.background }}
     >
       {scrollOn ? (
-        <View style={styles.container}>
-          {evolutions.length > 0 ? (
-            <View style={{ width: "100%" }}>
-              <Text
-                style={[styles.headerText, { color: activeColors.textColor }]}
-              >
-                Evolutions
-              </Text>
-              {evolutions.map((evo, idx) => {
-                return <EvolChain poke_pair={evo} key={idx} />;
-              })}
-            </View>
-          ) : null}
-          {variety.length > 0 ? (
-            <View style={{ width: "100%" }}>
-              <Text
-                style={[styles.headerText, { color: activeColors.textColor }]}
-              >
-                Other Forms
-              </Text>
-              <View style={styles.evolContainer}>
-                <View
-                  style={[
-                    styles.pictureBox,
-                    {
-                      justifyContent:
-                        variety.length == 1 ? "center" : "space-around",
-                      backgroundColor: activeColors.accent,
-                    },
-                  ]}
-                >
-                  {variety.map((item, index) => {
-                    return (
-                      <View key={index}>
-                        <OtherForm pokemon={item} />
-                      </View>
-                    );
-                  })}
-                </View>
-              </View>
-            </View>
-          ) : null}
-        </View>
+        <Body />
       ) : (
         <MissingInfo
           str={`${capitalizeString(pokemonInfo.pokeName)} has no evolutions`}

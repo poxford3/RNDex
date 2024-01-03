@@ -90,23 +90,32 @@ export default function DirectSearch({ pokemon }) {
     return (
       <View style={{ flex: 1 }}>
         {completePokes ? (
-          <FlatList
-            data={completePokes}
-            numColumns={2}
-            maxToRenderPerBatch={10}
-            keyExtractor={(item) => item.url}
-            initialNumToRender={30}
-            renderItem={({ item }) => {
-              return (
-                <PokemonItem
-                  pokeName={item.name}
-                  id={item.url.split("/")[6]}
-                  width_percent={50}
-                />
-              );
-            }}
-          />
-        ) : null}
+          <View style={{ alignItems: "center", flex: 1, width: "100%" }}>
+            <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
+              Other Generations
+            </Text>
+            <FlatList
+              data={completePokes}
+              numColumns={2}
+              maxToRenderPerBatch={10}
+              keyExtractor={(item) => item.url}
+              initialNumToRender={30}
+              renderItem={({ item }) => {
+                return (
+                  <PokemonItem
+                    pokeName={item.name}
+                    id={item.url.split("/")[6]}
+                    width_percent={50}
+                  />
+                );
+              }}
+            />
+          </View>
+        ) : (
+          <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
+            No Pokémon with that name
+          </Text>
+        )}
       </View>
     );
   };
@@ -125,9 +134,6 @@ export default function DirectSearch({ pokemon }) {
     >
       {/* <SearchButton />
       <PopupText /> */}
-      <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
-        Other Generations
-      </Text>
       <AutocompleteNames />
     </SafeAreaView>
   );

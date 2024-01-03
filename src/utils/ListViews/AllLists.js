@@ -133,6 +133,7 @@ export default function AllLists({ route, navigation }) {
 
 const styles = StyleSheet.create({
   body: {
+    flex: 1,
     alignItems: "center",
   },
   container: {

@@ -27,7 +27,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  // console.log("fd", fullData.abilities);
+  // console.log("fd", fullData[1]);
 
   // info:
   // height it 1/10th of a meter
@@ -46,9 +46,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             justifyContent: "space-between",
           }}
         >
-          {fullData.abilities.map((ab, idx) => {
+          {fullData[0].abilities.map((ab, idx) => {
             const border_status =
-              idx != fullData.abilities.length - 1 ? true : false;
+              idx != fullData[0].abilities.length - 1 ? true : false;
 
             return (
               <TouchableOpacity
@@ -106,13 +106,19 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
 
   const InfoBody = () => {
     let egg_list = [];
-    fullData.egg_groups.map((egg, idx) => {
-      egg_list.push(
-        capitalizeString(egg.name).concat(
-          idx != fullData.egg_groups.length - 1 ? " /" : ""
-        )
-      );
-    });
+    let genderRate = 0,
+      growthRate = "";
+    if (fullData[1] != undefined) {
+      fullData[1].egg_groups.map((egg, idx) => {
+        egg_list.push(
+          capitalizeString(egg.name).concat(
+            idx != fullData[1].egg_groups.length - 1 ? " /" : ""
+          )
+        );
+      });
+      genderRate = fullData[1].gender_rate;
+      growthRate = `${capitalizeString(fullData[1].growth_rate.name)}`;
+    }
     const egg_text = egg_list.join(" ");
 
     let typeEffectObj,
@@ -123,7 +129,9 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       immune;
     if (types.type1 != null) {
       const type2 = types.type2 ? capitalizeString(types.type2) : "None";
-      const ability_name = capitalizeString(fullData.abilities[0].ability.name);
+      const ability_name = capitalizeString(
+        fullData[0].abilities[0].ability.name
+      );
       const type_array = [capitalizeString(types.type1), type2];
       typeEffectObj = TypeEffectiveness(type_array, ability_name);
       resistances2 = typeEffectObj.filter((e) => e.effectiveness == 0.5);
@@ -159,14 +167,14 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           <View style={styles.row}>
             <InfoTopic
               title={"Height"}
-              textValue={`${fullData.height / 10} m`}
+              textValue={`${fullData[0].height / 10} m`}
               icon={"ruler"}
               side={"left"}
             />
 
             <InfoTopic
               title={"Growth Rate"}
-              textValue={`${capitalizeString(fullData.growth_rate.name)}`}
+              textValue={growthRate}
               icon={"chart-line"}
               side={"right"}
               tip={
@@ -177,7 +185,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           <View style={styles.row}>
             <InfoTopic
               title={"Weight"}
-              textValue={`${fullData.weight / 10} kg`}
+              textValue={`${fullData[0].weight / 10} kg`}
               icon={"scale-bathroom"}
               side={"left"}
             />
@@ -201,7 +209,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 icon={"gender-male-female"}
                 side={"left"}
               />
-              <PokeGenderBar genders={fullData.gender_rate} />
+              <PokeGenderBar genders={genderRate} />
             </View>
           </View>
           <View style={styles.row}>

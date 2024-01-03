@@ -20,6 +20,11 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemonButton from "../utils/FavoritePokemonButton";
+// import {
+//   BannerAd,
+//   BannerAdSize,
+//   TestIds,
+// } from "react-native-google-mobile-ads";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -43,6 +48,7 @@ export default function Pokemon() {
   // API calls
 
   const getPokeStats = async () => {
+    setLoaded(false);
     url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.id}`;
     let stat_list = [];
 
@@ -79,7 +85,8 @@ export default function Pokemon() {
 
     let json_id = await getDesc(json.id);
 
-    setFullData({ ...json, ...json_id });
+    // setFullData({ ...json, ...json_id });
+    setFullData([json, json_id]);
 
     setLoaded(true);
   };
@@ -89,12 +96,16 @@ export default function Pokemon() {
 
     const json_id = await API_CALL(url_id);
 
-    let arr = json_id.flavor_text_entries.filter(
-      (elem) => elem.language.name == "en"
-    ); // gets most recent description
+    if (json_id != undefined) {
+      let arr = json_id.flavor_text_entries.filter(
+        (elem) => elem.language.name == "en"
+      ); // gets most recent description
 
-    let description = arr.pop();
-    setDesc(description.flavor_text.replaceAll("\n", " "));
+      let description = arr.pop();
+      setDesc(description.flavor_text.replaceAll("\n", " "));
+    } else {
+      setDesc("");
+    }
 
     return json_id;
   };
@@ -130,97 +141,101 @@ export default function Pokemon() {
         id={pokemonInfo.id}
         pokeName={pokemonInfo.pokeName}
       />
-      <ScrollView style={styles.body} ref={scrollRef}>
-        <View style={styles.header}>
-          <LinearGradient
-            colors={[
-              mainColor,
-              mainColor,
-              mainColor,
-              "transparent",
-              "transparent",
-            ]}
-            style={{
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              source={{
-                uri: sprite_to_use,
-              }}
-              style={styles.images}
-            />
-          </LinearGradient>
-          <View style={styles.headerText}>
-            <View style={styles.headerLeft}>
-              <Text style={{ color: "grey", fontSize: 14 }}>#{id_text}</Text>
-              <Text
-                numberOfLines={1}
+      {loaded ? (
+        <>
+          <ScrollView style={styles.body} ref={scrollRef}>
+            <View style={styles.header}>
+              <LinearGradient
+                colors={[
+                  mainColor,
+                  mainColor,
+                  mainColor,
+                  "transparent",
+                  "transparent",
+                ]}
                 style={{
-                  fontSize: 24,
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  color: activeColors.textColor,
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                {pokemonInfo.pokeName}
-              </Text>
-              <Text
-                style={{
-                  textTransform: "capitalize",
-                  fontSize: 20,
-                  color: mainColor ? mainColor : "black",
-                }}
-              >
-                {types.type1} {types.type2 ? `/ ${types.type2}` : null}
-              </Text>
+                <Image
+                  source={{
+                    uri: sprite_to_use,
+                  }}
+                  style={styles.images}
+                />
+              </LinearGradient>
+              <View style={styles.headerText}>
+                <View style={styles.headerLeft}>
+                  <Text style={{ color: "grey", fontSize: 14 }}>
+                    #{id_text}
+                  </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      fontSize: 24,
+                      textTransform: "capitalize",
+                      fontWeight: "bold",
+                      color: activeColors.textColor,
+                    }}
+                  >
+                    {capitalizeString(pokemonInfo.pokeName)}
+                  </Text>
+                  <Text
+                    style={{
+                      textTransform: "capitalize",
+                      fontSize: 20,
+                      color: mainColor ? mainColor : "black",
+                    }}
+                  >
+                    {types.type1} {types.type2 ? `/ ${types.type2}` : null}
+                  </Text>
+                </View>
+                <CustomDivider direction={"vertical"} />
+                <View style={styles.headerRight}>
+                  <Text
+                    style={{
+                      textTransform: "capitalize",
+                      fontSize: 16,
+                      color: activeColors.textColor,
+                    }}
+                  >
+                    {desc}
+                  </Text>
+                </View>
+              </View>
             </View>
-            <CustomDivider direction={"vertical"} />
-            <View style={styles.headerRight}>
-              <Text
-                style={{
-                  textTransform: "capitalize",
-                  fontSize: 16,
-                  color: activeColors.textColor,
-                }}
-              >
-                {desc}
-              </Text>
+            <View
+              style={styles.pokeDetails}
+              contentContainerStyle={{ paddingBottom: 1 }}
+            >
+              <View style={styles.statBox}>
+                <CustomDivider direction={"horizontal"} />
+                <PokeStats stats={stats} typeColor={mainColor} />
+                <PokeBonusInfo
+                  fullData={fullData}
+                  typeColor={mainColor}
+                  types={types}
+                />
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 32,
+                    fontWeight: "bold",
+                    color: activeColors.textColor,
+                  }}
+                >
+                  Shiny Artwork
+                </Text>
+                <Image source={{ uri: shiny_sprite }} style={styles.images} />
+              </View>
             </View>
-          </View>
-        </View>
-        {loaded ? (
-          <View
-            style={styles.pokeDetails}
-            contentContainerStyle={{ paddingBottom: 1 }}
-          >
-            <View style={styles.statBox}>
-              <CustomDivider direction={"horizontal"} />
-              <PokeStats stats={stats} typeColor={mainColor} />
-              <PokeBonusInfo
-                fullData={fullData}
-                typeColor={mainColor}
-                types={types}
-              />
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 32,
-                  fontWeight: "bold",
-                  color: activeColors.textColor,
-                }}
-              >
-                Shiny Artwork
-              </Text>
-              <Image source={{ uri: shiny_sprite }} style={styles.images} />
-            </View>
-          </View>
-        ) : (
-          <LoadingView />
-        )}
-      </ScrollView>
+          </ScrollView>
+        </>
+      ) : (
+        <LoadingView />
+      )}
     </SafeAreaView>
   );
 }
@@ -232,6 +247,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     alignItems: "center",
@@ -241,12 +258,15 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-around",
     paddingTop: 10,
+    paddingHorizontal: 10,
   },
   headerRight: {
-    width: "50%",
+    maxWidth: "50%",
+    paddingLeft: 10,
   },
   headerLeft: {
     justifyContent: "center",
+    maxWidth: "50%",
   },
   images: {
     height: 300,
