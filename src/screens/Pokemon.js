@@ -26,6 +26,8 @@ import FavoritePokemonButton from "../utils/FavoritePokemonButton";
 //   TestIds,
 // } from "react-native-google-mobile-ads";
 
+// const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
@@ -232,6 +234,10 @@ export default function Pokemon() {
               </View>
             </View>
           </ScrollView>
+          {/* <BannerAd
+            unitId={adUnitId}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          /> */}
         </>
       ) : (
         <LoadingView />
