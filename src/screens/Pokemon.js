@@ -26,7 +26,9 @@ import FavoritePokemonButton from "../utils/FavoritePokemonButton";
 //   TestIds,
 // } from "react-native-google-mobile-ads";
 
-// const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+// const adUnitId = __DEV__
+//   ? TestIds.ADAPTIVE_BANNER
+//   : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;

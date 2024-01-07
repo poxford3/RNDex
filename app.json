@@ -8,7 +8,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/rndex_logo.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#15202b"
     },
@@ -25,7 +25,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon-android-foreground.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.poxford3.rndex"
@@ -44,6 +44,6 @@
     }
   },
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-8906328926712411~6944097544"
+    "ios_app_id": "ca-app-pub-8906328926712411~3731287442"
   }
 }

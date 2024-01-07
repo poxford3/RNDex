@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Modal,
 } from "react-native";
+import LocationModal from "../utils/LocationModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
@@ -33,7 +34,6 @@ export default function Locations() {
   const [games, setGames] = useState([]);
   const [gameFilter, setGameFilter] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [selectAll, setSelectAll] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
@@ -154,115 +154,6 @@ export default function Locations() {
     }
   };
 
-  const ModalItem = () => {
-    return (
-      <Modal
-        // animationType={"slide"}
-        visible={visible}
-        transparent={true}
-        onRequestClose={hideModal}
-        style={styles.modalStyle}
-      >
-        <TouchableOpacity style={styles.modalContainer} onPress={hideModal}>
-          <View
-            style={[
-              styles.modalBox,
-              {
-                backgroundColor: activeColors.modal,
-                borderColor: activeColors.textColor,
-              },
-            ]}
-          >
-            <View style={{ flexShrink: 1, width: 200, padding: 5 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text
-                  style={{
-                    color: activeColors.textColor,
-                    fontWeight: "bold",
-                    fontSize: 18,
-                  }}
-                >
-                  Game Filter
-                </Text>
-                <MaterialCommunityIcons
-                  name={selectAll ? "circle" : "circle-outline"}
-                  size={24}
-                  color={activeColors.textColor}
-                  onPress={() => {
-                    setSelectAll(!selectAll);
-                    let newGameSelected = [...games];
-                    for (let gameItem of newGameSelected) {
-                      gameItem.selected = !selectAll;
-                    }
-                    setGames(newGameSelected);
-                  }}
-                />
-              </View>
-              <CustomDivider direction={"horizontal"} />
-              <FlatList
-                data={games}
-                scrollEnabled={false}
-                renderItem={({ item }) => {
-                  return <UniqueGameItem gameObj={item} />;
-                }}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                hideModal();
-                setGameFilter(games.filter((e) => e.selected));
-              }}
-            >
-              <Text
-                style={{
-                  color: activeColors.textColor,
-                  textDecorationLine: "underline",
-                  textAlign: "center",
-                }}
-              >
-                Apply
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  };
-
-  const UniqueGameItem = ({ gameObj }) => {
-    return (
-      <TouchableOpacity
-        style={{
-          padding: 10,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-        onPress={() => {
-          let newGameSelected = [...games];
-          for (let gameItem of newGameSelected) {
-            if (gameItem.game == gameObj.game) {
-              gameItem.selected = gameItem.selected == true ? false : true;
-              break;
-            }
-          }
-          setGames(newGameSelected);
-        }}
-      >
-        <Text style={{ color: activeColors.textColor }}>{gameObj.game}</Text>
-        <MaterialCommunityIcons
-          name={gameObj.selected == true ? "circle" : "circle-outline"}
-          size={20}
-          color={activeColors.textColor}
-        />
-      </TouchableOpacity>
-    );
-  };
-
   useEffect(() => {
     getLocations(pokemonInfo.id);
   }, []);
@@ -276,7 +167,14 @@ export default function Locations() {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <Header />
-      <ModalItem />
+      <LocationModal
+        showModal={showModal}
+        hideModal={hideModal}
+        visible={visible}
+        games={games}
+        setGames={setGames}
+        setGameFilter={setGameFilter}
+      />
       <View style={styles.list}>
         <Body />
       </View>
