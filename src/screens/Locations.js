@@ -12,14 +12,12 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Modal,
 } from "react-native";
 import LocationModal from "../utils/LocationModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
-import CustomDivider from "../utils/CustomDivider";
 import MissingInfo from "../utils/MissingInfo";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
@@ -127,6 +125,7 @@ export default function Locations() {
       });
     });
     let locationShown = locFilter.length > 0 ? locFilter : locations;
+    // console.log("loc length", locationShown.length);
     if (loaded) {
       if (locations.length > 0) {
         return (
@@ -184,42 +183,6 @@ export default function Locations() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalBox: {
-    width: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    margin: 20,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalStyle: {
-    margin: 20,
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

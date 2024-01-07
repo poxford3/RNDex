@@ -184,10 +184,10 @@ export function PokemonBottomTabNav() {
         ),
         tabBarIcon: ({ color, size, focused }) => {
           const icons = {
-            Pokemon: "information",
-            Evolutions: "duck",
-            Locations: "map",
-            Moves: "abacus",
+            Pokemon: "pokeball",
+            Evolutions: "graph",
+            Locations: "map-marker-minus",
+            Moves: "book-edit",
           };
           return (
             <MaterialCommunityIcons
