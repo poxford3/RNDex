@@ -28,6 +28,7 @@
     "react-native-csv": "^0.2.0",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-elements": "^3.4.3",
+    "react-native-google-mobile-ads": "^12.8.0",
     "react-native-ionicons": "^4.6.5",
     "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.10.6",
@@ -37,6 +38,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
+    "react-native-webview": "^13.6.4",
     "victory-native": "^36.6.11"
   },
   "devDependencies": {
