@@ -1,4 +1,4 @@
-export default themeColors = {
+const themeColors = {
   light: {
     textColor: "black",
     background: "white",
@@ -31,4 +31,5 @@ export default themeColors = {
   },
 };
 
+export default themeColors;
 // https://www.color-hex.com/color-palette/99156

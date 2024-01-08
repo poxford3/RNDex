@@ -1,4 +1,4 @@
-export default images = {
+const images = {
   bug: require("./types/bug.png"),
   dark: require("./types/dark.png"),
   dragon: require("./types/dragon.png"),
@@ -21,3 +21,5 @@ export default images = {
   special: require("./types/special.png"),
   status: require("./types/status.png"),
 };
+
+export default images;

@@ -1,4 +1,4 @@
-export default API_CALL = async (url) => {
+const API_CALL = async (url) => {
   try {
     const response = await fetch(url);
     const status = response.status;
@@ -9,3 +9,5 @@ export default API_CALL = async (url) => {
     console.log("issue", err);
   }
 };
+
+export default API_CALL;
