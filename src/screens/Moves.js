@@ -64,6 +64,7 @@ export default function Moves({ navigation }) {
       };
 
       const task = getMoveDetails(e.move.url).then((detail) => {
+        let accuracy, power;
         detail[0] == null ? (accuracy = "-") : (accuracy = detail[0]);
         detail[1] == null ? (power = "-") : (power = detail[1]);
         move_obj.accuracy = accuracy;
@@ -124,6 +125,7 @@ export default function Moves({ navigation }) {
   const getMoveDetails = async (url) => {
     const json = await API_CALL(url);
 
+    let mach_name;
     json.machines.length !== 0
       ? (mach_name = await getTMName(json.machines[0].machine.url))
       : (mach_name = null);
@@ -155,8 +157,8 @@ export default function Moves({ navigation }) {
     return mach_name;
   };
 
-  filteredList = moveList.filter((x) => x.method == methSelect);
-  filteredListLength = filteredList.length;
+  const filteredList = moveList.filter((x) => x.method == methSelect);
+  const filteredListLength = filteredList.length;
 
   const Body = () => {
     if (filteredList.length > 0) {

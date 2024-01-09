@@ -24,7 +24,7 @@ export default function Info({ navigation }) {
 
   // const [_screenHeight, setScreenHeight] = useState(0);
 
-  boxTexts = [
+  const boxTexts = [
     {
       header: "Natures",
       body: "Tap here to view a chart of how each nature affects your Pokémon!",

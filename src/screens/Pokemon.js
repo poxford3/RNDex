@@ -53,7 +53,7 @@ export default function Pokemon() {
 
   const getPokeStats = async () => {
     setLoaded(false);
-    url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.id}`;
+    const url = `https://pokeapi.co/api/v2/pokemon/${pokemonInfo.id}`;
     let stat_list = [];
 
     const json = await API_CALL(url);
@@ -146,104 +146,92 @@ export default function Pokemon() {
         pokeName={pokemonInfo.pokeName}
       />
       {loaded ? (
-        <>
-          <ScrollView style={styles.body} ref={scrollRef}>
-            <View style={styles.header}>
-              <LinearGradient
-                colors={[
-                  mainColor,
-                  mainColor,
-                  mainColor,
-                  "transparent",
-                  "transparent",
-                ]}
-                style={{
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  source={{
-                    uri: sprite_to_use,
-                  }}
-                  style={styles.images}
-                />
-              </LinearGradient>
-              <View style={styles.headerText}>
-                <View style={styles.headerLeft}>
-                  <Text style={{ color: "grey", fontSize: 14 }}>
-                    #{id_text}
-                  </Text>
-                  <Text
-                    numberOfLines={1}
-                    style={{
-                      fontSize: 24,
-                      textTransform: "capitalize",
-                      fontWeight: "bold",
-                      color: activeColors.textColor,
-                    }}
-                  >
-                    {capitalizeString(pokemonInfo.pokeName)}
-                  </Text>
-                  <Text
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 20,
-                      color: mainColor ? mainColor : "black",
-                    }}
-                  >
-                    {types.type1} {types.type2 ? `/ ${types.type2}` : null}
-                  </Text>
-                </View>
-                <CustomDivider direction={"vertical"} />
-                <View style={styles.headerRight}>
-                  <Text
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 16,
-                      color: activeColors.textColor,
-                    }}
-                  >
-                    {desc}
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={styles.pokeDetails}
-              contentContainerStyle={{ paddingBottom: 1 }}
+        <ScrollView style={{ width: "100%" }} ref={scrollRef}>
+          <View style={styles.header}>
+            <LinearGradient
+              colors={[
+                mainColor,
+                mainColor,
+                mainColor,
+                "transparent",
+                "transparent",
+              ]}
+              style={{
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <View style={styles.statBox}>
-                <CustomDivider direction={"horizontal"} />
-                <PokeStats stats={stats} typeColor={mainColor} />
-                <PokeBonusInfo
-                  fullData={fullData}
-                  typeColor={mainColor}
-                  types={types}
-                />
+              <Image
+                source={{
+                  uri: sprite_to_use,
+                }}
+                style={styles.images}
+              />
+            </LinearGradient>
+            <View style={styles.headerText}>
+              <View style={styles.headerLeft}>
+                <Text style={{ color: "grey", fontSize: 14 }}>#{id_text}</Text>
                 <Text
+                  numberOfLines={1}
                   style={{
-                    textAlign: "center",
-                    fontSize: 32,
+                    fontSize: 24,
+                    textTransform: "capitalize",
                     fontWeight: "bold",
                     color: activeColors.textColor,
                   }}
                 >
-                  Shiny Artwork
+                  {capitalizeString(pokemonInfo.pokeName)}
                 </Text>
-                <Image source={{ uri: shiny_sprite }} style={styles.images} />
+                <Text
+                  style={{
+                    textTransform: "capitalize",
+                    fontSize: 20,
+                    color: mainColor ? mainColor : "black",
+                  }}
+                >
+                  {types.type1} {types.type2 ? `/ ${types.type2}` : null}
+                </Text>
+              </View>
+              <CustomDivider direction={"vertical"} />
+              <View style={styles.headerRight}>
+                <Text
+                  style={{
+                    textTransform: "capitalize",
+                    fontSize: 16,
+                    color: activeColors.textColor,
+                  }}
+                >
+                  {desc}
+                </Text>
               </View>
             </View>
-          </ScrollView>
-          {/* <BannerAd
-            unitId={adUnitId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          /> */}
-        </>
+          </View>
+          <View style={styles.statBox}>
+            <CustomDivider direction={"horizontal"} />
+            <PokeStats stats={stats} typeColor={mainColor} />
+            <PokeBonusInfo
+              fullData={fullData}
+              typeColor={mainColor}
+              types={types}
+            />
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 32,
+                fontWeight: "bold",
+                color: activeColors.textColor,
+              }}
+            >
+              Shiny Artwork
+            </Text>
+            <Image source={{ uri: shiny_sprite }} style={styles.images} />
+          </View>
+        </ScrollView>
       ) : (
         <LoadingView />
       )}
+      {/* <BannerAd /> */}
     </SafeAreaView>
   );
 }

@@ -19,6 +19,7 @@ import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
 import MissingInfo from "../utils/MissingInfo";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";

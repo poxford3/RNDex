@@ -88,7 +88,7 @@ export default function Pokedex({ navigation }) {
 
   // search bar tracking
   const [searchText, setSearchText] = useState();
-  searchFilteredData = searchText
+  const searchFilteredData = searchText
     ? pokeList.filter((x) =>
         x.pokeName.toLowerCase().includes(searchText.toLowerCase())
       )
