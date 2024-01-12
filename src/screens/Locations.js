@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    width: "100%",
   },
   locationBox: {
     minHeight: 150,
@@ -217,8 +218,8 @@ const styles = StyleSheet.create({
   },
   locRight: {
     width: "50%",
-    paddingLeft: 10,
-    alignItems: "center",
+    padding: 10,
+    alignItems: "flex-end",
     justifyContent: "center",
   },
   locText: {

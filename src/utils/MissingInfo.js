@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function MissingInfo({ id, str }) {
