@@ -11,14 +11,14 @@ import {
   Dimensions,
   Button,
 } from "react-native";
-import {
-  VictoryChart,
-  VictoryGroup,
-  VictoryBar,
-  VictoryPie,
-  VictoryLabel,
-  VictoryAxis,
-} from "victory-native";
+// import {
+//   VictoryChart,
+//   VictoryGroup,
+//   VictoryBar,
+//   VictoryPie,
+//   VictoryLabel,
+//   VictoryAxis,
+// } from "victory-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 // import { Tooltip, Provider } from "react-native-paper";
@@ -118,77 +118,77 @@ export default function TestView() {
     },
   ];
 
-  const ChartTest = () => {
-    return (
-      <VictoryChart>
-        <VictoryGroup>
-          <VictoryBar
-            data={data}
-            style={{
-              data: { fill: "blue", stroke: "black", strokeWidth: 2 },
-              labels: { fill: "white" },
-            }}
-          />
-        </VictoryGroup>
-      </VictoryChart>
-    );
-  };
+  // const ChartTest = () => {
+  //   return (
+  //     <VictoryChart>
+  //       <VictoryGroup>
+  //         <VictoryBar
+  //           data={data}
+  //           style={{
+  //             data: { fill: "blue", stroke: "black", strokeWidth: 2 },
+  //             labels: { fill: "white" },
+  //           }}
+  //         />
+  //       </VictoryGroup>
+  //     </VictoryChart>
+  //   );
+  // };
 
-  const ChartTest2 = () => {
-    return (
-      <VictoryChart
-        domainPadding={10}
-        padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
-      >
-        <VictoryLabel
-          labelPlacement="parallel"
-          label="Center me"
-          style={{
-            fill: "white",
-          }}
-        />
-        <VictoryAxis
-          dependentAxis
-          label={"(Max 255)"}
-          orientation={"bottom"}
-          domain={[0, 255]}
-          style={{
-            axisLabel: {
-              fill: "white",
-            },
-            tickLabels: {
-              fill: "white",
-            },
-            axisLabel: {
-              marginTop: 5,
-            },
-          }}
-        />
-        <VictoryAxis
-          independentAxis
-          orientation={"left"}
-          style={{
-            tickLabels: {
-              fill: "white",
-            },
-          }}
-        />
-        <VictoryBar
-          data={data}
-          // domain={{ y: [0, 255] }}
-          horizontal={true}
-          // width={{}} // use this !!
-          labels={({ datum }) => datum.y}
-          alignment="middle"
-          style={{
-            data: {
-              fill: "blue",
-            },
-          }}
-        />
-      </VictoryChart>
-    );
-  };
+  // const ChartTest2 = () => {
+  //   return (
+  //     <VictoryChart
+  //       domainPadding={10}
+  //       padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
+  //     >
+  //       <VictoryLabel
+  //         labelPlacement="parallel"
+  //         label="Center me"
+  //         style={{
+  //           fill: "white",
+  //         }}
+  //       />
+  //       <VictoryAxis
+  //         dependentAxis
+  //         label={"(Max 255)"}
+  //         orientation={"bottom"}
+  //         domain={[0, 255]}
+  //         style={{
+  //           axisLabel: {
+  //             fill: "white",
+  //           },
+  //           tickLabels: {
+  //             fill: "white",
+  //           },
+  //           axisLabel: {
+  //             marginTop: 5,
+  //           },
+  //         }}
+  //       />
+  //       <VictoryAxis
+  //         independentAxis
+  //         orientation={"left"}
+  //         style={{
+  //           tickLabels: {
+  //             fill: "white",
+  //           },
+  //         }}
+  //       />
+  //       <VictoryBar
+  //         data={data}
+  //         // domain={{ y: [0, 255] }}
+  //         horizontal={true}
+  //         // width={{}} // use this !!
+  //         labels={({ datum }) => datum.y}
+  //         alignment="middle"
+  //         style={{
+  //           data: {
+  //             fill: "blue",
+  //           },
+  //         }}
+  //       />
+  //     </VictoryChart>
+  //   );
+  // };
 
   // const GradientTest = () => {
   //   return (
@@ -296,34 +296,34 @@ export default function TestView() {
   //   // console.log("dropdownvalues", dropdownValues);
   // }, [value]);
 
-  const PieChartTest = () => {
-    const dispText = `Gender Rates\nFemale: 65%\nMale: 35%`;
-    const dispText1 = `Female: 65%\nMale 35%`;
-    return (
-      <View>
-        {/* <VictoryPie data={data} /> */}
-        {/* <Text style={{ textAlign: "center" }}>Gender Rates</Text> */}
-        <Svg width={300} height={300}>
-          <VictoryPie
-            standalone={false}
-            data={genders}
-            width={300}
-            height={300}
-            innerRadius={60}
-            colorScale={["blue", "pink"]}
-            labels={({}) => null}
-          />
-          <VictoryLabel
-            text={dispText}
-            textAnchor={"middle"}
-            style={{ fontSize: 16 }}
-            x={150}
-            y={150}
-          />
-        </Svg>
-      </View>
-    );
-  };
+  // const PieChartTest = () => {
+  //   const dispText = `Gender Rates\nFemale: 65%\nMale: 35%`;
+  //   const dispText1 = `Female: 65%\nMale 35%`;
+  //   return (
+  //     <View>
+  //       {/* <VictoryPie data={data} /> */}
+  //       {/* <Text style={{ textAlign: "center" }}>Gender Rates</Text> */}
+  //       <Svg width={300} height={300}>
+  //         <VictoryPie
+  //           standalone={false}
+  //           data={genders}
+  //           width={300}
+  //           height={300}
+  //           innerRadius={60}
+  //           colorScale={["blue", "pink"]}
+  //           labels={({}) => null}
+  //         />
+  //         <VictoryLabel
+  //           text={dispText}
+  //           textAnchor={"middle"}
+  //           style={{ fontSize: 16 }}
+  //           x={150}
+  //           y={150}
+  //         />
+  //       </Svg>
+  //     </View>
+  //   );
+  // };
 
   const DataViewTest = () => {
     return (

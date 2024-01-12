@@ -64,6 +64,7 @@ export default function Moves({ navigation }) {
       };
 
       const task = getMoveDetails(e.move.url).then((detail) => {
+        let accuracy, power;
         detail[0] == null ? (accuracy = "-") : (accuracy = detail[0]);
         detail[1] == null ? (power = "-") : (power = detail[1]);
         move_obj.accuracy = accuracy;
@@ -124,6 +125,7 @@ export default function Moves({ navigation }) {
   const getMoveDetails = async (url) => {
     const json = await API_CALL(url);
 
+    let mach_name;
     json.machines.length !== 0
       ? (mach_name = await getTMName(json.machines[0].machine.url))
       : (mach_name = null);
@@ -155,22 +157,28 @@ export default function Moves({ navigation }) {
     return mach_name;
   };
 
-  filteredList = moveList.filter((x) => x.method == methSelect);
-  filteredListLength = filteredList.length;
+  const filteredList = moveList.filter((x) => x.method == methSelect);
+  // const filteredListLength = filteredList.length;
 
   const Body = () => {
     if (filteredList.length > 0) {
       return (
-        <FlatList
-          data={filteredList}
-          initialNumToRender={20}
-          renderItem={({ item }) => {
-            return (
-              <Move item={item} navigation={navigation} mainColor={mainColor} />
-            );
-          }}
-          maxToRenderPerBatch={10}
-        />
+        <View style={{ width: "100%" }}>
+          <FlatList
+            data={filteredList}
+            initialNumToRender={20}
+            renderItem={({ item }) => {
+              return (
+                <Move
+                  item={item}
+                  navigation={navigation}
+                  mainColor={mainColor}
+                />
+              );
+            }}
+            maxToRenderPerBatch={10}
+          />
+        </View>
       );
     } else {
       return (
@@ -195,6 +203,7 @@ export default function Moves({ navigation }) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       {loaded ? (
+        // <View style={styles.body}>
         <>
           <View style={styles.selector}>
             <SegmentedButtons
@@ -206,6 +215,7 @@ export default function Moves({ navigation }) {
             />
           </View>
           <Body />
+          {/* </View> */}
         </>
       ) : (
         <LoadingView />
@@ -215,39 +225,19 @@ export default function Moves({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     padding: 10,
-  },
-  moveList: {
-    alignItems: "center",
-  },
-  nameBox: {
-    alignItems: "flex-start",
-    width: "58%",
-    marginLeft: 10,
-  },
-
-  pokemonImg: {
-    height: 90,
-    width: 90,
-    marginHorizontal: 10,
   },
   selector: {
     paddingVertical: 10,
     flexDirection: "row",
     width: "85%",
     justifyContent: "center",
-  },
-  selectorBox: {
-    height: 40,
-    width: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 20,
-    marginHorizontal: 5,
   },
 });

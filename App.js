@@ -6,6 +6,7 @@ import { storeData, getData } from "./src/config/asyncStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
 import { SpriteContext } from "./src/contexts/SpriteContext";
+// import "expo-dev-client"; // <- need to uncomment when ready to dev
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();

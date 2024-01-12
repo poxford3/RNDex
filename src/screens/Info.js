@@ -13,6 +13,7 @@ import {
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CustomDivider from "../utils/CustomDivider";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const screenWidth = Dimensions.get("window").width;
 // const screenHeight = Dimensions.get("window").height;
@@ -23,7 +24,7 @@ export default function Info({ navigation }) {
 
   // const [_screenHeight, setScreenHeight] = useState(0);
 
-  boxTexts = [
+  const boxTexts = [
     {
       header: "Natures",
       body: "Tap here to view a chart of how each nature affects your Pokémon!",
@@ -157,9 +158,21 @@ export default function Info({ navigation }) {
             PokeAPI
           </Text>
           <CustomDivider direction={"horizontal"} />
-          <Text style={{ fontSize: 14, color: activeColors.textColor }}>
-            RNDex is a nice app
-          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL("https://github.com/poxford3");
+            }}
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
+            <MaterialCommunityIcons
+              name="github"
+              color={activeColors.textColor}
+              size={16}
+            />
+            <Text style={{ fontSize: 14, color: activeColors.textColor }}>
+              RNDex is a nice app
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

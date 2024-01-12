@@ -12,14 +12,14 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Modal,
 } from "react-native";
+import LocationModal from "../utils/LocationModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import API_CALL from "../hooks/API_CALL";
 import capitalizeString from "../hooks/capitalizeString";
 import LoadingView from "../utils/LoadingView";
-import CustomDivider from "../utils/CustomDivider";
 import MissingInfo from "../utils/MissingInfo";
+import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";
@@ -33,7 +33,6 @@ export default function Locations() {
   const [games, setGames] = useState([]);
   const [gameFilter, setGameFilter] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [selectAll, setSelectAll] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
@@ -127,6 +126,7 @@ export default function Locations() {
       });
     });
     let locationShown = locFilter.length > 0 ? locFilter : locations;
+    // console.log("loc length", locationShown.length);
     if (loaded) {
       if (locations.length > 0) {
         return (
@@ -154,115 +154,6 @@ export default function Locations() {
     }
   };
 
-  const ModalItem = () => {
-    return (
-      <Modal
-        // animationType={"slide"}
-        visible={visible}
-        transparent={true}
-        onRequestClose={hideModal}
-        style={styles.modalStyle}
-      >
-        <TouchableOpacity style={styles.modalContainer} onPress={hideModal}>
-          <View
-            style={[
-              styles.modalBox,
-              {
-                backgroundColor: activeColors.modal,
-                borderColor: activeColors.textColor,
-              },
-            ]}
-          >
-            <View style={{ flexShrink: 1, width: 200, padding: 5 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text
-                  style={{
-                    color: activeColors.textColor,
-                    fontWeight: "bold",
-                    fontSize: 18,
-                  }}
-                >
-                  Game Filter
-                </Text>
-                <MaterialCommunityIcons
-                  name={selectAll ? "circle" : "circle-outline"}
-                  size={24}
-                  color={activeColors.textColor}
-                  onPress={() => {
-                    setSelectAll(!selectAll);
-                    let newGameSelected = [...games];
-                    for (let gameItem of newGameSelected) {
-                      gameItem.selected = !selectAll;
-                    }
-                    setGames(newGameSelected);
-                  }}
-                />
-              </View>
-              <CustomDivider direction={"horizontal"} />
-              <FlatList
-                data={games}
-                scrollEnabled={false}
-                renderItem={({ item }) => {
-                  return <UniqueGameItem gameObj={item} />;
-                }}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                hideModal();
-                setGameFilter(games.filter((e) => e.selected));
-              }}
-            >
-              <Text
-                style={{
-                  color: activeColors.textColor,
-                  textDecorationLine: "underline",
-                  textAlign: "center",
-                }}
-              >
-                Apply
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  };
-
-  const UniqueGameItem = ({ gameObj }) => {
-    return (
-      <TouchableOpacity
-        style={{
-          padding: 10,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-        onPress={() => {
-          let newGameSelected = [...games];
-          for (let gameItem of newGameSelected) {
-            if (gameItem.game == gameObj.game) {
-              gameItem.selected = gameItem.selected == true ? false : true;
-              break;
-            }
-          }
-          setGames(newGameSelected);
-        }}
-      >
-        <Text style={{ color: activeColors.textColor }}>{gameObj.game}</Text>
-        <MaterialCommunityIcons
-          name={gameObj.selected == true ? "circle" : "circle-outline"}
-          size={20}
-          color={activeColors.textColor}
-        />
-      </TouchableOpacity>
-    );
-  };
-
   useEffect(() => {
     getLocations(pokemonInfo.id);
   }, []);
@@ -276,7 +167,14 @@ export default function Locations() {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       <Header />
-      <ModalItem />
+      <LocationModal
+        showModal={showModal}
+        hideModal={hideModal}
+        visible={visible}
+        games={games}
+        setGames={setGames}
+        setGameFilter={setGameFilter}
+      />
       <View style={styles.list}>
         <Body />
       </View>
@@ -286,42 +184,6 @@ export default function Locations() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalBox: {
-    width: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    margin: 20,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalStyle: {
-    margin: 20,
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -342,6 +204,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    width: "100%",
   },
   locationBox: {
     minHeight: 150,
@@ -355,8 +218,8 @@ const styles = StyleSheet.create({
   },
   locRight: {
     width: "50%",
-    paddingLeft: 10,
-    alignItems: "center",
+    padding: 10,
+    alignItems: "flex-end",
     justifyContent: "center",
   },
   locText: {

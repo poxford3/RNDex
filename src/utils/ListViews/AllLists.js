@@ -79,7 +79,7 @@ export default function AllLists({ route, navigation }) {
 
   // search bar tracking
   const [searchText, setSearchText] = useState();
-  searchFilteredData = searchText
+  const searchFilteredData = searchText
     ? apiResponse.filter((x) =>
         x.name.toLowerCase().includes(searchText.toLowerCase())
       )

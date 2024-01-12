@@ -97,10 +97,9 @@ export default function ItemView({ route }) {
             fontSize: 14,
           }}
         >
-          Cost:{" "}
           {itemDetails.cost == 0
             ? "This item cannot be purchased"
-            : itemDetails.cost.toLocaleString()}
+            : `Cost: ${itemDetails.cost.toLocaleString()}`}
         </Text>
         <View style={{ alignItems: "flex-start", width: "100%" }}>
           <DetailItem header={"Category"} info={[itemDetails.category.name]} />

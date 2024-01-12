@@ -17,7 +17,6 @@ import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import CustomDivider from "../utils/CustomDivider";
 import MissingFavorites from "../utils/MissingFavorites";
 import LoadingView from "../utils/LoadingView";
-import capitalizeString from "../hooks/capitalizeString";
 
 export default function FavoritePokemon() {
   const { theme } = useContext(ThemeContext);

@@ -1,4 +1,4 @@
-export default box_art = {
+const box_art = {
   red: require("./box_art/red.png"),
   blue: require("./box_art/blue.png"),
   yellow: require("./box_art/yellow.png"),
@@ -33,3 +33,5 @@ export default box_art = {
   scarlet: require("./box_art/scarlet.png"),
   violet: require("./box_art/violet.png"),
 };
+
+export default box_art;

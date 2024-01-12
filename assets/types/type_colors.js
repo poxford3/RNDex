@@ -1,4 +1,4 @@
-export default type_colors = {
+const type_colors = {
   bug: "#A8B820",
   dark: "#705848",
   dragon: "#7038F8",
@@ -19,4 +19,5 @@ export default type_colors = {
   water: "#6890F0",
 };
 
+export default type_colors;
 // https://bulbapedia.bulbagarden.net/wiki/Category:Type_color_templates

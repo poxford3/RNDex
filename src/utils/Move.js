@@ -65,6 +65,9 @@ const styles = StyleSheet.create({
   miniImg: {
     marginRight: 5,
     marginLeft: 2,
+    height: 15,
+    width: 40,
+    resizeMode: "contain",
   },
   miniImgContainer: {
     flexDirection: "row",

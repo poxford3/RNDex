@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  ScrollView,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -45,7 +46,7 @@ export default function Pokedex({ navigation }) {
     json.pokemon_species.forEach((e) => {
       tempPokeList.push({
         pokeName: e.name,
-        pokeID: e.url.split("/")[6],
+        pokeID: parseInt(e.url.split("/")[6]),
       });
     });
 
@@ -88,7 +89,7 @@ export default function Pokedex({ navigation }) {
 
   // search bar tracking
   const [searchText, setSearchText] = useState();
-  searchFilteredData = searchText
+  const searchFilteredData = searchText
     ? pokeList.filter((x) =>
         x.pokeName.toLowerCase().includes(searchText.toLowerCase())
       )
@@ -98,25 +99,54 @@ export default function Pokedex({ navigation }) {
     return (
       <>
         {searchFilteredData.length > 0 ? (
-          <FlatList
-            data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
-            numColumns={2}
-            maxToRenderPerBatch={10}
-            keyExtractor={(item) => item.pokeID}
-            initialNumToRender={30}
-            renderItem={({ item }) => (
-              <PokemonItem
-                pokeName={item.pokeName}
-                id={item.pokeID}
-                width_percent={50}
-                gen={genSelected}
-              />
-            )}
-          />
+          // <FlatList
+          //   data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
+          //   numColumns={2}
+          //   maxToRenderPerBatch={10}
+          //   keyExtractor={(item) => item.pokeID}
+          //   initialNumToRender={30}
+          //   renderItem={({ item }) => (
+          //     <PokemonItem
+          //       pokeName={item.pokeName}
+          //       id={item.pokeID}
+          //       width_percent={50}
+          //       gen={genSelected}
+          //     />
+          //   )}
+          // />
+          <ScrollView>
+            <PokemonList />
+          </ScrollView>
         ) : (
           <DirectSearch pokemon={searchText} />
         )}
       </>
+    );
+  };
+
+  const PokemonList = () => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {searchFilteredData
+          .sort((a, b) => a.pokeID - b.pokeID)
+          .map((pokemon, idx) => {
+            return (
+              <PokemonItem
+                pokeName={pokemon.pokeName}
+                id={pokemon.pokeID}
+                width_percent={50}
+                gen={genSelected}
+                key={idx}
+              />
+            );
+          })}
+      </View>
     );
   };
 
