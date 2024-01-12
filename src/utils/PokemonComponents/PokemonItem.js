@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   },
   outerBox: {
     minWidth: 180,
+    maxWidth: 270,
     height: 180,
     padding: 0,
     alignItems: "center",

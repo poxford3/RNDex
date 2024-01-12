@@ -320,13 +320,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             <View style={styles.row}>
               <View style={{ flexDirection: "column" }}>
                 <InfoTopic title={"Immunities"} icon={null} side={"left"} />
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row",
-                    marginTop: 10,
-                  }}
-                >
+                <View style={{ alignItems: "center", flexDirection: "row" }}>
                   <View style={{ width: "15%" }}>
                     <Text
                       style={[styles.info, { color: activeColors.textColor }]}
