@@ -35,6 +35,7 @@ export default function AbilityDetails({ route }) {
 
   const [ability, setAbility] = useState(null);
   const [abilityDesc, setAbilityDesc] = useState("");
+  const [abilityEffect, setAbilityEffect] = useState("");
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
@@ -44,11 +45,28 @@ export default function AbilityDetails({ route }) {
     let url = `https://pokeapi.co/api/v2/ability/${id}/`;
     const ability_json = await API_CALL(url);
     setAbility(ability_json);
-    let ab_desc = ability_json.flavor_text_entries.filter(
-      (e) => e.language.name === "en"
-    )[0].flavor_text; // gets most recent english description
+    let ab_desc;
+    if (ability_json.flavor_text_entries.length > 0) {
+      ab_desc = ability_json.flavor_text_entries.filter(
+        (e) => e.language.name === "en"
+      )[0].flavor_text; // gets most recent english description
+    } else {
+      ab_desc =
+        "No description yet, return later to see if one has been added.";
+    }
+
+    let ab_effect;
+    if (ability_json.effect_entries.length > 0) {
+      ab_effect = ability
+        ? ability_json.effect_entries.filter((e) => e.language.name === "en")[0]
+            .short_effect
+        : null;
+    } else {
+      ab_effect = "No effect yet, return later to see if one has been added.";
+    }
 
     setAbilityDesc(ab_desc.replaceAll("\n", " "));
+    setAbilityEffect(ab_effect.replaceAll("\n", " "));
   };
 
   useEffect(() => {
@@ -173,7 +191,7 @@ export default function AbilityDetails({ route }) {
           <View style={styles.body}>
             <View style={{ width: "95%", padding: 10 }}>
               <AbilityItem header={"Description"} info={abilityDesc} />
-              <AbilityItem header={"Effect"} info={abilityShortEffect} />
+              <AbilityItem header={"Effect"} info={abilityEffect} />
               <AbilityItem
                 header={"Hidden Ability?"}
                 info={is_hidden ? "Yes" : "No"}
@@ -190,11 +208,6 @@ export default function AbilityDetails({ route }) {
       </View>
     );
   };
-
-  const abilityShortEffect = ability
-    ? ability.effect_entries.filter((e) => e.language.name === "en")[0]
-        .short_effect
-    : null;
 
   return (
     <SafeAreaView
