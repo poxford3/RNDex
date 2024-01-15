@@ -212,7 +212,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           </View>
           <View style={styles.row}>
             {resistances2.length != 0 || resistances4.length != 0 ? (
-              <View style={{ flexDirection: "column" }}>
+              <View style={styles.multiplyRow}>
                 <InfoTopic title={"Resistances"} icon={null} side={"left"} />
                 {resistances2.length != 0 ? (
                   <View style={{ alignItems: "center", flexDirection: "row" }}>
@@ -267,7 +267,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           </View>
           <View style={styles.row}>
             {weaknesses2.length != 0 || weaknesses4.length != 0 ? (
-              <View style={{ flexDirection: "column" }}>
+              <View style={styles.multiplyRow}>
                 <InfoTopic title={"Weaknesses"} icon={null} side={"left"} />
                 {weaknesses2.length != 0 ? (
                   <View style={{ alignItems: "center", flexDirection: "row" }}>
@@ -456,8 +456,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  multiplyRow: {
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "center",
+  },
   section: {
-    // width: width * 0.85,
     width: "100%",
     borderWidth: 3,
     borderRadius: 10,

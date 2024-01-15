@@ -31,24 +31,28 @@ export default function FavoritePokemon() {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  const renderPokeItem = ({ item }) => {
-    return (
-      <PokemonItem pokeName={item.pokeName} id={item.id} width_percent={50} />
-    );
-  };
-
   const Body = () => {
     if (loaded) {
       if (favPokeList.length != 0) {
         return (
-          <FlatList
-            data={sortOption}
-            numColumns={2}
-            maxToRenderPerBatch={10}
-            keyExtractor={(item) => item.id}
-            initialNumToRender={30}
-            renderItem={renderPokeItem}
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {sortOption.map((pokemon, idx) => {
+              return (
+                <PokemonItem
+                  pokeName={pokemon.pokeName}
+                  id={pokemon.id}
+                  width_percent={50}
+                  key={idx}
+                />
+              );
+            })}
+          </View>
         );
       } else {
         return <MissingFavorites />;
@@ -90,6 +94,39 @@ export default function FavoritePokemon() {
   };
 
   // menu control
+
+  const menuItems = [
+    {
+      leadingIcon: "sort-calendar-ascending",
+      title: "Date added (most recent) ",
+      id: 1,
+    },
+    {
+      leadingIcon: "sort-calendar-descending",
+      title: "Date added (least recent) ",
+      id: 2,
+    },
+    {
+      leadingIcon: "sort-numeric-ascending",
+      title: "ID (highest first) ",
+      id: 3,
+    },
+    {
+      leadingIcon: "sort-numeric-descending",
+      title: "ID (lowest first) ",
+      id: 4,
+    },
+    {
+      leadingIcon: "sort-alphabetical-ascending",
+      title: "ABC (A...Z) ",
+      id: 5,
+    },
+    {
+      leadingIcon: "sort-alphabetical-descending",
+      title: "ABC (Z...A) ",
+      id: 6,
+    },
+  ];
 
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
@@ -160,79 +197,26 @@ export default function FavoritePokemon() {
                 borderRadius: 5,
               }}
             >
-              <Menu.Item
-                leadingIcon={"sort-calendar-ascending"}
-                trailingIcon={sortNum == 1 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 1));
-                  closeMenu();
-                }}
-                title="Date added (most recent) "
-                style={{
-                  backgroundColor: activeColors.background,
-                }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
-              <Divider />
-              <Menu.Item
-                leadingIcon={"sort-calendar-descending"}
-                trailingIcon={sortNum == 2 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 2));
-                  closeMenu();
-                }}
-                title="Date added (least recent) "
-                style={{ backgroundColor: activeColors.background }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
-              <Divider />
-              <Menu.Item
-                leadingIcon={"sort-numeric-ascending"}
-                trailingIcon={sortNum == 3 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 3));
-                  closeMenu();
-                }}
-                title="ID (lowest first) "
-                style={{ backgroundColor: activeColors.background }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
-              <Divider />
-              <Menu.Item
-                leadingIcon={"sort-numeric-descending"}
-                trailingIcon={sortNum == 4 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 4));
-                  closeMenu();
-                }}
-                title="ID (highest first) "
-                style={{ backgroundColor: activeColors.background }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
-              <Divider />
-              <Menu.Item
-                leadingIcon={"sort-alphabetical-ascending"}
-                trailingIcon={sortNum == 5 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 5));
-                  closeMenu();
-                }}
-                title="ABC (A...Z) "
-                style={{ backgroundColor: activeColors.background }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
-              <Divider />
-              <Menu.Item
-                leadingIcon={"sort-alphabetical-descending"}
-                trailingIcon={sortNum == 6 ? "check" : null}
-                onPress={() => {
-                  setSortOption(handleSortOptions(favPokeList, 6));
-                  closeMenu();
-                }}
-                title="ABC (Z...A) "
-                style={{ backgroundColor: activeColors.background }}
-                titleStyle={{ color: activeColors.textColor }}
-              />
+              {menuItems.map((item, idx) => {
+                return (
+                  <View key={idx}>
+                    <Menu.Item
+                      leadingIcon={item.leadingIcon}
+                      trailingIcon={sortNum == item.id ? "check" : null}
+                      onPress={() => {
+                        setSortOption(handleSortOptions(favPokeList, item.id));
+                        closeMenu();
+                      }}
+                      title={item.title}
+                      style={{
+                        backgroundColor: activeColors.background,
+                      }}
+                      titleStyle={{ color: activeColors.textColor }}
+                    />
+                    <Divider />
+                  </View>
+                );
+              })}
             </Menu>
           </View>
           <View style={styles.headerRight}>
