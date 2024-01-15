@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   moveBox: {
     width: "100%",
-    maxWidth: "100%",
+    paddingHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",
     borderBottomColor: "grey",

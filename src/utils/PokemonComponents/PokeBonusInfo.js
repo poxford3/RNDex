@@ -27,8 +27,6 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  // console.log("fd", fullData[1]);
-
   // info:
   // height it 1/10th of a meter
   // weight is 1/10th of a kg
@@ -410,9 +408,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const StyledBody = () => {
     return (
       <View style={styles.styleBody}>
-        <View style={styles.firstSection}>
-          <InfoBody />
-        </View>
+        <InfoBody />
       </View>
     );
   };
@@ -427,23 +423,11 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  firstSection: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  infoText: {
-    fontSize: 20,
-    paddingHorizontal: 5,
-  },
-  sectional: {
-    backgroundColor: "#999999",
-    padding: 20,
-    borderRadius: 20,
-    margin: 5,
+    width: "100%",
   },
   styleBody: {
     padding: 20,
+    width: "100%",
   },
   // -- new style --
   header: {
@@ -466,9 +450,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingHorizontal: 10,
   },
-  infoItem: {
-    flexDirection: "row",
-  },
   row: {
     paddingVertical: 10,
     marginTop: 5,
@@ -476,8 +457,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   section: {
-    width: width * 0.85,
-    // width: "auto",
+    // width: width * 0.85,
+    width: "100%",
     borderWidth: 3,
     borderRadius: 10,
     padding: 10,

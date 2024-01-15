@@ -66,6 +66,7 @@ export default function AllLists({ route, navigation }) {
           ) : null}
           <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
             {capitalizeString(item.name)}
+            {/* {item.name} */}
           </Text>
         </View>
         <MaterialCommunityIcons
@@ -81,7 +82,9 @@ export default function AllLists({ route, navigation }) {
   const [searchText, setSearchText] = useState();
   const searchFilteredData = searchText
     ? apiResponse.filter((x) =>
-        x.name.toLowerCase().includes(searchText.toLowerCase())
+        x.name
+          .toLowerCase()
+          .includes(searchText.replaceAll(" ", "-").toLowerCase())
       )
     : apiResponse;
 

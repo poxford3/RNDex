@@ -99,21 +99,6 @@ export default function Pokedex({ navigation }) {
     return (
       <>
         {searchFilteredData.length > 0 ? (
-          // <FlatList
-          //   data={searchFilteredData.sort((a, b) => a.pokeID - b.pokeID)}
-          //   numColumns={2}
-          //   maxToRenderPerBatch={10}
-          //   keyExtractor={(item) => item.pokeID}
-          //   initialNumToRender={30}
-          //   renderItem={({ item }) => (
-          //     <PokemonItem
-          //       pokeName={item.pokeName}
-          //       id={item.pokeID}
-          //       width_percent={50}
-          //       gen={genSelected}
-          //     />
-          //   )}
-          // />
           <ScrollView>
             <PokemonList />
           </ScrollView>

@@ -268,23 +268,11 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
   },
-  imgList: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-  imgSmall: {
-    height: 100,
-    width: 100,
-  },
-  pokeDetails: {
-    width: "100%",
-  },
   statBox: {
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    // width: "95%",
+    width: "100%",
   },
   statTexts: {
     flexDirection: "row",

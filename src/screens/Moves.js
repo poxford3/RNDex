@@ -163,9 +163,10 @@ export default function Moves({ navigation }) {
   const Body = () => {
     if (filteredList.length > 0) {
       return (
-        <View style={{ width: "100%" }}>
+        <View style={{ flex: 1, width: "100%" }}>
           <FlatList
             data={filteredList}
+            style={{ width: "100%" }}
             initialNumToRender={20}
             renderItem={({ item }) => {
               return (
@@ -232,12 +233,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 10,
+    // padding: 10,
   },
   selector: {
     paddingVertical: 10,
     flexDirection: "row",
-    width: "85%",
     justifyContent: "center",
+    width: "90%",
   },
 });
