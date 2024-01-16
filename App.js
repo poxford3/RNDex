@@ -7,6 +7,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
 import { SpriteContext } from "./src/contexts/SpriteContext";
 // import "expo-dev-client"; // <- need to uncomment when ready to dev
+// import mobileAds from "react-native-google-mobile-ads";
+
+// mobileAds()
+//   .initialize()
+//   .then((adapterStatuses) => {
+//     // Initialization complete!
+//     console.log("initialized", adapterStatuses);
+//   });
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();

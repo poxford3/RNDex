@@ -134,7 +134,7 @@ export default function Info({ navigation }) {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <View style={styles.body}>
           {boxTexts.map((box, idx) => {
             return (
@@ -182,6 +182,8 @@ export default function Info({ navigation }) {
 const styles = StyleSheet.create({
   body: {
     padding: 10,
+    // width: "100%",
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -48,7 +48,7 @@ export default function AllLists({ route, navigation }) {
           });
         }}
         style={{
-          padding: 10,
+          padding: imgSize > 0 ? 10 : 20,
           height: 70,
           flexDirection: "row",
           justifyContent: "space-between",
