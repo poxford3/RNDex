@@ -26,7 +26,6 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
     "react-native-csv": "^0.2.0",
-    "react-native-dropdown-picker": "^5.4.6",
     "react-native-elements": "^3.4.3",
     "react-native-google-mobile-ads": "^12.10.0",
     "react-native-ionicons": "^4.6.5",

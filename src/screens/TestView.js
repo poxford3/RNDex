@@ -27,7 +27,6 @@ import { Tooltip } from "react-native-elements";
 import { Svg } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import { List } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
 import themeColors from "../styles/themeColors";
 import CustomDivider from "../utils/CustomDivider";
 import box_art from "../../assets/box_art";
@@ -238,63 +237,7 @@ export default function TestView() {
     );
   };
 
-  // const dropdownValues = items.filter((x) =>
-  //   x.value.includes(pokemonTest.pikachu.gens)
-  // );
   const pokemonTestFilter = pokemonTest.filter((x) => x.gen.includes(value));
-
-  const DropdownTest = () => {
-    return (
-      <View style={{ width: "50%" }}>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          multiple={true}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          placeholder="Game select"
-          multipleText="You have selected"
-          searchPlaceholder={"Game Search..."}
-          // style={{ borderColor: "blue", backgroundColor: "grey" }}
-          // textStyle={{ color: "white" }}
-          // dropDownContainerStyle={{
-          //   borderColor: "blue",
-          //   backgroundColor: "grey",
-          // }}
-          theme="DARK"
-          // theme="LIGHT"
-          mode="BADGE"
-          badgeDotColors={["green"]}
-          scrollViewProps={{ persistentScrollbar: true }}
-          itemSeparator={true}
-          // itemSeparatorStyle={{ backgroundColor: "blue" }}
-          loading={true}
-          // onSelectItem={(item) => {
-          //   console.log(item);
-          // }}
-          // searchable={items.length > 5}
-          // closeAfterSelecting={false}
-          // language={"ES"}
-        />
-        <Text></Text>
-        {pokemonTestFilter.map((gen, idx) => {
-          return (
-            <Text key={idx} style={{ color: "black" }}>
-              {gen}
-            </Text>
-          );
-        })}
-      </View>
-    );
-  };
-
-  // useEffect(() => {
-  //   // console.log(value);
-  //   console.log("filter", pokemonTestFilter);
-  //   // console.log("dropdownvalues", dropdownValues);
-  // }, [value]);
 
   // const PieChartTest = () => {
   //   const dispText = `Gender Rates\nFemale: 65%\nMale: 35%`;
