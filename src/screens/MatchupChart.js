@@ -40,6 +40,16 @@ export default function MatchupChart() {
   }
 
   const CellElement = ({ text }) => {
+    const numColor =
+      text == 1
+        ? "grey"
+        : text == 0
+        ? "red"
+        : text == 0.5
+        ? "orange"
+        : text == 2
+        ? "green"
+        : activeColors.background;
     return (
       <View
         style={[
@@ -49,6 +59,7 @@ export default function MatchupChart() {
             // borderBottomWidth: 1,
             // borderTopColor: activeColors.textColor,
             // borderTopWidth: 1,
+            backgroundColor: numColor,
           },
         ]}
       >
@@ -138,38 +149,32 @@ export default function MatchupChart() {
           </ScrollView>
         </View>
       </View>
-      {/* <View style={styles.second}>
+      {/* <View style={styles.third}>
         <ScrollView horizontal>
-          <Table borderStyle={{ borderWidth: 1 }}>
-            <Row
+          <Table>
+            <Col
               data={typeArr}
-              style={styles.row}
-              flexArr={list_of_1s}
-              textStyle={{ color: activeColors.textColor, textAlign: "center" }}
+              style={styles.col}
+              textStyle={styles.text}
+              heightArr={list_of_28s}
             />
-            <TableWrapper style={styles.wrapper}>
-              <ScrollView stickyHeaderIndices={[1]}>
-                <Col
-                  data={type_name}
-                  style={styles.cell}
-                  textStyle={{
-                    color: activeColors.textColor,
-                    textAlign: "center",
-                  }}
-                  heightArr={list_of_28s}
-                  flexArr={list_of_1s}
+          </Table>
+          <Table>
+            {types_filter.map((typeNum, idx) => {
+              return (
+                <Row
+                  key={idx}
+                  data={typeNum}
+                  height={28}
+                  widthArr={list_of_28s}
+                  style={[
+                    styles.row,
+                    idx % 2 && { backgroundColor: "#F7F6E7" },
+                  ]}
+                  textStyle={styles.text}
                 />
-                <Rows
-                  data={types_filter}
-                  style={styles.row}
-                  flexArr={list_of_1s}
-                  textStyle={{
-                    color: activeColors.textColor,
-                    textAlign: "center",
-                  }}
-                />
-              </ScrollView>
-            </TableWrapper>
+              );
+            })}
           </Table>
         </ScrollView>
       </View> */}
@@ -192,5 +197,21 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flexDirection: "row",
+  },
+  title: {
+    flex: 1,
+    backgroundColor: "#f6f8fa",
+  },
+  text: {
+    textAlign: "center",
+    color: "white",
+  },
+  third: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  header: {
+    height: 50,
+    backgroundColor: "#537791",
   },
 });

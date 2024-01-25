@@ -32,12 +32,13 @@ export default function Info({ navigation }) {
       destination: "Natures",
       img: require("../../assets/info_imgs/poke_leaf.png"),
     },
-    // { // TODO fix meee!!!
-    //   header: "Matchup Chart",
-    //   body: "Tap here to view a chart of how type fairs against another!",
-    //   disabled: false,
-    //   destination: "MatchupChart",
-    // },
+    {
+      // TODO fix meee!!!
+      header: "Matchup Chart",
+      body: "Tap here to view a chart of how type fairs against another!",
+      disabled: false,
+      destination: "MatchupChart",
+    },
     {
       header: "Items",
       body: "Tap here to view a list of all items!",
