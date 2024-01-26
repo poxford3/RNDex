@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  memo,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useContext, memo } from "react";
 import {
   View,
   Text,
@@ -23,6 +17,7 @@ import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";
+import BannerAdComp from "../utils/BannderAdComp";
 
 export default function Locations() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -178,6 +173,7 @@ export default function Locations() {
       <View style={styles.list}>
         <Body />
       </View>
+      <BannerAdComp />
     </View>
   );
 }

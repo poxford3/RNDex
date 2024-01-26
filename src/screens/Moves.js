@@ -10,6 +10,7 @@ import type_colors from "../../assets/types/type_colors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import API_CALL from "../hooks/API_CALL";
+import BannerAdComp from "../utils/BannderAdComp";
 
 export default function Moves({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -204,7 +205,6 @@ export default function Moves({ navigation }) {
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
       {loaded ? (
-        // <View style={styles.body}>
         <>
           <View style={styles.selector}>
             <SegmentedButtons
@@ -216,11 +216,11 @@ export default function Moves({ navigation }) {
             />
           </View>
           <Body />
-          {/* </View> */}
         </>
       ) : (
         <LoadingView />
       )}
+      <BannerAdComp />
     </SafeAreaView>
   );
 }

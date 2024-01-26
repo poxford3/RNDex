@@ -20,15 +20,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import CustomDivider from "../utils/CustomDivider";
 import FavoritePokemonButton from "../utils/FavoritePokemonButton";
-// import {
-//   BannerAd,
-//   BannerAdSize,
-//   TestIds,
-// } from "react-native-google-mobile-ads";
-
-// const adUnitId = __DEV__
-//   ? TestIds.ADAPTIVE_BANNER
-//   : "ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy";
+import BannderAdComp from "../utils/BannderAdComp";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -231,7 +223,7 @@ export default function Pokemon() {
       ) : (
         <LoadingView />
       )}
-      {/* <BannerAd /> */}
+      <BannderAdComp />
     </SafeAreaView>
   );
 }
