@@ -20,6 +20,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import DirectSearch from "../utils/DirectSearch";
 import API_CALL from "../hooks/API_CALL";
 import CustomDivider from "../utils/CustomDivider";
+import BannderAdComp from "../utils/BannderAdComp";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -243,6 +244,7 @@ export default function Pokedex({ navigation }) {
           <LoadingView />
         )}
       </View>
+      <BannderAdComp />
     </SafeAreaView>
   );
 }

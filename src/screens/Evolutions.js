@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  FlatList,
+  SafeAreaView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import capitalizeString from "../hooks/capitalizeString";
@@ -17,6 +17,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { PokemonContext } from "../contexts/PokemonContext";
 import API_CALL from "../hooks/API_CALL";
 import LoadingView from "../utils/LoadingView";
+import BannerAdComp from "../utils/BannderAdComp";
 
 export default function Evolutions({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
@@ -222,7 +223,7 @@ export default function Evolutions({ navigation }) {
     return (
       <>
         {loaded ? (
-          <View style={styles.container}>
+          <View style={styles.body}>
             {evolutions.length > 0 ? (
               <View style={{ width: "100%" }}>
                 <Text
@@ -279,26 +280,34 @@ export default function Evolutions({ navigation }) {
   }, [pokemonInfo]);
 
   return (
-    <ScrollView
-      scrollEnabled={scrollOn}
-      style={{ backgroundColor: activeColors.background }}
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      {scrollOn ? (
-        <Body />
-      ) : (
-        <MissingInfo
-          str={`${capitalizeString(pokemonInfo.pokeName)} has no evolutions`}
-          id={pokemonInfo.id}
-        />
-      )}
-    </ScrollView>
+      <ScrollView scrollEnabled={scrollOn} style={styles.body}>
+        {scrollOn ? (
+          <Body />
+        ) : (
+          <MissingInfo
+            str={`${capitalizeString(pokemonInfo.pokeName)} has no evolutions`}
+            id={pokemonInfo.id}
+          />
+        )}
+      </ScrollView>
+      <BannerAdComp />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  body: {
+    width: "100%",
+    // flex: 1,
+    // alignItems: "center",
+  },
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   evolContainer: {
     alignItems: "center",

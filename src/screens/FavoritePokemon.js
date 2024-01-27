@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Menu, Divider, PaperProvider } from "react-native-paper";
@@ -35,7 +36,7 @@ export default function FavoritePokemon() {
     if (loaded) {
       if (favPokeList.length != 0) {
         return (
-          <View
+          <ScrollView
             style={{
               flexDirection: "row",
               flexWrap: "wrap",
@@ -52,7 +53,7 @@ export default function FavoritePokemon() {
                 />
               );
             })}
-          </View>
+          </ScrollView>
         );
       } else {
         return <MissingFavorites />;

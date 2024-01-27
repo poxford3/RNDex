@@ -159,21 +159,30 @@ export default function Info({ navigation }) {
             PokeAPI
           </Text>
           <CustomDivider direction={"horizontal"} />
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL("https://github.com/poxford3");
-            }}
-            style={{ flexDirection: "row", alignItems: "center" }}
-          >
-            <MaterialCommunityIcons
-              name="github"
-              color={activeColors.textColor}
-              size={16}
-            />
-            <Text style={{ fontSize: 14, color: activeColors.textColor }}>
-              RNDex is a nice app
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.links}>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL("https://twitter.com/rndex_app");
+              }}
+            >
+              <MaterialCommunityIcons
+                name="twitter"
+                color={activeColors.textColor}
+                size={32}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL("https://github.com/poxford3");
+              }}
+            >
+              <MaterialCommunityIcons
+                name="github"
+                color={activeColors.textColor}
+                size={32}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -195,6 +204,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     width: screenWidth,
     padding: 10,
+  },
+  links: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   objHeader: {
     flexDirection: "row",
