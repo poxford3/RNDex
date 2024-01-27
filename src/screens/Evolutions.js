@@ -300,7 +300,8 @@ export default function Evolutions({ navigation }) {
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
+    width: "100%",
+    // flex: 1,
     // alignItems: "center",
   },
   container: {
