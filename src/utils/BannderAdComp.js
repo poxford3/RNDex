@@ -6,7 +6,7 @@ import {
   TestIds,
 } from "react-native-google-mobile-ads";
 import mobileAds from "react-native-google-mobile-ads";
-import { banner_id_android, banner_id_ios } from "../../keys";
+import { banner_id_android, banner_id_ios } from "../../assets/keys";
 
 const id = Platform.OS == "ios" ? banner_id_ios : banner_id_android;
 const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : id;
