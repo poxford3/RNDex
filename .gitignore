@@ -15,7 +15,10 @@ web-build/
 
 TODO.md
 
-.vscode/
+.vscode
 
 ios
 android
+
+temp.json
+keys.js
