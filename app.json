@@ -30,7 +30,8 @@
         "backgroundImage": "./assets/icon-android-background.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.poxford3.rndex"
+      "package": "com.poxford3.rndex",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/rndex_logo.png"
