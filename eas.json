@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "poxford3dev@gmail.com",
+        "ascAppId": "6476958952",
+        "appleTeamId": "8PY2P8D3ML"
+      }
+    }
   }
 }
