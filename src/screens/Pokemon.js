@@ -111,21 +111,15 @@ export default function Pokemon() {
     getPokeStats();
   }, []);
 
-  // whenever you reload the pokemon screen with new data, scroll to top
-  const isFocused = useIsFocused();
+  // whenever user selects new pokemon, get the new info
+  // and scroll back to the top
   const scrollRef = useRef();
   useEffect(() => {
-    if (isFocused) {
-      scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-      });
-    }
-  }, [isFocused]);
-
-  // whenever user selects new pokemon, get the new info
-  useEffect(() => {
     getPokeStats();
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
   }, [pokemonInfo]);
 
   // will be view of once pokemon is clicked
@@ -189,7 +183,6 @@ export default function Pokemon() {
               <View style={styles.headerRight}>
                 <Text
                   style={{
-                    textTransform: "capitalize",
                     fontSize: 16,
                     color: activeColors.textColor,
                   }}

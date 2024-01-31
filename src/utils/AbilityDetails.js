@@ -74,6 +74,7 @@ export default function AbilityDetails({ route }) {
   }, []);
 
   const AbilityItem = ({ header, info }) => {
+    let dispText = info == "" ? "N/A" : info;
     return (
       <View style={{ marginVertical: 10 }}>
         <View>
@@ -82,7 +83,7 @@ export default function AbilityDetails({ route }) {
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={{ color: activeColors.textColor, fontSize: 20 }}>
-              {info}
+              {dispText}
             </Text>
           </View>
         </View>

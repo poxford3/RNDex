@@ -31,7 +31,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.poxford3.rndex",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/rndex_logo.png"

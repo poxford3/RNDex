@@ -57,9 +57,23 @@ export default function Moves({ navigation }) {
     setMainColor(type_colors[json.types[0].type.name]);
 
     json.moves.forEach(async (e) => {
+      let levelLearned;
+      // on occasion, it will show method == 'level-up' but have the level-learned-at == 0
+      // covering the cases when that is and finding when it's not 0
+      if (
+        e.version_group_details[0].level_learned_at == 0 &&
+        e.version_group_details[0].move_learn_method.name == "level-up"
+      ) {
+        levelLearned = e.version_group_details
+          .filter((elem) => elem.level_learned_at > 0)
+          .pop().level_learned_at;
+      } else {
+        levelLearned = e.version_group_details[0].level_learned_at;
+      }
+
       let move_obj = {
         move_name: capitalizeString(e.move.name.replace("-", " ")),
-        level_learned: e.version_group_details[0].level_learned_at,
+        level_learned: levelLearned,
         method: e.version_group_details[0].move_learn_method.name,
         move_url: e.move.url,
       };

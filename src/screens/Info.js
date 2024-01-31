@@ -194,7 +194,7 @@ export default function Info({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                Linking.openURL("https://github.com/poxford3");
+                Linking.openURL("https://github.com/poxford3/rndex");
               }}
             >
               <MaterialCommunityIcons

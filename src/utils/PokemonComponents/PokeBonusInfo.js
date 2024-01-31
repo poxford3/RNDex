@@ -19,8 +19,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import PokeGenderBar from "./PokeGenderBar";
 import TooltipInfo from "../TooltipInfo";
 
-const { height, width } = Dimensions.get("screen");
-
 export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const navigation = useNavigation();
 
@@ -346,6 +344,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   };
 
   const InfoTopic = ({ title, textValue, icon, side, tip }) => {
+    const dispText = textValue == "" ? "N/A" : textValue;
     return (
       <View>
         {side == "left" ? (
@@ -363,7 +362,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               ) : null}
             </View>
             <Text style={[styles.info, { color: activeColors.textColor }]}>
-              {textValue}
+              {dispText}
             </Text>
             {tip ? <TooltipInfo tip={tip} /> : null}
           </>
@@ -395,7 +394,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                   { color: activeColors.textColor, textAlign: "right" },
                 ]}
               >
-                {textValue}
+                {dispText}
               </Text>
               {tip ? <TooltipInfo tip={tip} /> : null}
             </View>

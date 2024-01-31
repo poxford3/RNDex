@@ -38,21 +38,28 @@ export default function FavoritePokemon() {
         return (
           <ScrollView
             style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
+              width: "100%",
+              height: "100%",
             }}
           >
-            {sortOption.map((pokemon, idx) => {
-              return (
-                <PokemonItem
-                  pokeName={pokemon.pokeName}
-                  id={pokemon.id}
-                  width_percent={50}
-                  key={idx}
-                />
-              );
-            })}
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              {sortOption.map((pokemon, idx) => {
+                return (
+                  <PokemonItem
+                    pokeName={pokemon.pokeName}
+                    id={pokemon.id}
+                    width_percent={50}
+                    key={idx}
+                  />
+                );
+              })}
+            </View>
           </ScrollView>
         );
       } else {
@@ -109,12 +116,12 @@ export default function FavoritePokemon() {
     },
     {
       leadingIcon: "sort-numeric-ascending",
-      title: "ID (highest first) ",
+      title: "ID (lowest first) ",
       id: 3,
     },
     {
       leadingIcon: "sort-numeric-descending",
-      title: "ID (lowest first) ",
+      title: "ID (highest first) ",
       id: 4,
     },
     {

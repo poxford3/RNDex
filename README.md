@@ -12,7 +12,7 @@
   </a>
 </p>
 
-a pokedex using React Native, click around to see your favorite pokemon throughout the generations!
+A Pokédex using React Native, click around to see your favorite Pokémon throughout the generations!
 
 ## Main Pokédex View
 
