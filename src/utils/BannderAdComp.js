@@ -5,7 +5,7 @@ import {
   BannerAdSize,
   TestIds,
 } from "react-native-google-mobile-ads";
-import mobileAds from "react-native-google-mobile-ads";
+import mobileAds, { MaxAdContentRating } from "react-native-google-mobile-ads";
 import { banner_id_android, banner_id_ios } from "../../assets/keys";
 
 const id = Platform.OS == "ios" ? banner_id_ios : banner_id_android;
@@ -46,5 +46,3 @@ export default function BannerAdComp() {
     </>
   );
 }
-
-// export default BannerAdComp();

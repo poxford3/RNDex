@@ -13,6 +13,7 @@ const themeColors = {
     themeType: "LIGHT",
     themeTypeLower: "light",
     modal: "white",
+    link: "blue",
   },
   dark: {
     textColor: "white",
@@ -28,6 +29,7 @@ const themeColors = {
     themeType: "DARK",
     themeTypeLower: "dark",
     modal: "#282e38",
+    link: "#83bcf3",
   },
 };
 

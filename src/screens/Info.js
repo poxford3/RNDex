@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
@@ -32,13 +33,13 @@ export default function Info({ navigation }) {
       destination: "Natures",
       img: require("../../assets/info_imgs/poke_leaf.png"),
     },
-    {
-      // TODO fix meee!!!
-      header: "Matchup Chart",
-      body: "Tap here to view a chart of how type fairs against another!",
-      disabled: false,
-      destination: "MatchupChart",
-    },
+    // {
+    //   // TODO fix meee!!!
+    //   header: "Matchup Chart",
+    //   body: "Tap here to view a chart of how type fairs against another!",
+    //   disabled: false,
+    //   destination: "MatchupChart",
+    // },
     {
       header: "Items",
       body: "Tap here to view a list of all items!",
@@ -150,14 +151,34 @@ export default function Info({ navigation }) {
               />
             );
           })}
-          <Text
-            onPress={() => {
-              Linking.openURL("https://pokeapi.co/");
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: Platform.OS == "ios" ? "space-between" : "center",
+              width: "100%",
             }}
-            style={{ color: "blue", fontSize: 24 }}
           >
-            PokeAPI
-          </Text>
+            {Platform.OS == "ios" ? (
+              <Text
+                onPress={() => {
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/terms/site.html"
+                  );
+                }}
+                style={{ color: activeColors.link, fontSize: 22 }}
+              >
+                Terms of Use
+              </Text>
+            ) : null}
+            <Text
+              onPress={() => {
+                Linking.openURL("https://pokeapi.co/");
+              }}
+              style={{ color: activeColors.link, fontSize: 22 }}
+            >
+              PokeAPI
+            </Text>
+          </View>
           <CustomDivider direction={"horizontal"} />
           <View style={styles.links}>
             <TouchableOpacity
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
   body: {
     padding: 10,
     // width: "100%",
-    // flex: 1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

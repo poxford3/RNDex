@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 
@@ -10,7 +10,7 @@ export default function MissingInfo({ id, str }) {
   return (
     <View
       style={{
-        height: Dimensions.get("window").height - 100,
+        height: "100%",
         justifyContent: "center",
         alignItems: "center",
       }}
