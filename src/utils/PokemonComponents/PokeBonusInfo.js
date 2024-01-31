@@ -346,7 +346,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const InfoTopic = ({ title, textValue, icon, side, tip }) => {
     const dispText = textValue == "" ? "N/A" : textValue;
     return (
-      <View>
+      <View style={{ width: "50%" }}>
         {side == "left" ? (
           <>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -361,7 +361,10 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 />
               ) : null}
             </View>
-            <Text style={[styles.info, { color: activeColors.textColor }]}>
+            <Text
+              numberOfLines={1}
+              style={[styles.info, { color: activeColors.textColor }]}
+            >
               {dispText}
             </Text>
             {tip ? <TooltipInfo tip={tip} /> : null}

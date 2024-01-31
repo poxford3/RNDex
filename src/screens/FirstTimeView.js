@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Dimensions,
   Button,
-  Image,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import themeColors from "../styles/themeColors";

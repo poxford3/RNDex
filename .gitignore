@@ -10,12 +10,14 @@ npm-debug.*
 *.orig.*
 web-build/
 
+
+# VSCode
+.vscode
+
 # macOS
 .DS_Store
 
 TODO.md
-
-.vscode
 
 ios
 android

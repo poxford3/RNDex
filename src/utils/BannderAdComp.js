@@ -31,7 +31,7 @@ export default function BannerAdComp() {
   mobileAds()
     .initialize()
     .then((adapterStatuses) => {
-      console.log(adapterStatuses);
+      // console.log(adapterStatuses);
       setAdInitialized(true);
     });
 

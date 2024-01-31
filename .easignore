@@ -1,22 +1,24 @@
-node_modules/
+node*modules/
 .expo/
 dist/
 npm-debug.\*
-_.jks
+*.jks
 _.p8
 _.p12
 _.key
 _.mobileprovision
-_.orig.\*
+\_.orig.\*
 web-build/
+
+# VSCode
+
+.vscode
 
 # macOS
 
 .DS_Store
 
 TODO.md
-
-.vscode
 
 ios
 android
