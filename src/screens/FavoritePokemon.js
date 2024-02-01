@@ -25,8 +25,8 @@ export default function FavoritePokemon() {
 
   const [favPokeList, setFavPokeList] = useState([]);
   const [favPokeCount, setFavPokeCount] = useState(0);
-  const [sortOption, setSortOption] = useState();
-  const [sortNum, setSortNum] = useState(1);
+  const [sortOption, setSortOption] = useState(1);
+  const [sortNum, setSortNum] = useState();
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(true);
   const openMenu = () => setVisible(true);
@@ -166,7 +166,7 @@ export default function FavoritePokemon() {
   }, []);
 
   useEffect(() => {
-    setSortOption(handleSortOptions(favPokeList, 1));
+    setSortOption(handleSortOptions(favPokeList, sortNum ? sortNum : 1));
   }, [favPokeList]);
 
   // check list again when they return from looking at a pokemon
