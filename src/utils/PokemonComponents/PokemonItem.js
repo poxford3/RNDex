@@ -46,6 +46,10 @@ export const PokemonItem = memo(function PokemonItem({
         onPress={() => {
           updatePokemon({ id: id, pokeName: pokeName });
           navigation.navigate("PokemonTabNav");
+          // navigation.navigate("PokemonTabNav", {
+          //   id: id,
+          //   pokeName: pokeName,
+          // });
         }}
       >
         <Image source={{ uri: poke_sprite }} style={styles.images} />

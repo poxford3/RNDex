@@ -27,6 +27,7 @@ export default function Info({ navigation }) {
 
   const boxTexts = [
     {
+      key: 1,
       header: "Natures",
       body: "Tap here to view a chart of how each nature affects your Pokémon!",
       disabled: false,
@@ -41,6 +42,7 @@ export default function Info({ navigation }) {
     //   destination: "MatchupChart",
     // },
     {
+      key: 2,
       header: "Items",
       body: "Tap here to view a list of all items!",
       disabled: false,
@@ -53,6 +55,7 @@ export default function Info({ navigation }) {
       img: require("../../assets/info_imgs/poke-ball.png"),
     },
     {
+      key: 3,
       header: "Abilities",
       body: "Tap here to view a list of all abilities!",
       disabled: false,
@@ -65,6 +68,7 @@ export default function Info({ navigation }) {
       img: require("../../assets/info_imgs/poke_star.png"),
     },
     {
+      key: 4,
       header: "Locations",
       body: "Tap here to view a list of all locations!",
       disabled: false,
@@ -77,6 +81,7 @@ export default function Info({ navigation }) {
       img: require("../../assets/info_imgs/poke_map.png"),
     },
     {
+      key: 5,
       header: "Source of Data",
       body: `This app uses the PokéAPI tool for its data ingestion (linked below).${"\n\n"}Note that not all data may be shown as it is in game. Check back periodically to see if the information/Pokémon you're looking for is updated.`,
       disabled: true,
@@ -84,6 +89,7 @@ export default function Info({ navigation }) {
       img: require("../../assets/info_imgs/poke_about.png"),
     },
     {
+      key: 6,
       header: "About",
       body: `This app is written by a sole developer with the intent to show Pokémon information in a useful and educational purpose.${"\n\n"}This app is not associated with Nintendo/Game Freak/The Pokémon Company. Some of the assets in the app are copyighted and are accessed under Fair Use. No copyright infringement intended.`,
       disabled: true,
@@ -138,10 +144,10 @@ export default function Info({ navigation }) {
     >
       <ScrollView>
         <View style={styles.body}>
-          {boxTexts.map((box, idx) => {
+          {boxTexts.map((box) => {
             return (
               <PokeInfoObj
-                key={idx}
+                key={box.key}
                 headerText={box.header}
                 bodyText={box.body}
                 disabled={box.disabled}

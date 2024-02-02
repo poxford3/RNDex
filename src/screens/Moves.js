@@ -151,13 +151,18 @@ export default function Moves({ navigation }) {
 
     let description = arr.pop();
 
+    let descText =
+      description?.flavor_text == null
+        ? ""
+        : description?.flavor_text.replaceAll("\n", "");
+
     return [
       json.accuracy,
       json.power,
       json.type.name,
       json.damage_class.name,
       mach_name ? mach_name.toUpperCase() : null,
-      description?.flavor_text.replaceAll("\n", " "),
+      descText,
       json.generation.name,
       json.pp,
       json.target.name,

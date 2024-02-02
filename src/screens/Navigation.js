@@ -159,11 +159,15 @@ import Moves from "./Moves";
 
 const Tab = createMaterialBottomTabNavigator();
 
-export function PokemonBottomTabNav() {
+export function PokemonBottomTabNav({ route }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const { pokemonInfo } = useContext(PokemonContext);
+  const pokemonInfo = useContext(PokemonContext).pokemonInfo;
+  // const pokemonInfo = route.params;
+
+  // const updatePokemon = useContext(PokemonContext).updatePokemon;
+  // updatePokemon(pokemonInfo);
 
   return (
     <Tab.Navigator

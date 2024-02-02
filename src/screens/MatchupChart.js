@@ -98,10 +98,10 @@ export default function MatchupChart() {
       <View style={styles.first}>
         <View style={{ height: 50 }}>
           <ScrollView horizontal>
-            {typeArr.map((name, idx) => {
+            {typeArr.map((name) => {
               return (
                 <View
-                  key={idx}
+                  key={name}
                   style={[
                     styles.cell,
                     {

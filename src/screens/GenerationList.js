@@ -58,9 +58,9 @@ export default function GenerationList() {
     >
       <Text>GenerationList</Text>
       {gens.length > 0 ? (
-        gens.map((gen, idx) => {
+        gens.map((gen) => {
           return (
-            <View key={idx}>
+            <View key={gen.genName}>
               <Text>{gen.genName}</Text>
               <Divider />
             </View>

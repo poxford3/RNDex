@@ -65,6 +65,12 @@ export default function AbilityDetails({ route }) {
       ab_effect = "No effect yet, return later to see if one has been added.";
     }
 
+    // let abDescText = ab_desc == null ? "" : ab_desc.replaceAll("\n", " ");
+    // let abEffectText = ab_effect == null ? "" : ab_effect.replaceAll("\n", " ");
+    // // console.log(abDescText, "\n", ab_desc);
+    // console.log("\nabef:", ab_effect, "\nabde:", ab_desc, "\n");
+    // console.log("\nabef2:", abEffectText, "\nabde2:", abDescText, "\n");
+
     setAbilityDesc(ab_desc.replaceAll("\n", " "));
     setAbilityEffect(ab_effect.replaceAll("\n", " "));
   };
@@ -113,7 +119,7 @@ export default function AbilityDetails({ route }) {
                   const translateURL = `https://translate.google.com/?sl=auto&tl=en&text=${ab_name}&op=translate`;
                   Linking.openURL(translateURL);
                 }}
-                key={idx}
+                key={ab_name}
               >
                 - {ab_name}
               </Text>

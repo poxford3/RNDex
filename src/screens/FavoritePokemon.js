@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Menu, Divider, PaperProvider } from "react-native-paper";
@@ -17,18 +16,20 @@ import { getData } from "../config/asyncStorage";
 import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import CustomDivider from "../utils/CustomDivider";
 import MissingFavorites from "../utils/MissingFavorites";
-import LoadingView from "../utils/LoadingView";
+
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function FavoritePokemon() {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
+
+  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
 
   const [favPokeList, setFavPokeList] = useState([]);
   const [favPokeCount, setFavPokeCount] = useState(0);
   const [sortOption, setSortOption] = useState(1);
   const [sortNum, setSortNum] = useState();
   const [visible, setVisible] = useState(false);
-  const [loaded, setLoaded] = useState(true);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
@@ -54,7 +55,7 @@ export default function FavoritePokemon() {
                   pokeName={pokemon.pokeName}
                   id={pokemon.id}
                   width_percent={50}
-                  key={idx}
+                  key={pokemon.id}
                 />
               );
             })}
@@ -157,10 +158,13 @@ export default function FavoritePokemon() {
     }
   };
 
+  // get stored pokemon from asyncStorage
   useEffect(() => {
     fetchStoredPokemon();
   }, []);
 
+  // set initial sortOptions based on either current selection
+  // or initial sort id
   useEffect(() => {
     setSortOption(handleSortOptions(favPokeList, sortNum ? sortNum : 1));
   }, [favPokeList]);
@@ -206,9 +210,9 @@ export default function FavoritePokemon() {
                 borderRadius: 5,
               }}
             >
-              {menuItems.map((item, idx) => {
+              {menuItems.map((item) => {
                 return (
-                  <View key={idx}>
+                  <View key={item.id}>
                     <Menu.Item
                       leadingIcon={item.leadingIcon}
                       trailingIcon={sortNum == item.id ? "check" : null}

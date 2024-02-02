@@ -23,6 +23,7 @@ import BannderAdComp from "../utils/BannderAdComp";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
+  console.log(pokemonInfo);
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
@@ -97,7 +98,12 @@ export default function Pokemon() {
       ); // gets most recent description
 
       let description = arr.pop();
-      setDesc(description.flavor_text.replaceAll("\n", " "));
+      let descText =
+        description?.flavor_text == null
+          ? ""
+          : description?.flavor_text.replaceAll("\n", "");
+
+      setDesc(descText);
     } else {
       setDesc("");
     }

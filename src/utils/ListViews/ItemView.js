@@ -6,6 +6,7 @@ import API_CALL from "../../hooks/API_CALL";
 import capitalizeString from "../../hooks/capitalizeString";
 import LoadingView from "../LoadingView";
 
+// lists all items found in Pokemon games
 export default function ItemView({ route }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];

@@ -118,14 +118,14 @@ export default function Pokedex({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {pokeListData.map((pokemon, idx) => {
+        {pokeListData.map((pokemon) => {
           return (
             <PokemonItem
               pokeName={pokemon.pokeName}
               id={pokemon.pokeID}
               width_percent={50}
               gen={genSelected}
-              key={idx}
+              key={pokemon.pokeID}
             />
           );
         })}
