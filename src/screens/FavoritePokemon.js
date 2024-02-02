@@ -4,9 +4,9 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
-  FlatList,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { Menu, Divider, PaperProvider } from "react-native-paper";
@@ -33,40 +33,36 @@ export default function FavoritePokemon() {
   const closeMenu = () => setVisible(false);
 
   const Body = () => {
-    if (loaded) {
-      if (favPokeList.length != 0) {
-        return (
-          <ScrollView
+    if (favPokeList.length != 0) {
+      return (
+        <ScrollView
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <View
             style={{
-              width: "100%",
-              height: "100%",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
-              {sortOption.map((pokemon, idx) => {
-                return (
-                  <PokemonItem
-                    pokeName={pokemon.pokeName}
-                    id={pokemon.id}
-                    width_percent={50}
-                    key={idx}
-                  />
-                );
-              })}
-            </View>
-          </ScrollView>
-        );
-      } else {
-        return <MissingFavorites />;
-      }
+            {sortOption.map((pokemon, idx) => {
+              return (
+                <PokemonItem
+                  pokeName={pokemon.pokeName}
+                  id={pokemon.id}
+                  width_percent={50}
+                  key={idx}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+      );
     } else {
-      return <LoadingView />;
+      return <MissingFavorites />;
     }
   };
 
@@ -184,6 +180,11 @@ export default function FavoritePokemon() {
       >
         <View style={styles.header}>
           <View style={styles.headerLeft}>
+            <Text style={{ color: activeColors.textColor }}>
+              Total Num: {favPokeCount}
+            </Text>
+          </View>
+          <View style={styles.headerRight}>
             <TouchableOpacity style={styles.order} onPress={onIconPress}>
               <MaterialCommunityIcons
                 name="sort-variant"
@@ -227,11 +228,6 @@ export default function FavoritePokemon() {
               })}
             </Menu>
           </View>
-          <View style={styles.headerRight}>
-            <Text style={{ color: activeColors.textColor }}>
-              Total Num: {favPokeCount}
-            </Text>
-          </View>
         </View>
         <CustomDivider direction={"horizontal"} />
         <Body />
@@ -250,6 +246,7 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     width: "50%",
+    justifyContent: "center",
   },
   headerRight: {
     width: "50%",

@@ -1,6 +1,7 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 import { Text, TextInput } from "react-native";
 
+// force text to be certain size
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.maxFontSizeMultiplier = 1; // the maximum amount the font size will scale.
 TextInput.defaultProps = Text.defaultProps || {};

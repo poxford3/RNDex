@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { PokemonContext } from "../contexts/PokemonContext";
 import { storeData, getData } from "../config/asyncStorage";
 
 export default function FavoritePokemonButton({ id, pokeName }) {
   // will need to set up async storage to store people's favorites
   const [heartToggle, setHeartToggle] = useState(false);
   const [favPokeList, setFavPokeList] = useState([]);
+
+  const pokemonInfo = useContext(PokemonContext).pokemon;
 
   let { nameShow, colorShow } = heartToggle
     ? { nameShow: "heart", colorShow: "red" }
@@ -60,6 +63,10 @@ export default function FavoritePokemonButton({ id, pokeName }) {
   useEffect(() => {
     fetchStoredPokemon();
   }, []);
+
+  useEffect(() => {
+    fetchStoredPokemon();
+  }, [pokemonInfo]);
 
   useEffect(() => {
     heartChanger();

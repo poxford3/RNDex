@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Animated,
   ScrollView,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
@@ -59,7 +58,6 @@ export default function Pokedex({ navigation }) {
   // custom components
 
   const GenSelector = ({ text, gen, bkgColor, textColor }) => {
-    // potentially use the generation's response as a guide for limit/offset
     return (
       <TouchableOpacity
         style={[styles.genButtons, { backgroundColor: bkgColor }]}
@@ -98,7 +96,7 @@ export default function Pokedex({ navigation }) {
 
   const Body = () => {
     return (
-      <>
+      <View>
         {searchFilteredData.length > 0 ? (
           <ScrollView>
             <PokemonList />
@@ -106,11 +104,12 @@ export default function Pokedex({ navigation }) {
         ) : (
           <DirectSearch pokemon={searchText} />
         )}
-      </>
+      </View>
     );
   };
 
   const PokemonList = () => {
+    let pokeListData = searchFilteredData.sort((a, b) => a.pokeID - b.pokeID);
     return (
       <View
         style={{
@@ -119,43 +118,20 @@ export default function Pokedex({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {searchFilteredData
-          .sort((a, b) => a.pokeID - b.pokeID)
-          .map((pokemon, idx) => {
-            return (
-              <PokemonItem
-                pokeName={pokemon.pokeName}
-                id={pokemon.pokeID}
-                width_percent={50}
-                gen={genSelected}
-                key={idx}
-              />
-            );
-          })}
+        {pokeListData.map((pokemon, idx) => {
+          return (
+            <PokemonItem
+              pokeName={pokemon.pokeName}
+              id={pokemon.pokeID}
+              width_percent={50}
+              gen={genSelected}
+              key={idx}
+            />
+          );
+        })}
       </View>
     );
   };
-
-  // search bar animation
-  const [toggleSearchBar, setToggleSearchBar] = useState(false);
-
-  const searchBarAnim = useRef(new Animated.Value(-45)).current;
-
-  useEffect(() => {
-    if (toggleSearchBar) {
-      Animated.timing(searchBarAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(searchBarAnim, {
-        toValue: -45,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [toggleSearchBar]);
 
   // on start up
   useEffect(() => {
@@ -265,11 +241,9 @@ const styles = StyleSheet.create({
   },
   genSelection: {
     flexDirection: "row",
-    // height: 50,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,
-    // paddingVertical: 5,
   },
   header: {
     alignItems: "center",
