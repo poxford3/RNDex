@@ -13,17 +13,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { getData } from "../config/asyncStorage";
-import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import CustomDivider from "../utils/CustomDivider";
 import MissingFavorites from "../utils/MissingFavorites";
 
 import { PokemonContext } from "../contexts/PokemonContext";
+import PokemonList from "../utils/PokemonComponents/PokemonList";
 
 export default function FavoritePokemon() {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
-
-  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
 
   const [favPokeList, setFavPokeList] = useState([]);
   const [favPokeCount, setFavPokeCount] = useState(0);
@@ -32,29 +30,6 @@ export default function FavoritePokemon() {
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
-
-  const Body = () => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {sortOption.map((pokemon) => {
-          return (
-            <PokemonItem
-              pokeName={pokemon.pokeName}
-              id={pokemon.id}
-              width_percent={50}
-              key={pokemon.id}
-            />
-          );
-        })}
-      </View>
-    );
-  };
 
   const handleSortOptions = (arr, num) => {
     let output;
@@ -230,7 +205,7 @@ export default function FavoritePokemon() {
               height: "100%",
             }}
           >
-            <Body />
+            <PokemonList pokeItems={sortOption} />
           </ScrollView>
         ) : (
           <MissingFavorites />

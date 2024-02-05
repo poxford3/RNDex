@@ -13,13 +13,13 @@ import { Searchbar } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import genList from "../../assets/generations";
 import LoadingView from "../utils/LoadingView";
-import { PokemonItem } from "../utils/PokemonComponents/PokemonItem";
 import themeColors from "../styles/themeColors";
 import { ThemeContext } from "../contexts/ThemeContext";
 import DirectSearch from "../utils/DirectSearch";
 import API_CALL from "../hooks/API_CALL";
 import CustomDivider from "../utils/CustomDivider";
 import BannderAdComp from "../utils/BannderAdComp";
+import PokemonList from "../utils/PokemonComponents/PokemonList";
 
 export default function Pokedex({ navigation }) {
   // variables
@@ -46,7 +46,7 @@ export default function Pokedex({ navigation }) {
     json.pokemon_species.forEach((e) => {
       tempPokeList.push({
         pokeName: e.name,
-        pokeID: parseInt(e.url.split("/")[6]),
+        id: parseInt(e.url.split("/")[6]),
       });
     });
 
@@ -95,38 +95,14 @@ export default function Pokedex({ navigation }) {
     : pokeList;
 
   const Body = () => {
+    let pokeListData = searchFilteredData.sort((a, b) => a.id - b.id);
     return (
       <View>
         {searchFilteredData.length > 0 ? (
-          <PokemonList />
+          <PokemonList pokeItems={pokeListData} genSelected={genSelected} />
         ) : (
           <DirectSearch pokemon={searchText} />
         )}
-      </View>
-    );
-  };
-
-  const PokemonList = () => {
-    let pokeListData = searchFilteredData.sort((a, b) => a.pokeID - b.pokeID);
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {pokeListData.map((pokemon) => {
-          return (
-            <PokemonItem
-              pokeName={pokemon.pokeName}
-              id={pokemon.pokeID}
-              width_percent={50}
-              gen={genSelected}
-              key={pokemon.pokeID}
-            />
-          );
-        })}
       </View>
     );
   };
