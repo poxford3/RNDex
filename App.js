@@ -61,9 +61,9 @@ export default function App() {
   // pokemon data
   const [pokemon, setPokemon] = useState({ id: 1, pokeName: "bulbasaur" });
 
-  const updatePokemon = (newPoke) => {
+  function updatePokemon(newPoke) {
     setPokemon({ id: newPoke.id, pokeName: newPoke.pokeName });
-  };
+  }
 
   // sprite data
   const [sprites, setSprites] = useState({ type: "modern" });

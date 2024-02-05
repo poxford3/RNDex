@@ -21,9 +21,9 @@ export const PokemonItem = memo(function PokemonItem({
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const { pokemonInfo, updatePokemon } = useContext(PokemonContext);
+  const updatePokemon = useContext(PokemonContext).updatePokemon;
 
-  const { sprites, updateSprites } = useContext(SpriteContext);
+  const sprites = useContext(SpriteContext).sprites;
   let og_sprites = sprites.type == "classic" ? true : false;
   let poke_sprite;
   // const poke_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;

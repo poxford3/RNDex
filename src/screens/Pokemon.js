@@ -23,7 +23,6 @@ import BannderAdComp from "../utils/BannderAdComp";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
-  console.log(pokemonInfo);
   const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
   const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");

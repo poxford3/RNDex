@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -30,6 +30,7 @@ import { List } from "react-native-paper";
 import themeColors from "../styles/themeColors";
 import CustomDivider from "../utils/CustomDivider";
 import box_art from "../../assets/box_art";
+import { PokemonContext } from "../contexts/PokemonContext";
 
 export default function TestView() {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,7 @@ export default function TestView() {
   const themeChoose = "dark";
   const typeColor = "#F8D030";
   const activeColors = themeColors[themeChoose];
+  const updatePokemon = useContext(PokemonContext).updatePokemon;
   // const [items, setItems] = useState([
   //   { label: "Fruit", value: "fruit" },
   //   { label: "Apple", value: "apple", parent: "fruit" },
@@ -116,126 +118,6 @@ export default function TestView() {
       ],
     },
   ];
-
-  // const ChartTest = () => {
-  //   return (
-  //     <VictoryChart>
-  //       <VictoryGroup>
-  //         <VictoryBar
-  //           data={data}
-  //           style={{
-  //             data: { fill: "blue", stroke: "black", strokeWidth: 2 },
-  //             labels: { fill: "white" },
-  //           }}
-  //         />
-  //       </VictoryGroup>
-  //     </VictoryChart>
-  //   );
-  // };
-
-  // const ChartTest2 = () => {
-  //   return (
-  //     <VictoryChart
-  //       domainPadding={10}
-  //       padding={{ left: 60, top: 30, right: 30, bottom: 60 }}
-  //     >
-  //       <VictoryLabel
-  //         labelPlacement="parallel"
-  //         label="Center me"
-  //         style={{
-  //           fill: "white",
-  //         }}
-  //       />
-  //       <VictoryAxis
-  //         dependentAxis
-  //         label={"(Max 255)"}
-  //         orientation={"bottom"}
-  //         domain={[0, 255]}
-  //         style={{
-  //           axisLabel: {
-  //             fill: "white",
-  //           },
-  //           tickLabels: {
-  //             fill: "white",
-  //           },
-  //           axisLabel: {
-  //             marginTop: 5,
-  //           },
-  //         }}
-  //       />
-  //       <VictoryAxis
-  //         independentAxis
-  //         orientation={"left"}
-  //         style={{
-  //           tickLabels: {
-  //             fill: "white",
-  //           },
-  //         }}
-  //       />
-  //       <VictoryBar
-  //         data={data}
-  //         // domain={{ y: [0, 255] }}
-  //         horizontal={true}
-  //         // width={{}} // use this !!
-  //         labels={({ datum }) => datum.y}
-  //         alignment="middle"
-  //         style={{
-  //           data: {
-  //             fill: "blue",
-  //           },
-  //         }}
-  //       />
-  //     </VictoryChart>
-  //   );
-  // };
-
-  // const GradientTest = () => {
-  //   return (
-  //     <View style={styles.gradient}>
-  //       <LinearGradient
-  //         // Background Linear Gradient
-  //         // colors={["rgba(0,0,0,0.8)", "transparent"]}
-  //         // colors={["blue", "white"]}
-  //         colors={["blue", "blue", "transparent", "transparent", "transparent"]}
-  //         style={styles.background}
-  //       >
-  //         <Image
-  //           source={require("../../assets/rndex_logo.jpeg")}
-  //           style={{ height: 300, width: 300 }}
-  //         />
-  //       </LinearGradient>
-  //       <LinearGradient
-  //         start={{ x: 0.0, y: 0.25 }}
-  //         end={{ x: 0.5, y: 1.0 }}
-  //         locations={[0, 0.5, 0.6]}
-  //         colors={["#4c669f", "#3b5998", "#192f6a"]}
-  //         style={styles.linearGradient}
-  //       >
-  //         <Text style={styles.buttonText}>Sign in with Facebook</Text>
-  //       </LinearGradient>
-  //     </View>
-  //   );
-  // };
-
-  const ListTest = ({ game, games }) => {
-    return (
-      <View>
-        <List.Section>
-          <List.Accordion
-            style={{ width: 300 }}
-            title={game}
-            left={(props) => <List.Icon {...props} icon="duck" />}
-            expanded={expanded}
-            onPress={handlePress}
-          >
-            {games.map((e, idx) => {
-              return <List.Item title={e.game} key={idx} />;
-            })}
-          </List.Accordion>
-        </List.Section>
-      </View>
-    );
-  };
 
   const pokemonTestFilter = pokemonTest.filter((x) => x.gen.includes(value));
 
@@ -763,11 +645,135 @@ export default function TestView() {
     );
   };
 
+  const pokes = [
+    {
+      name: "bulbasaur",
+      url: "https://pokeapi.co/api/v2/pokemon/1/",
+    },
+    {
+      name: "ivysaur",
+      url: "https://pokeapi.co/api/v2/pokemon/2/",
+    },
+    {
+      name: "venusaur",
+      url: "https://pokeapi.co/api/v2/pokemon/3/",
+    },
+    {
+      name: "charmander",
+      url: "https://pokeapi.co/api/v2/pokemon/4/",
+    },
+    {
+      name: "charmeleon",
+      url: "https://pokeapi.co/api/v2/pokemon/5/",
+    },
+    {
+      name: "charizard",
+      url: "https://pokeapi.co/api/v2/pokemon/6/",
+    },
+    {
+      name: "squirtle",
+      url: "https://pokeapi.co/api/v2/pokemon/7/",
+    },
+    {
+      name: "wartortle",
+      url: "https://pokeapi.co/api/v2/pokemon/8/",
+    },
+    {
+      name: "blastoise",
+      url: "https://pokeapi.co/api/v2/pokemon/9/",
+    },
+    {
+      name: "caterpie",
+      url: "https://pokeapi.co/api/v2/pokemon/10/",
+    },
+    {
+      name: "metapod",
+      url: "https://pokeapi.co/api/v2/pokemon/11/",
+    },
+    {
+      name: "butterfree",
+      url: "https://pokeapi.co/api/v2/pokemon/12/",
+    },
+    {
+      name: "weedle",
+      url: "https://pokeapi.co/api/v2/pokemon/13/",
+    },
+    {
+      name: "kakuna",
+      url: "https://pokeapi.co/api/v2/pokemon/14/",
+    },
+    {
+      name: "beedrill",
+      url: "https://pokeapi.co/api/v2/pokemon/15/",
+    },
+    {
+      name: "pidgey",
+      url: "https://pokeapi.co/api/v2/pokemon/16/",
+    },
+    {
+      name: "pidgeotto",
+      url: "https://pokeapi.co/api/v2/pokemon/17/",
+    },
+    {
+      name: "pidgeot",
+      url: "https://pokeapi.co/api/v2/pokemon/18/",
+    },
+    {
+      name: "rattata",
+      url: "https://pokeapi.co/api/v2/pokemon/19/",
+    },
+    {
+      name: "raticate",
+      url: "https://pokeapi.co/api/v2/pokemon/20/",
+    },
+  ];
+
+  // have to render the scroll view outside of here
+  // otherwise it rerenders every tap
+  const PokeSelectTest = () => {
+    return (
+      <View
+        style={{
+          alignItems: "center",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          padding: 10,
+        }}
+      >
+        {pokes.map((poke) => {
+          let pokeID = poke.url.split("/")[6];
+          return (
+            <TouchableOpacity
+              key={poke.url}
+              onPress={() => {
+                updatePokemon({ id: pokeID, pokeName: poke.name });
+                // console.log(poke.name);
+              }}
+              style={{
+                height: 180,
+                width: 180,
+                borderColor: "white",
+                borderWidth: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ color: activeColors.textColor }}>{poke.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ImageIGList3 />
+      <ScrollView style={{ width: "100%" }}>
+        <PokeSelectTest />
+      </ScrollView>
     </SafeAreaView>
   );
 }

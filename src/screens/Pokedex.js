@@ -98,9 +98,7 @@ export default function Pokedex({ navigation }) {
     return (
       <View>
         {searchFilteredData.length > 0 ? (
-          <ScrollView>
-            <PokemonList />
-          </ScrollView>
+          <PokemonList />
         ) : (
           <DirectSearch pokemon={searchText} />
         )}
@@ -214,7 +212,9 @@ export default function Pokedex({ navigation }) {
               placeholder="Find your favorite Pokemon!"
               placeholderTextColor={activeColors.searchBarPlaceholder}
             />
-            <Body />
+            <ScrollView>
+              <Body />
+            </ScrollView>
           </>
         ) : (
           <LoadingView />

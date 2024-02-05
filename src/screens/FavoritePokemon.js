@@ -34,37 +34,26 @@ export default function FavoritePokemon() {
   const closeMenu = () => setVisible(false);
 
   const Body = () => {
-    if (favPokeList.length != 0) {
-      return (
-        <ScrollView
-          style={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            {sortOption.map((pokemon, idx) => {
-              return (
-                <PokemonItem
-                  pokeName={pokemon.pokeName}
-                  id={pokemon.id}
-                  width_percent={50}
-                  key={pokemon.id}
-                />
-              );
-            })}
-          </View>
-        </ScrollView>
-      );
-    } else {
-      return <MissingFavorites />;
-    }
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {sortOption.map((pokemon) => {
+          return (
+            <PokemonItem
+              pokeName={pokemon.pokeName}
+              id={pokemon.id}
+              width_percent={50}
+              key={pokemon.id}
+            />
+          );
+        })}
+      </View>
+    );
   };
 
   const handleSortOptions = (arr, num) => {
@@ -234,7 +223,18 @@ export default function FavoritePokemon() {
           </View>
         </View>
         <CustomDivider direction={"horizontal"} />
-        <Body />
+        {favPokeList.length != 0 ? (
+          <ScrollView
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Body />
+          </ScrollView>
+        ) : (
+          <MissingFavorites />
+        )}
       </SafeAreaView>
     </PaperProvider>
   );
