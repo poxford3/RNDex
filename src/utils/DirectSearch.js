@@ -44,48 +44,6 @@ export default function DirectSearch({ pokemon }) {
 
   // hi zoe :)
 
-  const SearchButton = () => {
-    return (
-      <TouchableOpacity
-        style={[styles.directButton, { backgroundColor: activeColors.accent }]}
-        onPress={() => {
-          handleDirectSearch();
-        }}
-      >
-        <Image
-          source={require("../../assets/info_imgs/poke-ball.png")}
-          style={{ height: 40, width: 40 }}
-        />
-        <Text style={{ color: activeColors.textColor, fontSize: 22 }}>
-          Direct Search
-        </Text>
-        <MaterialCommunityIcons
-          name="chevron-right"
-          color={activeColors.textColor}
-          size={30}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  const PopupText = () => {
-    return (
-      <View style={{ padding: 10 }}>
-        {!pokeFound ? (
-          <Text
-            style={{
-              color: activeColors.textColor,
-              fontSize: 26,
-              marginTop: 10,
-            }}
-          >
-            Could not find "{pokemon}", please check your spelling and try again
-          </Text>
-        ) : null}
-      </View>
-    );
-  };
-
   const AutocompleteNames = () => {
     return (
       <View style={{ flex: 1 }}>

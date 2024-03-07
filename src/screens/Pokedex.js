@@ -188,7 +188,7 @@ export default function Pokedex({ navigation }) {
               placeholder="Find your favorite Pokemon!"
               placeholderTextColor={activeColors.searchBarPlaceholder}
             />
-            <ScrollView>
+            <ScrollView style={{ width: "100%" }}>
               <Body />
             </ScrollView>
           </>
