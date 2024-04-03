@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
   FlatList,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +17,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import PokeGenderBar from "./PokeGenderBar";
 import TooltipInfo from "../TooltipInfo";
+import { stat_short } from "../../hooks/StatShorthand";
 
 export default function PokeBonusInfo({ fullData, typeColor, types }) {
   const navigation = useNavigation();
@@ -102,6 +102,15 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
 
   const InfoBody = () => {
     let base_exp = fullData[0].base_experience;
+    let effort_values = [];
+    // check all the stats to see which ones give EVs
+    for (let i = 0; i <= fullData[0].stats.length - 1; i++) {
+      if (fullData[0].stats[i].effort != 0) {
+        // get the shorthand name of the stat
+        const ev_name = stat_short[fullData[0].stats[i].stat.name];
+        effort_values.push(ev_name.concat(": ", fullData[0].stats[i].effort));
+      }
+    }
 
     let egg_list = [];
     let genderRate = 0,
@@ -191,10 +200,12 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
             />
             <InfoTopic
               title={"Effort Values"}
-              textValue={`Atk: 1`}
+              textValue={`${effort_values.join(", ")}`}
               icon={"sword"}
               side={"right"}
-              tip={"Pokemon of ."}
+              tip={
+                "Pokemon receive effort values after defeat which strengthen the stats gained. Visit the Bulbapedia article on 'Effort Values' for more info."
+              }
             />
           </View>
           {/* Base XP, egg group */}
@@ -205,7 +216,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               icon={"account-arrow-up"}
               side={"left"}
               tip={
-                "Pokemon of different evolution paths and rarities give experience on fainting, the base value is shown here. For more information, visit the Bulbapedia article on experience."
+                "Pokemon of different evolution paths and rarities give experience on fainting, the base value is shown here. For more information, visit the Bulbapedia article on 'Experience'."
               }
             />
             <InfoTopic
