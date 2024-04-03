@@ -23,6 +23,7 @@ export default function handleEvolutions(item) {
         move: capitalizeString(detail.known_move?.name),
         move_type: capitalizeString(detail.known_move_type?.name),
         held_item: capitalizeString(detail.held_item?.name),
+        relative_physical_stats: detail.relative_physical_stats,
       };
       temp_list.push(temp_obj);
     });

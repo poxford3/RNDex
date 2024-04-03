@@ -103,9 +103,19 @@ export default function Evolutions({ navigation }) {
 
     // determine what to display to show how to evolve
     let method_level;
+    console.log("phys", poke_pair.relative_physical_stats);
     switch (true) {
       case poke_pair.level != null && poke_pair.time != "":
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
+        break;
+      case poke_pair.level != null && poke_pair.relative_physical_stats != null:
+        if (poke_pair.relative_physical_stats == 1) {
+          method_level = `Level up (${poke_pair.level}) with Attack > Defense`;
+        } else if (poke_pair.relative_physical_stats == -1) {
+          method_level = `Level up (${poke_pair.level}) with Attack < Defense`;
+        } else {
+          method_level = `Level up (${poke_pair.level}) with Attack = Defense`;
+        }
         break;
       case poke_pair.level != null && poke_pair.location != null:
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
@@ -214,7 +224,6 @@ export default function Evolutions({ navigation }) {
         }}
       >
         <Image style={styles.pokemonImg} source={{ uri: img }} />
-        {/* <Text style={{ fontSize: 20 }}>{pokemon.pokeNameForm}</Text> */}
       </TouchableOpacity>
     );
   };
