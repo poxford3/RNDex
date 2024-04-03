@@ -23,8 +23,6 @@ import BannderAdComp from "../utils/BannderAdComp";
 
 export default function Pokemon() {
   const pokemonInfo = useContext(PokemonContext).pokemon;
-  const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
-  const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const id_text = pokemonInfo.id.toString().padStart(4, "0");
 
   const [stats, setStats] = useState([]);
@@ -35,6 +33,10 @@ export default function Pokemon() {
   });
   const [fullData, setFullData] = useState([]);
   const [desc, setDesc] = useState("");
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const sprite_to_use = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonInfo.id}.png`;
+  const shiny_sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${pokemonInfo.id}.png`;
   const [loaded, setLoaded] = useState(false);
   const { theme } = useContext(ThemeContext);
 
@@ -120,6 +122,7 @@ export default function Pokemon() {
   const scrollRef = useRef();
   useEffect(() => {
     getPokeStats();
+    setIsEnabled(false);
     scrollRef.current?.scrollTo({
       y: 0,
       animated: true,
@@ -131,10 +134,6 @@ export default function Pokemon() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <FavoritePokemonButton
-        id={pokemonInfo.id}
-        pokeName={pokemonInfo.pokeName}
-      />
       {loaded ? (
         <ScrollView style={{ width: "100%" }} ref={scrollRef}>
           <View style={styles.header}>
@@ -152,9 +151,22 @@ export default function Pokemon() {
                 justifyContent: "center",
               }}
             >
+              <View
+                style={{
+                  alignItems: "flex-end",
+                  width: "100%",
+                  paddingLeft: 10,
+                  paddingTop: 5,
+                }}
+              >
+                <FavoritePokemonButton
+                  id={pokemonInfo.id}
+                  pokeName={pokemonInfo.pokeName}
+                />
+              </View>
               <Image
                 source={{
-                  uri: sprite_to_use,
+                  uri: isEnabled ? shiny_sprite : sprite_to_use,
                 }}
                 style={styles.images}
               />

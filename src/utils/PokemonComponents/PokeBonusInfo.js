@@ -101,6 +101,8 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
   };
 
   const InfoBody = () => {
+    let base_exp = fullData[0].base_experience;
+
     let egg_list = [];
     let genderRate = 0,
       growthRate = "";
@@ -108,7 +110,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
       fullData[1].egg_groups.map((egg, idx) => {
         egg_list.push(
           capitalizeString(egg.name).concat(
-            idx != fullData[1].egg_groups.length - 1 ? " /" : ""
+            idx != fullData[1].egg_groups.length - 1 ? " /" : "" // if the egg group is not the last index, add a '/' to it
           )
         );
       });
@@ -160,6 +162,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
           </View>
         </View>
         <View style={styles.infoSection}>
+          {/* height, growth rate */}
           <View style={styles.row}>
             <InfoTopic
               title={"Height"}
@@ -178,12 +181,32 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               }
             />
           </View>
+          {/* weight, EVs */}
           <View style={styles.row}>
             <InfoTopic
               title={"Weight"}
               textValue={`${fullData[0].weight / 10} kg`}
               icon={"scale-bathroom"}
               side={"left"}
+            />
+            <InfoTopic
+              title={"Effort Values"}
+              textValue={`Atk: 1`}
+              icon={"sword"}
+              side={"right"}
+              tip={"Pokemon of ."}
+            />
+          </View>
+          {/* Base XP, egg group */}
+          <View style={styles.row}>
+            <InfoTopic
+              title={"Experience"}
+              textValue={`${base_exp}`}
+              icon={"account-arrow-up"}
+              side={"left"}
+              tip={
+                "Pokemon of different evolution paths and rarities give experience on fainting, the base value is shown here. For more information, visit the Bulbapedia article on experience."
+              }
             />
             <InfoTopic
               title={"Egg Group"}
@@ -195,9 +218,11 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               }
             />
           </View>
+          {/* ability */}
           <View style={styles.row}>
             <AbilityDisplay />
           </View>
+          {/* genders */}
           <View style={styles.row}>
             <View style={{ flexDirection: "column" }}>
               <InfoTopic
@@ -208,6 +233,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               <PokeGenderBar genders={genderRate} />
             </View>
           </View>
+          {/* resistance */}
           <View style={styles.row}>
             {resistances2.length != 0 || resistances4.length != 0 ? (
               <View style={styles.multiplyRow}>
@@ -263,6 +289,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               </View>
             ) : null}
           </View>
+          {/* weakness */}
           <View style={styles.row}>
             {weaknesses2.length != 0 || weaknesses4.length != 0 ? (
               <View style={styles.multiplyRow}>
@@ -312,6 +339,7 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               </View>
             ) : null}
           </View>
+          {/* immunities */}
           {immune.length != 0 ? (
             <View style={styles.row}>
               <View style={{ flexDirection: "column" }}>
@@ -361,13 +389,21 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
                 />
               ) : null}
             </View>
-            <Text
-              numberOfLines={1}
-              style={[styles.info, { color: activeColors.textColor }]}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
             >
-              {dispText}
-            </Text>
-            {tip ? <TooltipInfo tip={tip} /> : null}
+              <Text
+                numberOfLines={1}
+                style={[styles.info, { color: activeColors.textColor }]}
+              >
+                {dispText}
+              </Text>
+              {tip ? <TooltipInfo tip={tip} /> : null}
+            </View>
           </>
         ) : (
           <>

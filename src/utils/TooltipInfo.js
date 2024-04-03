@@ -14,7 +14,7 @@ export default function TooltipInfo({ tip }) {
       <Tooltip
         popover={<Text style={{ color: activeColors.textColor }}>{tip}</Text>}
         overlayColor={"rgba(100, 100, 100, 0.70)"}
-        height={150}
+        height={null}
         width={175} // <- this is bullshit that I have to do this
       >
         <MaterialCommunityIcons name="information" size={20} color={"grey"} />
