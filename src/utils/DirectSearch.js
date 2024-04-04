@@ -16,6 +16,7 @@ import { PokemonContext } from "../contexts/PokemonContext";
 import { all_pokemon } from "../../assets/all_pokemon";
 import API_CALL from "../hooks/API_CALL";
 import { PokemonItem } from "./PokemonComponents/PokemonItem";
+import PokemonList from "./PokemonComponents/PokemonList";
 
 export default function DirectSearch({ pokemon }) {
   const { theme } = useContext(ThemeContext);
@@ -25,22 +26,12 @@ export default function DirectSearch({ pokemon }) {
   const navigation = useNavigation();
 
   const all_poke_names = all_pokemon.results;
-  const pokeName = pokemon == undefined ? "" : pokemon.toLowerCase().trim();
-
-  const [pokeFound, setPokeFound] = useState(true);
-
-  const handleDirectSearch = async () => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${pokeName}`;
-    const response = await API_CALL(url);
-
-    if (response == undefined) {
-      console.log("bad");
-      setPokeFound(false);
-    } else {
-      updatePokemon({ id: response.id, pokeName: response.name });
-      navigation.navigate("PokemonTabNav");
-    }
-  };
+  // for (let i = 0; i <= all_poke_names.length - 1; i++) {
+  //   // put the id in the list
+  //   all_poke_names[i].id = all_poke_names[i].url.split("/")[6];
+  // }
+  const pokeNameCleanInput =
+    pokemon == undefined ? "" : pokemon.toLowerCase().trim();
 
   // hi zoe :)
 
@@ -52,22 +43,7 @@ export default function DirectSearch({ pokemon }) {
             <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
               Other Generations
             </Text>
-            <FlatList
-              data={completePokes}
-              numColumns={2}
-              maxToRenderPerBatch={10}
-              keyExtractor={(item) => item.url}
-              initialNumToRender={30}
-              renderItem={({ item }) => {
-                return (
-                  <PokemonItem
-                    pokeName={item.name}
-                    id={item.url.split("/")[6]}
-                    width_percent={50}
-                  />
-                );
-              }}
-            />
+            <PokemonList pokeItems={completePokes} />
           </View>
         ) : (
           <Text style={{ color: activeColors.textColor, fontSize: 26 }}>
@@ -81,7 +57,7 @@ export default function DirectSearch({ pokemon }) {
   const [completePokes, setCompletePokes] = useState(null);
   useEffect(() => {
     let searchFilteredData = all_poke_names.filter((x) =>
-      x.name.includes(pokeName)
+      x.pokeName.includes(pokeNameCleanInput)
     ); // maybe startsWith() instead of filter ?
     setCompletePokes(searchFilteredData.length > 0 ? searchFilteredData : null);
   }, [pokemon]);

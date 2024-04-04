@@ -208,24 +208,24 @@ export default function PokeBonusInfo({ fullData, typeColor, types }) {
               }
             />
           </View>
-          {/* Base XP, egg group */}
+          {/* egg group, Base XP */}
           <View style={styles.row}>
-            <InfoTopic
-              title={"Experience"}
-              textValue={`${base_exp}`}
-              icon={"account-arrow-up"}
-              side={"left"}
-              tip={
-                "Pokemon of different evolution paths and rarities give experience on fainting, the base value is shown here. For more information, visit the Bulbapedia article on 'Experience'."
-              }
-            />
             <InfoTopic
               title={"Egg Group"}
               textValue={`${egg_text}`}
               icon={"egg"}
-              side={"right"}
+              side={"left"}
               tip={
                 "Egg groups determine which Pokemon can breed with each other. Multiple groups allow for multiple breeding combinations."
+              }
+            />
+            <InfoTopic
+              title={"Experience"}
+              textValue={`${base_exp}`}
+              icon={"account-arrow-up"}
+              side={"right"}
+              tip={
+                "Pokemon of different evolution paths and rarities give experience on fainting, the base value is shown here. For more information, visit the Bulbapedia article on 'Experience'."
               }
             />
           </View>

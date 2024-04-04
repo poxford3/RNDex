@@ -103,7 +103,6 @@ export default function Evolutions({ navigation }) {
 
     // determine what to display to show how to evolve
     let method_level;
-    console.log("phys", poke_pair.relative_physical_stats);
     switch (true) {
       case poke_pair.level != null && poke_pair.time != "":
         method_level = `Level up (${poke_pair.level}) during the ${poke_pair.time}`;
