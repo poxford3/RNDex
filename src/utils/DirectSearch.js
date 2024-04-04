@@ -26,10 +26,6 @@ export default function DirectSearch({ pokemon }) {
   const navigation = useNavigation();
 
   const all_poke_names = all_pokemon.results;
-  // for (let i = 0; i <= all_poke_names.length - 1; i++) {
-  //   // put the id in the list
-  //   all_poke_names[i].id = all_poke_names[i].url.split("/")[6];
-  // }
   const pokeNameCleanInput =
     pokemon == undefined ? "" : pokemon.toLowerCase().trim();
 
