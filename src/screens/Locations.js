@@ -19,7 +19,7 @@ import { PokemonContext } from "../contexts/PokemonContext";
 import box_art from "../../assets/box_art";
 import BannerAdComp from "../utils/BannderAdComp";
 
-export default function Locations() {
+export default function Locations({ navigation }) {
   const pokemonInfo = useContext(PokemonContext).pokemon;
   const [locations, setLocations] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -34,7 +34,7 @@ export default function Locations() {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
-  const getLocations = async (id) => {
+  const getLocationArea = async (id) => {
     setLoaded(false);
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/encounters`;
     const json = await API_CALL(url);
@@ -43,6 +43,7 @@ export default function Locations() {
     json.map((e) => {
       e.version_details.map((o) => {
         tempLocationList.push({
+          url: e.location_area.url,
           location_name: capitalizeString(e.location_area.name).replace(
             "Area",
             ""
@@ -67,6 +68,20 @@ export default function Locations() {
     setLoaded(true);
   };
 
+  const getLocations = async (item) => {
+    const loc_json = await API_CALL(item.url);
+
+    // full_location_name: e.location.name,
+    // full_location_url: e.location.url,
+
+    navigation.navigate("LocationView", {
+      route: {
+        name: loc_json.location.name,
+        url: loc_json.location.url,
+      },
+    });
+  };
+
   const Location = memo(function Location({ loc }) {
     const box_art_pic = box_art[loc.game.toLowerCase().replace(" ", "")];
     const level_disp =
@@ -77,14 +92,17 @@ export default function Locations() {
       <View
         style={[styles.locationBox, { borderBottomColor: activeColors.accent }]}
       >
-        <View style={styles.locLeft}>
+        <TouchableOpacity
+          style={styles.locLeft}
+          onPress={() => getLocations(loc)}
+        >
           <Text style={[styles.locText, { color: activeColors.textColor }]}>
             {loc.location_name}
           </Text>
           <Text style={styles.miniLocText}>
             {loc.chance}% - {level_disp}
           </Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.locRight}>
           <Image
             source={box_art_pic}
@@ -150,11 +168,11 @@ export default function Locations() {
   };
 
   useEffect(() => {
-    getLocations(pokemonInfo.id);
+    getLocationArea(pokemonInfo.id);
   }, []);
 
   useEffect(() => {
-    getLocations(pokemonInfo.id);
+    getLocationArea(pokemonInfo.id);
   }, [pokemonInfo]);
 
   return (

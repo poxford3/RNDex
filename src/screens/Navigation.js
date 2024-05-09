@@ -120,6 +120,7 @@ export default function MyStack() {
           component={ItemView}
           options={({ route }) => ({
             title: capitalizeString(route.params.route.name),
+            headerBackTitleVisible: false,
           })}
         />
         <Stack.Screen
@@ -127,6 +128,7 @@ export default function MyStack() {
           component={AbilityView}
           options={({ route }) => ({
             title: capitalizeString(route.params.route.name),
+            headerBackTitleVisible: false,
           })}
         />
         <Stack.Screen
@@ -134,6 +136,7 @@ export default function MyStack() {
           component={LocationView}
           options={({ route }) => ({
             title: capitalizeString(route.params.route.name),
+            headerBackTitleVisible: false,
           })}
         />
         <Stack.Group
