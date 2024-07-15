@@ -16,7 +16,6 @@ import { getData } from "../config/asyncStorage";
 import CustomDivider from "../utils/CustomDivider";
 import MissingFavorites from "../utils/MissingFavorites";
 
-import { PokemonContext } from "../contexts/PokemonContext";
 import PokemonList from "../utils/PokemonComponents/PokemonList";
 
 export default function FavoritePokemon() {

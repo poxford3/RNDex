@@ -1,16 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { Appearance } from "react-native";
+import { Appearance, NativeModules } from "react-native";
 import Navigation from "./src/screens/Navigation";
 import { ThemeContext } from "./src/contexts/ThemeContext";
 import { storeData, getData } from "./src/config/asyncStorage";
 import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
 import { SpriteContext } from "./src/contexts/SpriteContext";
+import SharedGroupPreferences from "react-native-shared-group-preferences";
+
+const group = "group.rndex";
+
+const SharedStorage = NativeModules.SharedStorage;
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const updateWidget = async () => {
+    try {
+      const favPokes = await getData("favPokeList");
+
+      if (favPokes) {
+        try {
+          // iOS
+          await SharedGroupPreferences.setItem("widgetKey", favPokes, group);
+        } catch (error) {
+          console.log({ error });
+        }
+      }
+    } catch ({ message }) {
+      console.log("fetch fav poke error (appjs)", message);
+    }
+  };
+
   const [theme, setTheme] = useState({ mode: "light" });
 
   const updateTheme = (newTheme) => {
@@ -55,6 +77,7 @@ export default function App() {
   useEffect(() => {
     fetchStoredTheme();
     fetchStoredSpriteType();
+    updateWidget();
     // fetchUserFirstTime();
   }, []);
 
