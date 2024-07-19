@@ -32,6 +32,7 @@ export default function Pokemon() {
     type2: null,
   });
   const [fullData, setFullData] = useState([]);
+  const [favoritesData, setFavoritesData] = useState();
   const [desc, setDesc] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -84,6 +85,18 @@ export default function Pokemon() {
 
     // setFullData({ ...json, ...json_id });
     setFullData([json, json_id]);
+
+    const favData = {
+      name: pokemonInfo.name,
+      id: pokemonInfo.id,
+      types: [type_obj.type1, type_obj.type2],
+      color: mainColor,
+      url: url,
+      picture_url: sprite_to_use,
+      stats: json.stats,
+    };
+
+    setFavoritesData(favData);
 
     setLoaded(true);
   };
@@ -159,10 +172,7 @@ export default function Pokemon() {
                   paddingTop: 5,
                 }}
               >
-                <FavoritePokemonButton
-                  id={pokemonInfo.id}
-                  pokeName={pokemonInfo.pokeName}
-                />
+                <FavoritePokemonButton data={favoritesData} />
               </View>
               <Image
                 source={{

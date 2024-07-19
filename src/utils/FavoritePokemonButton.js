@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { PokemonContext } from "../contexts/PokemonContext";
 import { storeData, getData } from "../config/asyncStorage";
 
-export default function FavoritePokemonButton({ id, pokeName }) {
+export default function FavoritePokemonButton({ data }) {
   // will need to set up async storage to store people's favorites
   const [heartToggle, setHeartToggle] = useState(false);
   const [favPokeList, setFavPokeList] = useState([]);
@@ -21,9 +21,14 @@ export default function FavoritePokemonButton({ id, pokeName }) {
 
   const updateFavPokemon = async () => {
     let newFavPoke = {
-      id: id,
-      pokeName: pokeName,
+      id: data.id,
+      pokeName: data.name,
       date_added: new Date(),
+      types: data.types,
+      color: data.color,
+      url: data.url,
+      picture_url: data.picture_url,
+      stats: data.stats,
     };
     if (favPokeList.length >= 1) {
       storeData("favPokeList", [...favPokeList, newFavPoke]);
