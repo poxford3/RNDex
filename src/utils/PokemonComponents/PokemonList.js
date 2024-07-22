@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { PokemonItem } from "./PokemonItem";
 
 export default function PokemonList({ pokeItems, genSelected }) {
+  // console.log(pokeItems);
   return (
     <View
       style={{

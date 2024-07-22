@@ -87,7 +87,7 @@ export default function Pokemon() {
     setFullData([json, json_id]);
 
     const favData = {
-      name: pokemonInfo.name,
+      name: json.name,
       id: pokemonInfo.id,
       types: [type_obj.type1, type_obj.type2],
       color: mainColor,

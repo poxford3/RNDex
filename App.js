@@ -24,8 +24,9 @@ export default function App() {
         try {
           // iOS
           await SharedGroupPreferences.setItem("widgetKey", favPokes, group);
+          console.log("data loaded", favPokes);
         } catch (error) {
-          console.log({ error });
+          console.log("update widget error", { error });
         }
       }
     } catch ({ message }) {

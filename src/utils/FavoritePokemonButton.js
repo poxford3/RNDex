@@ -5,7 +5,6 @@ import { PokemonContext } from "../contexts/PokemonContext";
 import { storeData, getData } from "../config/asyncStorage";
 
 export default function FavoritePokemonButton({ data }) {
-  // will need to set up async storage to store people's favorites
   const [heartToggle, setHeartToggle] = useState(false);
   const [favPokeList, setFavPokeList] = useState([]);
 
@@ -40,7 +39,7 @@ export default function FavoritePokemonButton({ data }) {
   };
 
   const removeStoredPokemon = async () => {
-    let newPokeList = favPokeList.filter((e) => e.id != id);
+    let newPokeList = favPokeList.filter((e) => e.id != data.id);
     storeData("favPokeList", newPokeList);
     setHeartToggle(false);
   };
@@ -58,7 +57,7 @@ export default function FavoritePokemonButton({ data }) {
   };
 
   const heartChanger = () => {
-    if (favPokeList.filter((e) => e.id === id).length > 0) {
+    if (favPokeList.filter((e) => e.id === data.id).length > 0) {
       setHeartToggle(true);
     } else {
       setHeartToggle(false);
