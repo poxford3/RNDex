@@ -20,11 +20,13 @@ import API_CALL from "../hooks/API_CALL";
 import CustomDivider from "../utils/CustomDivider";
 import BannderAdComp from "../utils/BannderAdComp";
 import PokemonList from "../utils/PokemonComponents/PokemonList";
+import NetworkError from "../utils/NetworkError";
 
 export default function Pokedex({ navigation }) {
   // variables
   const [pokeList, setPokeList] = useState([]);
   const [loaded, setLoaded] = useState(true);
+  const [networkError, setNetworkError] = useState(false);
 
   const [genSelected, setGenSelected] = useState(1);
 
@@ -41,18 +43,24 @@ export default function Pokedex({ navigation }) {
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
     const json = await API_CALL(url);
 
-    let tempPokeList = []; // Temporary array to hold values
-
-    json.pokemon_species.forEach((e) => {
-      tempPokeList.push({
-        pokeName: e.name,
-        id: parseInt(e.url.split("/")[6]),
+    // if (json.error) return null;
+    if (!json.error) {
+      let tempPokeList = []; // Temporary array to hold values
+  
+      json.pokemon_species.forEach((e) => {
+        tempPokeList.push({
+          pokeName: e.name,
+          id: parseInt(e.url.split("/")[6]),
+        });
       });
-    });
+  
+      setPokeList((prevList) => [...prevList, ...tempPokeList]);
+      setGenSelected(gen);
+      setLoaded(true);
+    } else {
+      setNetworkError(true);
+    }
 
-    setPokeList((prevList) => [...prevList, ...tempPokeList]);
-    setGenSelected(gen);
-    setLoaded(true);
   };
 
   // custom components
@@ -167,6 +175,7 @@ export default function Pokedex({ navigation }) {
         </View>
       </View>
       <CustomDivider direction={"horizontal"} />
+      {networkError ?
       <View style={styles.pokemonBox}>
         {loaded ? (
           <>
@@ -196,6 +205,7 @@ export default function Pokedex({ navigation }) {
           <LoadingView />
         )}
       </View>
+    : <NetworkError />}
       <BannderAdComp />
     </SafeAreaView>
   );

@@ -39,3 +39,7 @@ The following information can be found in the tabs:
 See image below using Charizard as an example
 
 <img src="/assets/poke_tabs.gif" alt="Pokémon view with stats and description of charizard" height=350>
+
+
+##### TODO
+# implement network issue screens
