@@ -43,8 +43,12 @@ export default function Pokedex({ navigation }) {
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
     const json = await API_CALL(url);
 
-    // if (json.error) return null;
-    if (!json.error) {
+    if (json.rndex_error) {
+      console.log('err');
+      setNetworkError(true);
+    } else {
+      console.log('no err');
+      setNetworkError(false);
       let tempPokeList = []; // Temporary array to hold values
   
       json.pokemon_species.forEach((e) => {
@@ -57,8 +61,6 @@ export default function Pokedex({ navigation }) {
       setPokeList((prevList) => [...prevList, ...tempPokeList]);
       setGenSelected(gen);
       setLoaded(true);
-    } else {
-      setNetworkError(true);
     }
 
   };
@@ -176,6 +178,8 @@ export default function Pokedex({ navigation }) {
       </View>
       <CustomDivider direction={"horizontal"} />
       {networkError ?
+      <NetworkError />
+    : 
       <View style={styles.pokemonBox}>
         {loaded ? (
           <>
@@ -205,7 +209,7 @@ export default function Pokedex({ navigation }) {
           <LoadingView />
         )}
       </View>
-    : <NetworkError />}
+    }
       <BannderAdComp />
     </SafeAreaView>
   );

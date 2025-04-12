@@ -1,20 +1,20 @@
-const API_CALL = async (url) => {
-  console.log('api call', url);
-  const errMsg = { error: `api call failed: ${err}` };
+async function API_CALL(url) {
+  const errMsg = { rndex_error: `api call failed` };
   try {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.log('status not ok')
-      return errMsg;
+      throw new Error (`Response error: ${response.status}`);
     }
 
     const json = await response.json();
-    return json;
+    return json
   } catch (err) {
-    console.log("issue", err);
-    return errMsg;
-  }
+    console.error("issue", err);
+    return errMsg
+  } 
 };
 
 export default API_CALL;
+
+// test endpoint: const url = "https://fake-json-api.mock.beeceptor.com/users"
