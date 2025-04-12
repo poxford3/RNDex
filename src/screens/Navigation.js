@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PlatformPressable } from "@react-navigation/elements";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
 import { StatusBar, Text } from "react-native";
@@ -200,7 +201,19 @@ export function PokemonBottomTabNavNative({ state, descriptors, navigation }) {
         }
 
         return (
-         <></> 
+         <PlatformPressable
+            href={buildHref(route.name, route.params)}
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarButtonTestID}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={{ flex: 1 }}
+         >
+          <Text style={{ color: isFocused ? activeColors.textColor : "grey"}}>
+            {label}
+          </Text>
+         </PlatformPressable>
         );
 
       })}
@@ -208,6 +221,16 @@ export function PokemonBottomTabNavNative({ state, descriptors, navigation }) {
   )
 
 }
+
+const PokemonBottomTabNavs = createBottomTabNavigator({
+  tabBar: (props) => <PokemonBottomTabNavNative {...props} />,
+  screens: {
+    Pokemon: Pokemon,
+    Evolutions: Evolutions,
+    Locations: Locations,
+    Moves: Moves,
+  }
+})
 
 const Tab = createBottomTabNavigator();
 
