@@ -39,15 +39,15 @@ export default function Pokedex({ navigation }) {
   // based on gen selected
   const getPokeList = async ({ gen }) => {
     setLoaded(false);
+    setNetworkError(false);
     setPokeList([]);
     const url = `https://pokeapi.co/api/v2/generation/${gen}`;
+    // const url = "https://fake-json-api.mock.beeceptor.com/users";
     const json = await API_CALL(url);
 
     if (json.rndex_error) {
-      console.log('err');
       setNetworkError(true);
     } else {
-      console.log('no err');
       setNetworkError(false);
       let tempPokeList = []; // Temporary array to hold values
   

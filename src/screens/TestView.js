@@ -19,6 +19,9 @@ import {
 //   VictoryLabel,
 //   VictoryAxis,
 // } from "victory-native";
+import { CartesianChart, Bar } from "victory-native";
+// import Victory from "../config/victory";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 // import { Tooltip, Provider } from "react-native-paper";
@@ -82,6 +85,25 @@ export default function TestView() {
     { x: "speed", y: 45 },
     { x: "extra", y: 50 },
   ];
+
+  // const VictoryChart = Victory.VictoryChart;
+  // const VictoryBar = Victory.VictoryBar;
+  // const VictoryAxis = Victory.VictoryAxis;
+
+  const VictoryChartNew = () => {
+    return (
+      <View>
+        <CartesianChart data={data} xKey="x" yKeys={["y"]}>
+          {data.map((dat) => {
+            <Bar 
+              points={dat.y}
+              chartBounds={[0,100]}
+            />
+          })}
+        </CartesianChart>
+      </View>
+    );
+  }
 
   const genders = [
     { x: "male", y: 35 },
@@ -771,9 +793,10 @@ export default function TestView() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ScrollView style={{ width: "100%" }}>
+      {/* <ScrollView style={{ width: "100%" }}>
         <PokeSelectTest />
-      </ScrollView>
+      </ScrollView> */}
+      <VictoryChartNew />
     </SafeAreaView>
   );
 }

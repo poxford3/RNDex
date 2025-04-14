@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { PlatformPressable } from "@react-navigation/elements";
+// import { PlatformPressable } from "@react-navigation/elements";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
 import { StatusBar, Text } from "react-native";
@@ -74,8 +74,8 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={initRouteName}
-        // initialRouteName="Test"
+        // initialRouteName={initRouteName}
+        initialRouteName="Test"
         screenOptions={{
           headerTintColor: activeColors.textColor,
           headerStyle: { backgroundColor: activeColors.background },
@@ -163,75 +163,6 @@ import Locations from "./Locations";
 import Moves from "./Moves";
 
 
-
-export function PokemonBottomTabNavNative({ state, descriptors, navigation }) {
-  const { theme } = useContext(ThemeContext);
-  let activeColors = themeColors[theme.mode];
-
-  const pokemonInfo = useContext(PokemonContext).pokemonInfo;
-
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label = 
-          options.tabBarLabel !== undefined
-          ? options.tabBarLabel : options.title !== undefined
-            ? options.title : route.name;
-        
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-        if (!isFocused && !event.defaultPrevented) {
-          navigation.navigate(route.name, pokemonInfo);
-        }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({ 
-            type: 'tabLongPress',
-            target: route.key
-          })
-        }
-
-        return (
-         <PlatformPressable
-            href={buildHref(route.name, route.params)}
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarButtonTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{ flex: 1 }}
-         >
-          <Text style={{ color: isFocused ? activeColors.textColor : "grey"}}>
-            {label}
-          </Text>
-         </PlatformPressable>
-        );
-
-      })}
-    </View>
-  )
-
-}
-
-const PokemonBottomTabNavs = createBottomTabNavigator({
-  tabBar: (props) => <PokemonBottomTabNavNative {...props} />,
-  screens: {
-    Pokemon: Pokemon,
-    Evolutions: Evolutions,
-    Locations: Locations,
-    Moves: Moves,
-  }
-})
-
 const Tab = createBottomTabNavigator();
 
 export function PokemonBottomTabNav({ route }) {
@@ -239,10 +170,6 @@ export function PokemonBottomTabNav({ route }) {
   let activeColors = themeColors[theme.mode];
 
   const pokemonInfo = useContext(PokemonContext).pokemonInfo;
-  // const pokemonInfo = route.params;
-
-  // const updatePokemon = useContext(PokemonContext).updatePokemon;
-  // updatePokemon(pokemonInfo);
 
   return (
     <Tab.Navigator
@@ -252,16 +179,7 @@ export function PokemonBottomTabNav({ route }) {
       }}
       screenOptions={({ route, navigation }) => ({
         headerShown: false,
-        tabBarLabel: (
-          <Text
-            style={{
-              color: navigation.isFocused() ? activeColors.textColor : "grey",
-            }}
-          >
-            {route.name}
-          </Text>
-        ),
-        tabBarIcon: ({ color, size, focused }) => {
+        tabBarIcon: ({ color }) => {
           const icons = {
             Pokemon: "pokeball",
             Evolutions: "graph",
@@ -276,12 +194,12 @@ export function PokemonBottomTabNav({ route }) {
             />
           );
         },
+        tabBarStyle: {
+          backgroundColor: activeColors.background,
+          borderTopColor: activeColors.grey,
+          borderTopWidth: 0.4,
+        }
       })}
-      barStyle={{
-        backgroundColor: activeColors.background,
-        borderTopColor: activeColors.grey,
-        borderTopWidth: 0.4,
-      }}
       initialRouteName="Pokemon"
     >
       <Tab.Screen

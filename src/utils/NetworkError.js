@@ -17,13 +17,16 @@ export default function NetworkError() {
         alignItems: "center",
       }}
     >
-        <Ionicons 
-            name="globe-outline"
-            size={30}
-            color={activeColors.textColor}
-        />
-      <Text style={{ textAlign: "center", color: activeColors.textColor }}>
-        Network error, restart to attempt to fix
+      <Ionicons 
+        name="globe-outline"
+        size={30}
+        color={activeColors.textColor}
+      />
+      <Text style={{ textAlign: "center", color: activeColors.textColor, fontWeight: 'bold', fontSize: 20 }}>
+        Network error
+      </Text>
+      <Text style={{ textAlign: 'center', color: activeColors.textColor, fontSize: 14 }}>
+        Ensure your internet is turned on, restart app, or check later if previous steps fail.
       </Text>
     </View>
   );
