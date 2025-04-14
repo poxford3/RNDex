@@ -72,7 +72,9 @@ export default function MoveDetails({ route, navigation }) {
                     id: poke_id,
                     pokeName: poke_name.name,
                   });
-                  navigation.navigate("Pokemon");
+                  navigation.navigate("PokemonTabNav", {
+                    screen: 'Pokemon'
+                  });
                 }}
                 style={{
                   marginBottom: 3,
