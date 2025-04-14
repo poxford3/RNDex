@@ -74,8 +74,8 @@ export default function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName={initRouteName}
-        initialRouteName="Test"
+        initialRouteName={initRouteName}
+        // initialRouteName="Test"
         screenOptions={{
           headerTintColor: activeColors.textColor,
           headerStyle: { backgroundColor: activeColors.background },
