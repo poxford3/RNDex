@@ -19,6 +19,10 @@ import {
 //   VictoryLabel,
 //   VictoryAxis,
 // } from "victory-native";
+// import { CartesianChart, Bar, useChartTransformState } from "victory-native";
+// import { rotate, useFont } from "@shopify/react-native-skia";
+import Victory from "../config/victory";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 // import { Tooltip, Provider } from "react-native-paper";
@@ -82,6 +86,124 @@ export default function TestView() {
     { x: "speed", y: 45 },
     { x: "extra", y: 50 },
   ];
+
+  const VictoryChart = Victory.VictoryChart;
+  const VictoryBar = Victory.VictoryBar;
+  const VictoryAxis = Victory.VictoryAxis;
+
+  const VictoryChartLegacy = () => {
+    const text_color = "white";
+    return (
+      <View>
+        <VictoryChart
+          domainPadding={10}
+          padding={{ left: 70, top: 30, right: 30, bottom: 60 }}
+        >
+          <VictoryAxis 
+            independentAxis={true}
+            orientation={"left"}
+            style={{
+              axis: {
+                stroke: activeColors.textColor,
+              },
+              tickLabels: {
+                fill: activeColors.textColor,
+              },
+            }}
+          />
+          <VictoryAxis 
+            dependentAxis={true}
+            orientation={"bottom"}
+            domain={[0, 255]}
+            label={"(Single Value Max: 255)"}
+            style={{
+              axis: {
+                stroke: text_color,
+              },
+              axisLabel: {
+                fill: text_color,
+                marginTop: 5,
+              },
+              label: {
+                fill: text_color,
+              },
+              tickLabels: {
+                fill: text_color,
+              },
+            }}
+          />
+          <VictoryBar
+            data={data}
+            horizontal={true}
+            labels={({ datum }) => datum.y}
+            alignment="middle"
+            style={{
+              data: {
+                fill: typeColor,
+              },
+              labels: {
+                fill: activeColors.textColor,
+                width: 50,
+              },
+            }}
+          />
+        </VictoryChart>
+      </View>
+    )
+  }
+
+  // const VictoryChartNew = () => {
+  //   const textColor = "white"
+  //   const font_file = require("../../assets/SF-Pro.ttf");
+  //   const font = useFont(font_file, 12);
+  //   const transformState = useChartTransformState();
+  //   const axisProps = {
+  //     font: font,
+  //     labelColor: textColor,
+  //   };
+  
+  //   return (
+  //     <View style={{width: 400, height: 600}}>
+  //       <Text style={{color: 'white'}}>TEST CHART</Text>
+  //       <View
+  //         style={{
+  //           borderRadius: 10,
+  //           borderColor: 'white',
+  //           borderWidth: 1,
+  //           flex: 1,
+  //           transform: [{rotate: "90deg"}]
+  //         }}
+  //       >
+  //         <CartesianChart 
+  //           data={data}
+  //           xKey="x" 
+  //           yKeys={["y"]}
+  //           // transformState={transformState}
+  //           domain={{ y: [0, 100]}}
+  //           axisOptions={axisProps}
+  //           // xAxis={axisProps}
+  //           // yAxis={{
+  //           //   domain: [0,255]
+  //           // }}
+  //           // yAxis={{
+  //           //   font: font,
+  //           //   labelColor: textColor,
+  //           // }}
+  //         >
+  //         {({ points, chartBounds }) => (
+  //             <Bar
+  //               chartBounds={chartBounds}
+  //               points={points.y}
+  //               // barWidth={10}
+  //               color={textColor}
+
+  //             />
+  //           )}
+  //         </CartesianChart>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   const genders = [
     { x: "male", y: 35 },
@@ -771,25 +893,14 @@ export default function TestView() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: activeColors.background }]}
     >
-      <ScrollView style={{ width: "100%" }}>
+      {/* <ScrollView style={{ width: "100%" }}>
         <PokeSelectTest />
-      </ScrollView>
+      </ScrollView> */}
+      <VictoryChartLegacy />
     </SafeAreaView>
   );
 }
 
-{
-  /* <ModalTest />
-<ModalResults /> */
-}
-{
-  /* <Text>test page (Bulbasaur):</Text> */
-}
-{
-  /* {gens.map((e, idx) => {
-  return <ListTest game={e.name} games={e.games} key={idx} />;
-})} */
-}
 
 const styles = StyleSheet.create({
   background: {

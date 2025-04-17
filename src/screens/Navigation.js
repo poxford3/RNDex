@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+// import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { PlatformPressable } from "@react-navigation/elements";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import HeaderImage from "../utils/HeaderImage";
 import { StatusBar, Text } from "react-native";
@@ -160,17 +162,14 @@ import Evolutions from "./Evolutions";
 import Locations from "./Locations";
 import Moves from "./Moves";
 
-const Tab = createMaterialBottomTabNavigator();
+
+const Tab = createBottomTabNavigator();
 
 export function PokemonBottomTabNav({ route }) {
   const { theme } = useContext(ThemeContext);
   let activeColors = themeColors[theme.mode];
 
   const pokemonInfo = useContext(PokemonContext).pokemonInfo;
-  // const pokemonInfo = route.params;
-
-  // const updatePokemon = useContext(PokemonContext).updatePokemon;
-  // updatePokemon(pokemonInfo);
 
   return (
     <Tab.Navigator
@@ -180,16 +179,7 @@ export function PokemonBottomTabNav({ route }) {
       }}
       screenOptions={({ route, navigation }) => ({
         headerShown: false,
-        tabBarLabel: (
-          <Text
-            style={{
-              color: navigation.isFocused() ? activeColors.textColor : "grey",
-            }}
-          >
-            {route.name}
-          </Text>
-        ),
-        tabBarIcon: ({ color, size, focused }) => {
+        tabBarIcon: ({ color }) => {
           const icons = {
             Pokemon: "pokeball",
             Evolutions: "graph",
@@ -204,12 +194,12 @@ export function PokemonBottomTabNav({ route }) {
             />
           );
         },
+        tabBarStyle: {
+          backgroundColor: activeColors.background,
+          borderTopColor: activeColors.grey,
+          borderTopWidth: 0.4,
+        }
       })}
-      barStyle={{
-        backgroundColor: activeColors.background,
-        borderTopColor: activeColors.grey,
-        borderTopWidth: 0.4,
-      }}
       initialRouteName="Pokemon"
     >
       <Tab.Screen

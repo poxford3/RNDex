@@ -126,11 +126,9 @@ export default function AbilityDetails({ route }) {
                     id: poke_id,
                     pokeName: poke_name.pokemon.name,
                   });
-                  {
-                    modal_on
-                      ? navigation.navigate("Pokemon")
-                      : navigation.navigate("PokemonTabNav");
-                  }
+                  navigation.navigate("PokemonTabNav", {
+                    screen: 'Pokemon'
+                  });
                 }}
               >
                 <Image

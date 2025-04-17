@@ -25,7 +25,9 @@ export default function PokeGenderBar({ genders }) {
       setGenderless(true);
     } else {
       setGenderless(false);
-      const fem_chance = (genders * 1) / 8;
+      // chance comes in as a ratio of 8 for female (i.e. 8 = 8/8 = 100% female)
+      // 4 = 4/8 = 50% chance
+      const fem_chance = (genders) / 8;
       const male_chance = Math.abs(fem_chance - 1);
       setGenderObj([
         { x: "male", y: male_chance * 100 },
