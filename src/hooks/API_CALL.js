@@ -4,7 +4,7 @@ async function API_CALL(url) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000); // 8s timeout
     const response = await fetch(url, { signal: controller.signal });
-    // console.log('resp', response);
+    console.log('resp', response.ok);
     clearTimeout(timeout);
 
     if (!response.ok) {
@@ -15,7 +15,7 @@ async function API_CALL(url) {
   } catch (err) {
     console.log('api catch');
     console.error("issue", err.name === 'AbortError' ? 'Fetch timed out' : err);
-    console.err("issue", err);
+    // console.err("issue", err);
     return errMsg
   } 
 };

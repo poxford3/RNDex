@@ -7,6 +7,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
 import { SpriteContext } from "./src/contexts/SpriteContext";
 import SharedGroupPreferences from "react-native-shared-group-preferences";
+import { ExtensionStorage } from "@bacons/apple-targets";
+
+const widgetStorage = new ExtensionStorage("group.com.rndex");
 
 const group = "group.rndex";
 
@@ -38,6 +41,11 @@ export default function App() {
       console.log("fetch fav poke error (appjs)", message);
     }
   };
+
+  const updateWid = async() => {
+    widgetStorage.set("pokeFavorites", JSON.stringify({"a": "a"})); // todo - make this accurate
+    ExtensionStorage.reloadWidget();
+  }
 
   const [theme, setTheme] = useState({ mode: "light" });
 
@@ -83,7 +91,7 @@ export default function App() {
   useEffect(() => {
     fetchStoredTheme();
     fetchStoredSpriteType();
-    updateWidget();
+    // updateWidget(); 
     // fetchUserFirstTime();
   }, []);
 

@@ -1,5 +1,4 @@
 {
-  "expo": {
     "name": "RNDex",
     "slug": "rndex",
     "description": "React Native Pokedex",
@@ -21,7 +20,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.poxford3.rndex"
+      "bundleIdentifier": "com.poxford3.rndex",
+      "appleTeamId": "DH5TQX2DU8",
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.com.rndex"]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -44,8 +47,10 @@
     "owner": "poxford3",
     "runtimeVersion": {
       "policy": "appVersion"
-    }
-  },
+    },
+    "plugins": [
+      "@bacons/apple-targets"
+    ],
   "react-native-google-mobile-ads": {
     "ios_app_id": "ca-app-pub-8906328926712411~3731287442",
     "android_app_id": "ca-app-pub-8906328926712411~6944097544"
