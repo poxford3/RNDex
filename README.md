@@ -8,11 +8,13 @@
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/poxford3/rndex">
   <img alt="Repository Size" src="https://img.shields.io/github/repo-size/poxford3/rndex">
   <a href="https://github.com/poxford3/rndex/graphs/commit-activity">
-    <img alt="maintained" src="https://img.shields.io/maintenance/yes/2024.svg">
+    <img alt="maintained" src="https://img.shields.io/maintenance/yes/2026.svg">
   </a>
 </p>
 
 A Pokédex using React Native, click around to see your favorite Pokémon throughout the generations!
+#### Now available on the iOS App Store!
+<a href="https://apps.apple.com/us/app/rndex/id6476958952"><p>Click me to download the app!</p></a>
 
 ## Main Pokédex View
 
