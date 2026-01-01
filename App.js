@@ -7,13 +7,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { PokemonContext } from "./src/contexts/PokemonContext";
 import { SpriteContext } from "./src/contexts/SpriteContext";
 import SharedGroupPreferences from "react-native-shared-group-preferences";
-import { ExtensionStorage } from "@bacons/apple-targets";
-
-const widgetStorage = new ExtensionStorage("group.com.rndex");
-
-const group = "group.rndex";
 
 const SharedStorage = NativeModules.SharedStorage;
+
+const group = "group.rndex";
 
 // keep splash on screen while app loads
 SplashScreen.preventAutoHideAsync();
@@ -43,8 +40,7 @@ export default function App() {
   };
 
   const updateWid = async() => {
-    widgetStorage.set("pokeFavorites", JSON.stringify({"a": "a"})); // todo - make this accurate
-    ExtensionStorage.reloadWidget();
+
   }
 
   const [theme, setTheme] = useState({ mode: "light" });

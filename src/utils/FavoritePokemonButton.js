@@ -3,6 +3,9 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { PokemonContext } from "../contexts/PokemonContext";
 import { storeData, getData } from "../config/asyncStorage";
+import { ExtensionStorage } from "@bacons/apple-targets";
+
+const widgetStorage = new ExtensionStorage("group.com.rndex");
 
 export default function FavoritePokemonButton({ data }) {
   const [heartToggle, setHeartToggle] = useState(false);
@@ -13,6 +16,11 @@ export default function FavoritePokemonButton({ data }) {
   let { nameShow, colorShow } = heartToggle
     ? { nameShow: "heart", colorShow: "red" }
     : { nameShow: "heart-outline", colorShow: "grey" };
+
+  const updateWidget = () => {
+    widgetStorage.set("pokeFavorites", JSON.stringify(favPokeList)); // todo - make this accurate
+    ExtensionStorage.reloadWidget();
+  }
 
   const handleHeartTap = () => {
     heartToggle ? removeStoredPokemon() : updateFavPokemon();
@@ -74,6 +82,7 @@ export default function FavoritePokemonButton({ data }) {
 
   useEffect(() => {
     heartChanger();
+    updateWidget();
   }, [favPokeList]);
 
   return (
